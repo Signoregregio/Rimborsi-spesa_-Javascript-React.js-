@@ -8,20 +8,24 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h2 style="text-align:left">Create dynamic table in JavaScript</h2>
-    <table border="2" cellspacing="1" cellpadding="8" class="table">
-        <thead>
-            <th>Tipo</th>
-            <th>Data</th>
-            <th>Importo</th>
-            <th>Ricevuta</th>
-            <th>Stato</th>
-            <th>Importo dovuto</th>
-        </thead>
-    </table>
-    <div id='container'></div>   
-    <button id='fetch' class="button-23 green" onclick="newRow()">+</button>
-    
+<h2>Rimborso spesa</h2>
+<form id="formUser" action="#" method="post">
+    <div class="formBox">
+        <label for="inputTipo">Tipo:</label>
+        <select class="inputType" required> 
+            <option value="" disabled selected hidden>Inserire il tipo</option> 
+            <option value="taxi">Taxi</option> 
+            <option value="vitto">Vitto</option> 
+            <option value="hotel">Hotel</option> 
+            <option value="treno">Treno</option>
+        </select>
+    </div>
+
+    <div class="formBox">
+        <label for="inputDate">Data:</label>
+        <input type="date"
+    </div>
+</form>
     
 </body>
 </html>
