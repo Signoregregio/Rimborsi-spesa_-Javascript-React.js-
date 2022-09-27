@@ -4,24 +4,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rimborsi</title>
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h2 style="text-align:left">Create dynamic table in JavaScript</h2>
-    <table border="2" cellspacing="1" cellpadding="8" class="table">
-        <thead>
-            <th>Tipo</th>
-            <th>Data</th>
-            <th>Importo</th>
-            <th>Ricevuta</th>
-            <th>Stato</th>
-            <th>Importo dovuto</th>
-        </thead>
-    </table>
-    <div id='container'></div>   
-    <button id='fetch' class="button-23 green" onclick="newRow()">+</button>
+    <!-- Lato sx dell'html -->
+    <div class="leftSide">
+        <h2>Rimborso spesa</h2>
+
+    <!-- Inizio della form con i vari inputs 
+        Type, Date importo e ricevuta  -->
+        <form id="formUser" onsubmit="return aggiungiRiga()">
+
+            <!-- Type -->
+            <div class="formBox">
+                <label for="inputType">Tipo:</label>
+                <select id="inputType" tabindex="1" required autofocus > 
+                    <option value="" disabled hidden>Inserire il tipo</option> 
+                    <option value="Taxi" selected>Taxi</option> 
+                    <option value="Vitto">Vitto</option> 
+                    <option value="Hotel">Hotel</option> 
+                    <option value="Treno">Treno</option>
+                </select>
+            </div>
+
+            <!-- Date -->
+            <div class="formBox">
+                <label for="inputDate">Data:</label>
+                <input type="date" id="inputDate"  tabindex="2">
+            </div>
+
+            <!-- Importo -->
+            <div class="formBox">
+                <label for="inputImporto">Importo richiesto</label>
+                <input type="number" id="inputImporto" tabindex="3" value="15">
+            </div>
+
+            <!-- Ricevuta  -->
+            <div class="formBox">
+                <label for="inputRicevuta">Ricevuta?</label>
+                <input type="checkbox" id="inputRicevuta"  tabindex="4" unchecked>
+            </div>
+
+            <!-- Bottoni -->
+            <div class="formBox">
+                <button id="buttonCancel" class="login" type="reset">Cancel</button>
+                <button id="buttonSend" class="login" type="submit" >Calcola</button>
+                <button id="buttonSend" class="login" type="submit" >Submit all</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lato destro -->
+    <div>
+        <!-- Tabella dei rimborsi -->
+        <table border="2px" cellspacing="1" cellpadding="8" id="table">
+            <theader>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Importo</th>
+                <th>Ricevuta</th>
+                <th>Stato</th>
+                <th>Importo dovuto</th>
+            </theader>
+        </table>
+
+        <!-- Totale -->
+        <div id="dxTotale"><br>TOTALE RIMBORSATO:&nbsp&nbsp&nbsp&nbsp&nbsp
+            <span id="totale"></span>
+        </div>
+    </div>
     
-    
+    <script src="script.js"></script>
 </body>
 </html>
