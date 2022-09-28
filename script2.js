@@ -1,4 +1,9 @@
-let tableRimborso = [];
+let type = [];
+let date = [];
+let importo = [];
+let ricevuta = [];
+let stato = [];
+let dovuto = [];
 let count = 0;
 
 
@@ -55,14 +60,6 @@ function gestisciImportiDovuti(ricevuta, importo, type, stato){
     return importo;    
 }
 
-function sommaDovuto(tableRimborso){
-    let sum = 0;
-    for(let count = 0; count < tableRimborso.length; count++){
-        sum += Number(tableRimborso[count].dovuto)
-    }
-    return sum;
-}
-
 // Aggiunge righe alla tabella html e attribuisce valori
 // inoltre salva i valori in array diversi per ogni colonna
 function aggiungiRiga(){
@@ -79,34 +76,33 @@ function aggiungiRiga(){
     var cell5 = row.insertCell(4);
     var cell6 = row.insertCell(5);
 
-
-    let type = document.getElementById("inputType").value;
-    let date = document.getElementById("inputDate").value;
-    let importo = document.getElementById("inputImporto").value;
-    let ricevuta = scontrino();
+    type [count] = document.getElementById("inputType").value;
+    date [count] = document.getElementById("inputDate").value;
+    importo [count] = document.getElementById("inputImporto").value;
+    ricevuta [count] = scontrino();
     //Calcolo lo stato. Approvazione mi traduce valore in stringa.
-    let stato = approvazione(regoleApprovazione(ricevuta, importo, type));
+    stato[count] = approvazione(regoleApprovazione(ricevuta[count], importo[count], type[count]));
     //Calcolo il dovuto
-    let dovuto  = gestisciImportiDovuti(ricevuta, importo, type, stato);
-
-    let riga = {"type" : type, "date" : date, "importo" : importo, "ricevuta" : ricevuta, "stato" : stato, "dovuto" : dovuto};
-    tableRimborso[count] = riga;
+    dovuto [count] = gestisciImportiDovuti(ricevuta[count], importo[count], type[count], stato[count]);
 
     //Calcolo l'importo dovuto
-    console.log(tableRimborso[count]);
+    // dovuto[count] =
+    console.log(type);
+    console.log(date);
+    console.log(importo);
+    console.log(ricevuta);
+    console.log(stato);
 
+    cell1.innerHTML = date [count];
+    cell2.innerHTML = type [count];
+    cell3.innerHTML = importo [count];
+    cell4.innerHTML = ricevuta [count];
+    cell5.innerHTML = stato [count];
+    cell6.innerHTML = dovuto [count];
 
-    cell1.innerHTML = tableRimborso[count].date;
-    cell2.innerHTML = tableRimborso[count].type;
-    cell3.innerHTML = tableRimborso[count].importo;
-    cell4.innerHTML = tableRimborso[count].ricevuta;
-    cell5.innerHTML = tableRimborso[count].stato;
-    cell6.innerHTML = tableRimborso[count].dovuto;
-    // console.log(tableRimborso.)
     count++;
-    // document.getElementById("inputTotale").innerHTML = tableRimborso.dovuto.reduce((partialSum, a) => Number(partialSum) + Number(a), 0);
-    let totale = sommaDovuto(tableRimborso);
-    document.getElementById("inputTotale").innerHTML = totale;
+    document.getElementById("inputTotale").innerHTML = dovuto.reduce((partialSum, a) => Number(partialSum) + Number(a), 0);
+
     return false;
 }
 
@@ -145,3 +141,8 @@ function getRangeDays (){
     document.getElementById("inputDate").setAttribute("min", minDate);
     document.getElementById("inputDate").setAttribute("max", maxDate);
 }
+
+
+
+
+

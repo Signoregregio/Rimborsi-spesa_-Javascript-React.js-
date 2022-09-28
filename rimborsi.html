@@ -1,3 +1,25 @@
+<!--
+configurare i json
+
+cambiare gli array in aggiungiRiga
+implementare nell'accedi la selezione del ruolo di chi usa il sito
+
+:104 script da fare in due righe
+cosi come getRangeDay ci sono delle cose che andrebbero piu generalizzate magari con funzioni
+-->
+
+<!-- // Mention the path of the json file in the script source along with the javascript file
+
+<script type="text/javascript" src="data.json"></script>
+<script type="text/javascript" src="javascript.js"></script>
+Get the Object from the json file
+
+var mydata = JSON.parse(data);
+alert(mydata[0].name);
+alert(mydata[0].age);
+alert(mydata[1].name);
+alert(mydata[1].age); -->
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,21 +28,29 @@
     <title>Rimborsi</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body onload="return maxMonth()">
+
     <!-- Lato sx dell'html -->
     <div class="leftSide">
         <h2>Rimborso spesa</h2>
 
-    <!-- Inizio della form con i vari inputs 
+        <!-- Inizio della form con i vari inputs 
         Type, Date importo e ricevuta  -->
         <form id="formUser" onsubmit="return aggiungiRiga()">
+            
+            <!-- Month -->
+            <div class="formBox">
+                <label for="inputMonth">Mese :</label>
+                <input type="month" id="inputMonth" required onchange="return getRangeDays()"> 
+            </div>
+                
 
             <!-- Type -->
             <div class="formBox">
                 <label for="inputType">Tipo:</label>
-                <select id="inputType" tabindex="1" required autofocus > 
-                    <option value="" disabled hidden>Inserire il tipo</option> 
-                    <option value="Taxi" selected>Taxi</option> 
+                <select id="inputType" tabindex="1"  autofocus > 
+                    <option value="" selected disabled hidden>Inserire il tipo</option> 
+                    <option value="Taxi">Taxi</option> 
                     <option value="Vitto">Vitto</option> 
                     <option value="Hotel">Hotel</option> 
                     <option value="Treno">Treno</option>
@@ -30,13 +60,13 @@
             <!-- Date -->
             <div class="formBox">
                 <label for="inputDate">Data:</label>
-                <input type="date" id="inputDate"  tabindex="2">
+                <input type="date" id="inputDate" tabindex="2" disabled>
             </div>
 
             <!-- Importo -->
             <div class="formBox">
                 <label for="inputImporto">Importo richiesto</label>
-                <input type="number" id="inputImporto" tabindex="3" value="15">
+                <input type="number" id="inputImporto" tabindex="3"  pattern="[1-9]">
             </div>
 
             <!-- Ricevuta  -->
@@ -55,25 +85,28 @@
     </div>
 
     <!-- Lato destro -->
-    <div>
+    <div class="rightSide">
         <!-- Tabella dei rimborsi -->
-        <table border="2px" cellspacing="1" cellpadding="8" id="table">
-            <theader>
+
+    <table id="tableForm">
+            <thead>
                 <th>Data</th>
                 <th>Tipo</th>
                 <th>Importo</th>
                 <th>Ricevuta</th>
                 <th>Stato</th>
                 <th>Importo dovuto</th>
-            </theader>
+            </thead>
+            <tbody id="inputTable"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>IMPORTO TOTALE : </td>
+                    <td id="inputTotale"></td>
+                </tr>
+            </tfoot>
         </table>
 
-        <!-- Totale -->
-        <div id="dxTotale"><br>TOTALE RIMBORSATO:&nbsp&nbsp&nbsp&nbsp&nbsp
-            <span id="totale"></span>
-        </div>
-    </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
