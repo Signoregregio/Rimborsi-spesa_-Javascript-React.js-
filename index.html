@@ -4,14 +4,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi!</title>
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body class="overlay">
-
-    <div class="center">
-        <a href="rimborsi.html"><button class="login" role="button">Accedi!</button>
-        </a>
+    
+    <div class="center formBox">
+        <label for="inputRole" id="role" >Inserire il proprio ruolo:</label>
+        <select id="inputRole" tabindex="1" required autofocus>
+            <option value disabled selected></option> 
+            <option value="Presidente">Presidente</option>
+            <option value="Manager">Manager</option>
+            <option value="Dipendente">Dipendente</option>
+            <option value="Segretaria">Segretaria</option>
+        </select>
+        <br><br>
+        <button class="login" type="reset">Cancel</button>
+        <button class="login" onclick="gotoRimborsi()">Confirm</button>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

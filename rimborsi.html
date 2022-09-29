@@ -1,112 +1,101 @@
 <!--
-configurare i json
+    cosi come getRangeDay ci sono delle cose che andrebbero piu generalizzate magari con funzioni
+    ingrandire tabella
+    riportare dati nella form e poteri editare
+    fare il css dinamico
+    messaggi errore nel caso manchi la data, importo, 
+    
+ -->
 
-cambiare gli array in aggiungiRiga
-implementare nell'accedi la selezione del ruolo di chi usa il sito
 
-:104 script da fare in due righe
-cosi come getRangeDay ci sono delle cose che andrebbero piu generalizzate magari con funzioni
--->
-
-<!-- // Mention the path of the json file in the script source along with the javascript file
-
-<script type="text/javascript" src="data.json"></script>
-<script type="text/javascript" src="javascript.js"></script>
-Get the Object from the json file
-
-var mydata = JSON.parse(data);
-alert(mydata[0].name);
-alert(mydata[0].age);
-alert(mydata[1].name);
-alert(mydata[1].age); -->
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rimborsi</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body onload="return maxMonth()">
-
-    <!-- Lato sx dell'html -->
-    <div class="leftSide">
-        <h2>Rimborso spesa</h2>
-
-        <!-- Inizio della form con i vari inputs 
-        Type, Date importo e ricevuta  -->
-        <form id="formUser" onsubmit="return aggiungiRiga()">
-            
-            <!-- Month -->
-            <div class="formBox">
-                <label for="inputMonth">Mese :</label>
-                <input type="month" id="inputMonth" required onchange="return getRangeDays()"> 
-            </div>
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rimborsi</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script type="text/javascript" src="rimborsoMax.json"></script>
+    </head>
+    <body onload="return maxMonth()">
+    
+        <!-- Lato sx dell'html -->
+        <div class="leftSide">
+            <h2>Rimborso spesa</h2>
+    
+            <!-- Inizio della form con i vari inputs 
+            Type, Date importo e ricevuta  -->
+            <form id="formUser" onsubmit="return aggiungiRiga()">
                 
-
-            <!-- Type -->
-            <div class="formBox">
-                <label for="inputType">Tipo:</label>
-                <select id="inputType" tabindex="1"  autofocus > 
-                    <option value="" selected disabled hidden>Inserire il tipo</option> 
-                    <option value="Taxi">Taxi</option> 
-                    <option value="Vitto">Vitto</option> 
-                    <option value="Hotel">Hotel</option> 
-                    <option value="Treno">Treno</option>
-                </select>
-            </div>
-
-            <!-- Date -->
-            <div class="formBox">
-                <label for="inputDate">Data:</label>
-                <input type="date" id="inputDate" tabindex="2" disabled>
-            </div>
-
-            <!-- Importo -->
-            <div class="formBox">
-                <label for="inputImporto">Importo richiesto</label>
-                <input type="number" id="inputImporto" tabindex="3"  pattern="[1-9]">
-            </div>
-
-            <!-- Ricevuta  -->
-            <div class="formBox">
-                <label for="inputRicevuta">Ricevuta?</label>
-                <input type="checkbox" id="inputRicevuta"  tabindex="4" unchecked>
-            </div>
-
-            <!-- Bottoni -->
-            <div class="formBox">
-                <button id="buttonCancel" class="login" type="reset">Cancel</button>
-                <button id="buttonSend" class="login" type="submit" >Calcola</button>
-                <button id="buttonSend" class="login" type="submit" >Submit all</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Lato destro -->
-    <div class="rightSide">
-        <!-- Tabella dei rimborsi -->
-
-    <table id="tableForm">
-            <thead>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Importo</th>
-                <th>Ricevuta</th>
-                <th>Stato</th>
-                <th>Importo dovuto</th>
-            </thead>
-            <tbody id="inputTable"></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4"></td>
-                    <td>IMPORTO TOTALE : </td>
-                    <td id="inputTotale"></td>
-                </tr>
-            </tfoot>
-        </table>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                <!-- Month -->
+                <div class="formBox">
+                    <label for="inputMonth">Mese :</label>
+                    <input type="month" id="inputMonth" required onchange="return getRangeDays()"> 
+                </div>
+                    
+    
+                <!-- Type -->
+                <div class="formBox">
+                    <label for="inputType">Tipo:</label>
+                    <select id="inputType" tabindex="1"  autofocus > 
+                        <option value="" selected disabled hidden>Inserire il tipo</option> 
+                        <option value="Taxi">Taxi</option> 
+                        <option value="Vitto">Vitto</option> 
+                        <option value="Hotel">Hotel</option> 
+                        <option value="Treno">Treno</option>
+                    </select>
+                </div>
+    
+                <!-- Date -->
+                <div class="formBox">
+                    <label for="inputDate">Data:</label>
+                    <input type="date" id="inputDate" tabindex="2" disabled>
+                </div>
+    
+                <!-- Importo -->
+                <div class="formBox">
+                    <label for="inputImporto">Importo richiesto</label>
+                    <input type="number" id="inputImporto" tabindex="3"  pattern="[1-9]">
+                </div>
+    
+                <!-- Ricevuta  -->
+                <div class="formBox">
+                    <label for="inputRicevuta">Ricevuta?</label>
+                    <input type="checkbox" id="inputRicevuta"  tabindex="4" unchecked>
+                </div>
+    
+                <!-- Bottoni -->
+                <div class="formBox">
+                    <button id="buttonCancel" class="login" type="reset" onclick="return resetTable()">Cancel</button>
+                    <button id="buttonSend" class="login" type="submit" >Calcola</button>
+                    <button id="buttonSend" class="login" type="submit" >Submit all</button>
+                </div>
+            </form>
+        </div>
+    
+        <!-- Lato destro -->
+        <div class="rightSide">
+            <!-- Tabella dei rimborsi -->
+    
+        <table id="tableForm">
+                <thead>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Importo</th>
+                    <th>Ricevuta</th>
+                    <th>Stato</th>
+                    <th>Importo dovuto</th>
+                </thead>
+                <tbody id="inputTable"></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>IMPORTO TOTALE : </td>
+                        <td id="inputTotale"></td>
+                    </tr>
+                </tfoot>
+            </table>
+    
+        <script src="script.js"></script>
+    </body>
+    </html>

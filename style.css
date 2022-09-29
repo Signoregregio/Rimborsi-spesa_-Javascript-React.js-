@@ -16,17 +16,20 @@ form {
   width: 800px;
 }
 
+.login {
+  width: fit-content;
+}
+
 /* TABLE  */
 #tableForm {
   width: 100%;
-  border: 2px solid black;
   text-align: center;
-}
-/* th, td, tr, thead, tbody */
-
-tr,
-th {
   border: 2px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 2px solid black;
   height: 50px;
 }
 
@@ -34,6 +37,10 @@ th {
   width: 45%;
   float: left;
   padding: 15px;
+}
+
+tfoot{
+  width: fit-content;
 }
 
 .rightSide{
@@ -45,7 +52,7 @@ th {
 .center{
   text-align: center;
   position: absolute;
-  top: 50%;
+  top: 40%;
   width: 100%;
 }
 
