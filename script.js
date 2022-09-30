@@ -3,15 +3,8 @@ let primaryKey = 0;
 let role;
 let table;
 let tr;
-let cell1;
-let cell2;
-let cell3;
-let cell4;
-let cell5;
-let cell6;
-let cell7;
 let type;
-let date ;
+let date;
 let importo;
 let ricevuta;
 let stato;
@@ -148,7 +141,7 @@ function cellWrite(tr, tableLength){
     tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
 }
 
-//Posso cancellare i cell?
+
 function createRowCell(){
     table = document.getElementById("inputTable");
     tr = table.insertRow(-1);
