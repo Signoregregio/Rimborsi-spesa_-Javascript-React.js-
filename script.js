@@ -1,8 +1,21 @@
 let tableRimborso = [];
 let primaryKey = 0;
-let totale = 0;
 let role;
-
+let table;
+let tr;
+let cell1;
+let cell2;
+let cell3;
+let cell4;
+let cell5;
+let cell6;
+let cell7;
+let type;
+let date ;
+let importo;
+let ricevuta;
+let stato;
+let dovuto;
 
 // Traduce la checkbox in stringa => Si o No
 function scontrino(){
@@ -11,6 +24,15 @@ function scontrino(){
 
     if(document.getElementById("inputRicevuta").checked != true)
         return "No"
+}
+
+
+function translateScontrino(ricevuta){
+    if(ricevuta == "Sì")
+        document.getElementById("inputRicevuta").checked = true;
+
+    if(ricevuta == "No")
+        document.getElementById("inputRicevuta").checked = false;
 }
 
 
@@ -28,11 +50,11 @@ function approvazione(status){
 
 
 //Tutte le regole per cui un rimborso deve essere accettato o meno
-function regoleApprovazione(riga){
-    if(riga.ricevuta == "No" && riga.importo > 10 )
+function regoleApprovazione(row){
+    if(row.ricevuta == "No" && row.importo > 10 )
         return -1;
 
-    // if(riga.importo > 120)
+    // if(row.importo > 120)
     //     return 0;
 
     else
@@ -41,94 +63,175 @@ function regoleApprovazione(riga){
 
 
 // Gestisce gli importi dovuti
-function gestisciImportiDovuti(riga){
-    let maxTaxi = Number(localStorage.getItem("maxTaxi"));
-    let maxVitto = Number(localStorage.getItem("maxVitto"));
-    let maxHotel = Number(localStorage.getItem("maxHotel"));
-    let maxTreno = Number(localStorage.getItem("maxTreno"));
-
-    if(riga.stato == "Non approvata")
+// todo il sessionStorage non funziona bene!!!
+function gestisciImportiDovuti(row){
+    let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
+    let maxVitto = Number(sessionStorage.getItem("maxVitto"));
+    let maxHotel = Number(sessionStorage.getItem("maxHotel"));
+    let maxTreno = Number(sessionStorage.getItem("maxTreno"));
+    
+    if(row.stato == "Non approvata")
         return 0;
         
-    if(riga.stato == "In attesa di approvazione")
+    if(row.stato == "In attesa di approvazione")
         return 0;
 
-    if(riga.type == "Taxi" && riga.importo > maxTaxi)
+    if(row.type == "Taxi" && row.importo > maxTaxi)
         return maxTaxi;
     
-    if(riga.type == "Vitto" && riga.importo > maxVitto)
+    if(row.type == "Vitto" && row.importo > maxVitto)
         return maxVitto;
     
-    if(riga.type == "Hotel" && riga.importo > maxHotel)
+    if(row.type == "Hotel" && row.importo > maxHotel)
         return maxHotel;
         
-    if(riga.type == "Treno" && riga.importo > maxTreno)
+    if(row.type == "Treno" && row.importo > maxTreno)
         return maxTreno;
     
-    return riga.importo;    
+    return row.importo;    
 }
 
+// Stampa e calcola totale Rimborso
 function sommaDovuto(tableRimborso){
     let sum = 0;
     for(let count = 0; count < tableRimborso.length; count++){
         sum += Number(tableRimborso[count].dovuto)
     }
-    return sum;
+    document.getElementById("inputTotale").innerHTML = sum;
+}
+
+// Funzione che mi riporta nella form i dati cliccando su una riga della tabella. CAMBIARE NOME
+function backToForm(cell) {
+    console.log("cell è :" + cell)
+    tr = cell.parentNode;
+    let id = tr.getAttribute("id");
+    console.log(id)
+    let index = findIndexOfId(id);
+
+    formGetValue(tableRimborso[id]);
+
+    document.getElementById("buttonChange").setAttribute("Value", index);
+    document.getElementById("buttonChange").disabled = false;
+    document.getElementById("buttonSend").disabled = true;
+}
+
+
+function changeRow(){
+    let index = document.getElementById("buttonChange").getAttribute("Value");
+    arrayGetValue(tableRimborso[index]);
+    console.log(tableRimborso[index])
+    // to do numero riga e riga
+    // tr = document.getElementById("inputTable").row[index];
+    // console.log(row);
+    // cellWrite(row, id);
+    cellWrite(tr, index);
+
+    document.getElementById("buttonChange").disabled = true;
+    document.getElementById("buttonSend").disabled = false;
+}
+
+
+function setRowsAttribute(){
+    
+    tr.setAttribute("id", primaryKey);
+    // no, alle prime 5 celle
+    // let costr = document.getElementById("inputTable");
+    for(let i = 0; i < 7; i++){
+        tr.cells[i].setAttribute("onclick", "backToForm(this)");
+    }
+}
+
+function cellWrite(tr, tableLength){
+    tr.cells[0].innerHTML = tableRimborso[tableLength].date;
+    tr.cells[1].innerHTML = tableRimborso[tableLength].type;
+    tr.cells[2].innerHTML = tableRimborso[tableLength].importo;
+    tr.cells[3].innerHTML = tableRimborso[tableLength].ricevuta;
+    tr.cells[4].innerHTML = tableRimborso[tableLength].stato;
+    tr.cells[5].innerHTML = tableRimborso[tableLength].dovuto;
+    tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
+}
+
+//Posso cancellare i cell?
+function createRowCell(){
+    table = document.getElementById("inputTable");
+    tr = table.insertRow(-1);
+    tr.insertCell(0);
+    tr.insertCell(1);
+    tr.insertCell(2);
+    tr.insertCell(3);
+    tr.insertCell(4);
+    tr.insertCell(5);
+    tr.insertCell(6);
+}
+
+
+function formGetValue(row){
+    document.getElementById("inputType").value = row.type;
+    document.getElementById("inputDate").value = row.date;
+    document.getElementById("inputImporto").value = row.importo;
+    translateScontrino(row.ricevuta);
+}
+
+
+function arrayGetValue(row){
+    row.type = document.getElementById("inputType").value;
+    row.date = document.getElementById("inputDate").value;
+    row.importo = document.getElementById("inputImporto").value;
+    row.ricevuta = scontrino(row);
+    row.stato = approvazione(regoleApprovazione(row));
+    row.dovuto  = gestisciImportiDovuti(row);
+    row.primaryKey = primaryKey;
 }
 
 
 // Aggiunge righe alla tabella html e attribuisce valori
 // inoltre salva i valori in array diversi per ogni colonna
-
 function aggiungiRiga(){
     // Disabilito la scelta del mese
-    document.getElementById("inputMonth").disabled = true;
+    disableMonth();
+    // Prendo le variabili dalla form e faccio la add in tableRimborso 
+    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : 0};
+    arrayGetValue(row);
+    tableRimborso.push(row);
 
-    // Creo le variabili e l'oggetto. dopo faccio la add 
-    let type = document.getElementById("inputType").value;
-    let date = document.getElementById("inputDate").value;
-    let importo = document.getElementById("inputImporto").value;
-    let ricevuta = scontrino();
-    let stato = "";
-    let dovuto = 0;
-    let riga = {"type" : type, "date" : date, "importo" : importo, "ricevuta" : ricevuta, "stato" : stato, "dovuto" : dovuto, "primaryKey" : primaryKey};
+    //Creo celle e le inserisco in fondo alla tbody
+    createRowCell();
     
-    riga.stato = approvazione(regoleApprovazione(riga));
-    riga.dovuto  = gestisciImportiDovuti(riga);
-    tableRimborso.push(riga);
+    
+    //innerHTML delle variabili della form
     let tableLength = tableRimborso.length - 1;
-    //Calcolo l'importo dovuto
-    //Creo tabelle e righe
-    var table = document.getElementById("inputTable");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
-    var cell7 = row.insertCell(6);
+    cellWrite(tr, tableLength);
+
+    // Set attribute della righe e dei bottoni con primaryKey
+    setRowsAttribute(tableLength);
     
-    cell1.innerHTML = tableRimborso[tableLength].date;
-    cell2.innerHTML = tableRimborso[tableLength].type;
-    cell3.innerHTML = tableRimborso[tableLength].importo;
-    cell4.innerHTML = tableRimborso[tableLength].ricevuta;
-    cell5.innerHTML = tableRimborso[tableLength].stato;
-    cell6.innerHTML = tableRimborso[tableLength].dovuto;
-    cell7.innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
-    cell7.firstElementChild.setAttribute("id", primaryKey);
+    console.log(tableRimborso);
 
     primaryKey++;
-    totale = sommaDovuto(tableRimborso);
-    document.getElementById("inputTotale").innerHTML = totale;
-
+    sommaDovuto(tableRimborso);
     return false;
 }
 
 
+function disableMonth(){
+    let monthDisabled = document.getElementById("inputMonth").disabled;
+    if(monthDisabled == false)
+        document.getElementById("inputMonth").disabled = true;
+}
+
+
 // Funzione che mi setta il max nel mese che posso scegliere
-// 
+// ONLOAD EVENT PAGE RIMBORSI.HTML
 function maxMonth(){
+    // Per controllo giusta assegnazione ruolo da JSON
+    // Inizio
+    let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
+    let maxVitto = Number(sessionStorage.getItem("maxVitto"));
+    let maxHotel = Number(sessionStorage.getItem("maxHotel"));
+    let maxTreno = Number(sessionStorage.getItem("maxTreno"));
+    console.log( maxTaxi, maxVitto, maxHotel, maxTreno);
+    // Fine
+
     let date = new Date();
     let month = date.getMonth() + 1;
     let year = date.getYear() + 1900;
@@ -143,48 +246,60 @@ function maxMonth(){
 
 // Passa ad #inputMonth il min ed il max dei giorni selezionabili
 function getRangeDays (){
-    document.getElementById("inputDate").disabled = false;
+    undisableDate();
     // Prendo data e mese da input
-    let month = document.getElementById("inputMonth").value.slice(5,7);
-    let year = document.getElementById("inputMonth").value.slice(0,4);
+    let monthInput = document.getElementById("inputMonth").value.slice(5,7);
+    let yearInput = document.getElementById("inputMonth").value.slice(0,4);
     // Prendo quanti giorni ci sono in un mese -> (Mese + 1) e prendo il giorno -1
-    let daysInMonth = new Date(year, month, 0).getDate();
-    let minDate = year + "-" + month + "-" + "01";
-    let maxDate;
-    let dateToday = new Date();
-    let dateEndMonth = new Date(year, month, daysInMonth);
-    
-    // controllo sul mese. La data non puo essere superiore ad oggi
-    if(dateToday < dateEndMonth)
-        maxDate = year + "-" + month + "-" + dateToday.getDate();
-    else
-        maxDate = year + "-" + month + "-" + daysInMonth;
+    let daysInMonth = new Date(yearInput, monthInput, 0).getDate();
+    let minDate = yearInput + "-" + monthInput + "-" + "01";
+    let maxDate = getMaxDate(yearInput, monthInput, daysInMonth);
 
     document.getElementById("inputDate").setAttribute("min", minDate);
     document.getElementById("inputDate").setAttribute("max", maxDate);
 }
 
 
+function undisableDate(){
+    let dateDisabled = document.getElementById("inputDate").disabled;
+    if(dateDisabled == true)
+        document.getElementById("inputDate").disabled = false;
+}
+
+
+function getMaxDate(yearInput, monthInput, daysInMonth){
+    let dateToday = new Date();
+    let dateEndMonth = new Date(yearInput, monthInput, daysInMonth);
+    
+    // controllo sul mese. La data non puo essere superiore ad oggi
+    if(dateToday < dateEndMonth)
+        return yearInput + "-" + monthInput + "-" + dateToday.getDate();
+    else
+        return yearInput + "-" + monthInput + "-" + daysInMonth;
+}
+
+
 function resetMonth(){
     document.getElementById("inputMonth").disabled = false;
+    document.getElementById("inputDate").disabled = true;
 }
 
 
 function resetTable(){
     resetMonth();
+    tableRimborso = [];
     let tbody = document.getElementById("inputTable")
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
-    totale = 0;
-    document.getElementById("inputTotale").innerHTML = totale;
+    sommaDovuto(tableRimborso);
 }
 
 
 function findIndexOfId(id){
     for(let i = 0; i < tableRimborso.length; i++){
         if(tableRimborso[i].primaryKey == id)
-            return i;
+            return i;   
     }
 }
 
@@ -192,33 +307,31 @@ function findIndexOfId(id){
 function deleteRow(button){
     //rimuovo riga e ottengo id e value
     let tr = button.parentNode.parentNode;
-    let id = button.getAttribute("id");
-    tr.parentNode.removeChild(tr);
-    
+    let id = tr.getAttribute("id");
+    tr.parentNode.removeChild(tr); 
     indexToRemove = findIndexOfId(id);
-    totale -= tableRimborso[indexToRemove].dovuto; 
-    document.getElementById("inputTotale").innerHTML = totale;
     tableRimborso.splice(indexToRemove, 1);
+    sommaDovuto(tableRimborso);
 }
 
 
 function gotoRimborsi(){
     role = document.getElementById("inputRole").value;
-    fetch('rimborsoMax.json')
+    fetch('./rimborsoMax.json')
     .then(response => response.json())
-    .then(data => {getMax(data);})
+    .then(data => {storeRimborsoMax(data);}    )
     .catch(error => console.log(error));
     location.replace("rimborsi.html");
 }
 
-function getMax(data){
+
+function storeRimborsoMax(data){
     for(let i = 0; i < data.length; i++){
         if(data[i].ruolo == role){
-            localStorage.setItem("maxTaxi", data[i].taxi);
-            localStorage.setItem("maxVitto", data[i].vitto);
-            localStorage.setItem("maxHotel", data[i].hotel);
-            localStorage.setItem("maxTreno", data[i].treno);
+            sessionStorage.setItem("maxTaxi", data[i].taxi)
+            sessionStorage.setItem("maxVitto", data[i].vitto)
+            sessionStorage.setItem("maxHotel", data[i].hotel)
+            sessionStorage.setItem("maxTreno", data[i].treno)
         }
     }
 }
-    

@@ -4,9 +4,11 @@
     riportare dati nella form e poteri editare
     fare il css dinamico
     messaggi errore nel caso manchi la data, importo, 
+    !! creare allert !!
     
+    scrivere la data dd/mm/yyyy
+    numeri maggiori di > 0 nell'importo
  -->
-
 
  <html lang="en">
     <head>
@@ -30,7 +32,7 @@
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="return getRangeDays()"> 
+                    <input type="month" id="inputMonth" required onchange="return getRangeDays()" value="2022-09"> 
                 </div>
                     
     
@@ -49,7 +51,7 @@
                 <!-- Date -->
                 <div class="formBox">
                     <label for="inputDate">Data:</label>
-                    <input type="date" id="inputDate" tabindex="2" disabled>
+                    <input type="date" id="inputDate" tabindex="2">
                 </div>
     
                 <!-- Importo -->
@@ -66,9 +68,10 @@
     
                 <!-- Bottoni -->
                 <div class="formBox">
-                    <button id="buttonCancel" class="login" type="reset" onclick="return resetTable()">Cancel</button>
+                    <button id="buttonCancel" class="login" type="reset" onclick="return resetTable()">Reset</button>
                     <button id="buttonSend" class="login" type="submit" >Calcola</button>
-                    <button id="buttonSend" class="login" type="submit" >Submit all</button>
+                    <button id="buttonSubmit" class="login" type="submit" >Submit all</button>
+                    <button id="buttonChange" class="login" type="button" onclick="changeRow()" disabled>Cambia riga</button>
                 </div>
             </form>
         </div>
@@ -99,4 +102,4 @@
     
         <script src="script.js"></script>
     </body>
-    </html>
+        </html>
