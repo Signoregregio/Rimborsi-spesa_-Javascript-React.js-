@@ -102,12 +102,9 @@ function sommaDovuto(tableRimborso){
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella. CAMBIARE NOME
 function backToForm(cell) {
-    console.log("cell è :" + cell)
     tr = cell.parentNode;
     let id = tr.getAttribute("id");
-    console.log(id)
     let index = findIndexOfId(id);
-
     formGetValue(tableRimborso[id]);
 
     document.getElementById("buttonChange").setAttribute("Value", index);
