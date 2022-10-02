@@ -1,32 +1,8 @@
 let tableRimborso = [];
 let primaryKey = 0;
 let role;
-let table;
 let tr;
-let type;
-let date;
-let importo;
-let ricevuta;
-let stato;
-let dovuto;
-
-// Traduce la checkbox in stringa => Si o No
-function scontrino(){
-    if(document.getElementById("inputRicevuta").checked == true)
-        return "Sì"
-
-    if(document.getElementById("inputRicevuta").checked != true)
-        return "No"
-}
-
-
-function translateScontrino(ricevuta){
-    if(ricevuta == "Sì")
-        document.getElementById("inputRicevuta").checked = true;
-
-    if(ricevuta == "No")
-        document.getElementById("inputRicevuta").checked = false;
-}
+let date = new Date;
 
 
 // Traduce in stringa l'approvazione del rimborso
@@ -46,10 +22,6 @@ function approvazione(status){
 function regoleApprovazione(row){
     if(row.ricevuta == "No" && row.importo > 10 )
         return -1;
-
-    // if(row.importo > 120)
-    //     return 0;
-
     else
         return 1;
 }
@@ -85,7 +57,7 @@ function gestisciImportiDovuti(row){
 }
 
 // Stampa e calcola totale Rimborso
-function sommaDovuto(tableRimborso){
+function sommaDovuto(){
     let sum = 0;
     for(let count = 0; count < tableRimborso.length; count++){
         sum += Number(tableRimborso[count].dovuto)
@@ -93,12 +65,12 @@ function sommaDovuto(tableRimborso){
     document.getElementById("inputTotale").innerHTML = sum;
 }
 
-// Funzione che mi riporta nella form i dati cliccando su una riga della tabella. CAMBIARE NOME
-function backToForm(cell) {
+// Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
+function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
     let id = tr.getAttribute("id");
     let index = findIndexOfId(id);
-    formGetValue(tableRimborso[id]);
+    formGetValue(tableRimborso[index]);
 
     document.getElementById("buttonChange").setAttribute("Value", index);
     document.getElementById("buttonChange").disabled = false;
@@ -106,60 +78,54 @@ function backToForm(cell) {
 }
 
 
-function changeRow(){
+function changeRowButton(){
     let index = document.getElementById("buttonChange").getAttribute("Value");
     arrayGetValue(tableRimborso[index]);
-    console.log(tableRimborso[index])
-    // to do numero riga e riga
-    // tr = document.getElementById("inputTable").row[index];
-    // console.log(row);
-    // cellWrite(row, id);
-    cellWrite(tr, index);
-
+    cellWrite(tr, tableRimborso[index]);
+    sommaDovuto();
+    
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
 }
 
 
-function setRowsAttribute(){
-    
+function setRowsAttribute(){  
     tr.setAttribute("id", primaryKey);
-    // no, alle prime 5 celle
-    // let costr = document.getElementById("inputTable");
-    for(let i = 0; i < 7; i++){
-        tr.cells[i].setAttribute("onclick", "backToForm(this)");
+    for(let i = 0; i < 6; i++){
+        tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
 }
 
-function cellWrite(tr, tableLength){
-    tr.cells[0].innerHTML = tableRimborso[tableLength].date;
-    tr.cells[1].innerHTML = tableRimborso[tableLength].type;
-    tr.cells[2].innerHTML = tableRimborso[tableLength].importo;
-    tr.cells[3].innerHTML = tableRimborso[tableLength].ricevuta;
-    tr.cells[4].innerHTML = tableRimborso[tableLength].stato;
-    tr.cells[5].innerHTML = tableRimborso[tableLength].dovuto;
+// Posso ciclare gli elementi? foreach
+function cellWrite(tr, row){
+    tr.cells[0].innerHTML = row.date;
+    tr.cells[1].innerHTML = row.type;
+    tr.cells[2].innerHTML = row.importo;
+    tr.cells[3].innerHTML = row.ricevuta;
+    tr.cells[4].innerHTML = row.stato;
+    tr.cells[5].innerHTML = row.dovuto;
     tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
 }
 
-
+// ciclo for
 function createRowCell(){
-    table = document.getElementById("inputTable");
+    let table = document.getElementById("inputTable");
     tr = table.insertRow(-1);
-    tr.insertCell(0);
-    tr.insertCell(1);
-    tr.insertCell(2);
-    tr.insertCell(3);
-    tr.insertCell(4);
-    tr.insertCell(5);
-    tr.insertCell(6);
+    for(i = 0; i < 7; i++){
+        tr.insertCell(i);
+    }
 }
 
-
+// Fondere queste due funzioni !!! cambia solo row.ricevuta e row.primarykey
+// sol: if row.primary == 0 allora inserisci row.ricevutae primarykey, senno lascia stare primaryKey e calcola unversed ricevuta 
 function formGetValue(row){
-    document.getElementById("inputType").value = row.type;
+    console.log(row)
+    console.log("ci entro?")
+    document.getElementById("inputType").value = row.type ;
     document.getElementById("inputDate").value = row.date;
     document.getElementById("inputImporto").value = row.importo;
-    translateScontrino(row.ricevuta);
+    const ricevutaForm = document.getElementById("inputRicevuta"); 
+    row.ricevuta == "Sì" ? ricevutaForm.checked = true : ricevutaForm.checked = false;
 }
 
 
@@ -167,46 +133,26 @@ function arrayGetValue(row){
     row.type = document.getElementById("inputType").value;
     row.date = document.getElementById("inputDate").value;
     row.importo = document.getElementById("inputImporto").value;
-    row.ricevuta = scontrino(row);
+    row.ricevuta = document.getElementById("inputRicevuta").checked ?  "Sì" : "No"
     row.stato = approvazione(regoleApprovazione(row));
     row.dovuto  = gestisciImportiDovuti(row);
-    row.primaryKey = primaryKey;
 }
 
 
 // Aggiunge righe alla tabella html e attribuisce valori
-// inoltre salva i valori in array diversi per ogni colonna
 function aggiungiRiga(){
-    // Disabilito la scelta del mese
-    disableMonth();
-    // Prendo le variabili dalla form e faccio la add in tableRimborso 
-    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : 0};
+    let tableLength = tableRimborso.length - 1;
+    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
+    document.getElementById("inputMonth").disabled = true;
     arrayGetValue(row);
     tableRimborso.push(row);
-
-    //Creo celle e le inserisco in fondo alla tbody
-    createRowCell();
-    
-    
-    //innerHTML delle variabili della form
-    let tableLength = tableRimborso.length - 1;
-    cellWrite(tr, tableLength);
-
-    // Set attribute della righe e dei bottoni con primaryKey
+    createRowCell();   
+    cellWrite(tr, row);
     setRowsAttribute(tableLength);
-    
     console.log(tableRimborso);
-
     primaryKey++;
     sommaDovuto(tableRimborso);
     return false;
-}
-
-
-function disableMonth(){
-    let monthDisabled = document.getElementById("inputMonth").disabled;
-    if(monthDisabled == false)
-        document.getElementById("inputMonth").disabled = true;
 }
 
 
@@ -221,49 +167,31 @@ function maxMonth(){
     let maxTreno = Number(sessionStorage.getItem("maxTreno"));
     console.log( maxTaxi, maxVitto, maxHotel, maxTreno);
     // Fine
-
-    let date = new Date();
-    let month = date.getMonth() + 1;
-    let year = date.getYear() + 1900;
-
-    if(month < 10)
-        month = "0" + month;
-
-    let maxMonth = year + "-" + month;
+    let inputMonthYear = date.toISOString().split('T')[0]
+    let maxMonth = inputMonthYear.match("[0-9]{4}[-][0-9]{2}");
     document.getElementById("inputMonth").setAttribute("max", maxMonth);
 }
 
 
-// Passa ad #inputMonth il min ed il max dei giorni selezionabili
 function getRangeDays (){
-    undisableDate();
-    // Prendo data e mese da input
+    document.getElementById("inputDate").disabled = false;
     let monthInput = document.getElementById("inputMonth").value.slice(5,7);
     let yearInput = document.getElementById("inputMonth").value.slice(0,4);
-    // Prendo quanti giorni ci sono in un mese -> (Mese + 1) e prendo il giorno -1
     let daysInMonth = new Date(yearInput, monthInput, 0).getDate();
     let minDate = yearInput + "-" + monthInput + "-" + "01";
     let maxDate = getMaxDate(yearInput, monthInput, daysInMonth);
-
     document.getElementById("inputDate").setAttribute("min", minDate);
     document.getElementById("inputDate").setAttribute("max", maxDate);
 }
 
 
-function undisableDate(){
-    let dateDisabled = document.getElementById("inputDate").disabled;
-    if(dateDisabled == true)
-        document.getElementById("inputDate").disabled = false;
-}
-
-
 function getMaxDate(yearInput, monthInput, daysInMonth){
-    let dateToday = new Date();
+    let dateToday = ("0" + date.getDate()).slice(-2);
     let dateEndMonth = new Date(yearInput, monthInput, daysInMonth);
-    
+    let myMonthSelected = date < dateEndMonth;
     // controllo sul mese. La data non puo essere superiore ad oggi
-    if(dateToday < dateEndMonth)
-        return yearInput + "-" + monthInput + "-" + dateToday.getDate();
+    if(myMonthSelected)
+        return yearInput + "-" + monthInput + "-" + dateToday;
     else
         return yearInput + "-" + monthInput + "-" + daysInMonth;
 }
@@ -275,6 +203,8 @@ function resetMonth(){
 }
 
 
+// reset table come funzione da sola? resetAll?
+// resettare anche lo status di cambio riga
 function resetTable(){
     resetMonth();
     tableRimborso = [];
@@ -283,9 +213,12 @@ function resetTable(){
         tbody.deleteRow(0);
     }
     sommaDovuto(tableRimborso);
+    document.getElementById("buttonChange").disabled = true;
+    document.getElementById("buttonSend").disabled = false;
 }
 
 
+//for each or indexof
 function findIndexOfId(id){
     for(let i = 0; i < tableRimborso.length; i++){
         if(tableRimborso[i].primaryKey == id)
@@ -295,7 +228,6 @@ function findIndexOfId(id){
 
 
 function deleteRow(button){
-    //rimuovo riga e ottengo id e value
     let tr = button.parentNode.parentNode;
     let id = tr.getAttribute("id");
     tr.parentNode.removeChild(tr); 
@@ -304,18 +236,17 @@ function deleteRow(button){
     sommaDovuto(tableRimborso);
 }
 
-
-function gotoRimborsi(){
+// Session storage di chi sono loggato
+function storeJSON(){
     role = document.getElementById("inputRole").value;
     fetch('./rimborsoMax.json')
     .then(response => response.json())
-    .then(data => {storeRimborsoMax(data);}    )
+    .then(data => {storageRimborsoMax(data);})
     .catch(error => console.log(error));
-    location.replace("rimborsi.html");
 }
 
 
-function storeRimborsoMax(data){
+function storageRimborsoMax(data){
     for(let i = 0; i < data.length; i++){
         if(data[i].ruolo == role){
             sessionStorage.setItem("maxTaxi", data[i].taxi)
@@ -324,4 +255,8 @@ function storeRimborsoMax(data){
             sessionStorage.setItem("maxTreno", data[i].treno)
         }
     }
+}
+
+function goToRimborsi(){
+    location.replace("rimborsi.html");
 }

@@ -1,6 +1,9 @@
+
+
 [ 
     {"ruolo" : "Presidente", "taxi" : 300, "vitto" : 300, "hotel" : 300, "treno" : 300},
     {"ruolo" : "Manager", "taxi" : 100, "vitto" : 150, "hotel" : 200, "treno" : 85},
     {"ruolo" : "Dipendente", "taxi" : 20, "vitto" : 10, "hotel" : 100, "treno" : 15},
     {"ruolo" : "Segretaria", "taxi" : 20, "vitto" : 10, "hotel" : 0, "treno" : 15}
                 ]
+

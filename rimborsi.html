@@ -1,13 +1,15 @@
 <!--
     cosi come getRangeDay ci sono delle cose che andrebbero piu generalizzate magari con funzioni
     ingrandire tabella
-    riportare dati nella form e poteri editare
     fare il css dinamico
     messaggi errore nel caso manchi la data, importo, 
     !! creare allert !!
     
     scrivere la data dd/mm/yyyy
     numeri maggiori di > 0 nell'importo
+    generalizzare di piu l'inserisci numero celle
+    mettere il caricamento del json onchange della scelta ruolo
+    c'è una funziona per il findIndexOfId?
  -->
 
  <html lang="en">
@@ -71,7 +73,7 @@
                     <button id="buttonCancel" class="login" type="reset" onclick="return resetTable()">Reset</button>
                     <button id="buttonSend" class="login" type="submit" >Calcola</button>
                     <button id="buttonSubmit" class="login" type="submit" >Submit all</button>
-                    <button id="buttonChange" class="login" type="button" onclick="changeRow()" disabled>Cambia riga</button>
+                    <button id="buttonChange" class="login" type="button" onclick="changeRowButton()" disabled>Cambia riga</button>
                 </div>
             </form>
         </div>

@@ -10,7 +10,7 @@
     
     <div class="center formBox">
         <label for="inputRole" id="role" >Inserire il proprio ruolo:</label>
-        <select id="inputRole" tabindex="1" required autofocus>
+        <select id="inputRole" tabindex="1" required autofocus onchange="storeJSON()">
             <option value disabled selected></option> 
             <option value="Presidente">Presidente</option>
             <option value="Manager">Manager</option>
@@ -19,7 +19,7 @@
         </select>
         <br><br>
         <button class="login" type="reset">Cancel</button>
-        <button class="login" onclick="gotoRimborsi()">Confirm</button>
+        <button class="login" onclick="goToRimborsi()">Confirm</button>
     </div>
     <script src="script.js"></script>
 </body>
