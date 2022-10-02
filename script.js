@@ -83,7 +83,7 @@ function changeRowButton(){
     arrayGetValue(tableRimborso[index]);
     cellWrite(tr, tableRimborso[index]);
     sommaDovuto();
-    
+
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
 }
@@ -119,8 +119,6 @@ function createRowCell(){
 // Fondere queste due funzioni !!! cambia solo row.ricevuta e row.primarykey
 // sol: if row.primary == 0 allora inserisci row.ricevutae primarykey, senno lascia stare primaryKey e calcola unversed ricevuta 
 function formGetValue(row){
-    console.log(row)
-    console.log("ci entro?")
     document.getElementById("inputType").value = row.type ;
     document.getElementById("inputDate").value = row.date;
     document.getElementById("inputImporto").value = row.importo;
