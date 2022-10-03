@@ -1,15 +1,9 @@
 <!--
-    cosi come getRangeDay ci sono delle cose che andrebbero piu generalizzate magari con funzioni
-    ingrandire tabella
     fare il css dinamico
     messaggi errore nel caso manchi la data, importo, 
     !! creare allert !!
     
     scrivere la data dd/mm/yyyy
-    numeri maggiori di > 0 nell'importo
-    generalizzare di piu l'inserisci numero celle
-    mettere il caricamento del json onchange della scelta ruolo
-    c'è una funziona per il findIndexOfId?
  -->
 
  <html lang="en">
@@ -24,7 +18,7 @@
     <body onload="return maxMonth()">
     
         <!-- Lato sx dell'html -->
-        <div class="leftSide">
+        <div id="leftSide">
             <h2>Rimborso spesa</h2>
     
             <!-- Inizio della form con i vari inputs 
@@ -34,14 +28,14 @@
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="return getRangeDays()" required> 
+                    <input type="month" id="inputMonth" required onchange="return getRangeDays()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
                 </div>
                     
     
                 <!-- Type -->
                 <div class="formBox">
                     <label for="inputType">Tipo:</label>
-                    <select id="inputType" tabindex="1"  autofocus required> 
+                    <select id="inputType" tabindex="1"  autofocus required oninvalid="this.setCustomValidity('Inserisci un tipo')" oninput="this.setCustomValidity('')"> 
                         <option value="" selected disabled hidden>Inserire il tipo</option> 
                         <option value="Taxi">Taxi</option> 
                         <option value="Vitto">Vitto</option> 
@@ -53,13 +47,13 @@
                 <!-- Date -->
                 <div class="formBox">
                     <label for="inputDate">Data:</label>
-                    <input type="date" id="inputDate" tabindex="2" disabled required>
+                    <input type="date" id="inputDate" tabindex="2" disabled required oninvalid="this.setCustomValidity('Inserisci un giorno')" oninput="this.setCustomValidity('')">
                 </div>
     
                 <!-- Importo -->
                 <div class="formBox">
                     <label for="inputImporto">Importo richiesto</label>
-                    <input type="number" id="inputImporto" tabindex="3"  pattern="[1-9]" min="0" required>
+                    <input id="inputImporto" tabindex="3"  pattern="^[+]?\d+(\.\d{1,2})?$" required oninvalid="this.setCustomValidity('inserisci un importo positivo')" oninput="this.setCustomValidity('')"> 
                 </div>
     
                 <!-- Ricevuta  -->
@@ -79,8 +73,10 @@
         </div>
     
         <!-- Lato destro -->
-        <div class="rightSide">
+        <div id="rightSide">
             <!-- Tabella dei rimborsi -->
+            <button class="tableChange" id="buttonSizeTable" onclick="changeSizeTable()"> &lt;&nbsp;&nbsp;&gt;</button>
+            <button class="tableChange" id="buttonSubmitAll"> Submit all</button>
     
         <table id="tableForm">
                 <thead>

@@ -3,6 +3,7 @@ let primaryKey = 0;
 let role;
 let tr;
 let date = new Date;
+let tableIsBig = false;
 
 
 // Traduce in stringa l'approvazione del rimborso
@@ -62,6 +63,7 @@ function sommaDovuto(){
     for(let count = 0; count < tableRimborso.length; count++){
         sum += Number(tableRimborso[count].dovuto)
     }
+    sum = sum.toFixed(2);
     document.getElementById("inputTotale").innerHTML = sum;
 }
 
@@ -150,6 +152,8 @@ function aggiungiRiga(){
     console.log(tableRimborso);
     primaryKey++;
     sommaDovuto(tableRimborso);
+    let prova = sortTableRimborsi(row.date, tableRimborso);
+    console.log(prova);
     return false;
 }
 
@@ -257,4 +261,31 @@ function storageRimborsoMax(data){
 
 function goToRimborsi(){
     location.replace("rimborsi.html");
+}
+
+function changeSizeTable(){
+    if(tableIsBig){
+        document.getElementById("rightSide").style.width = null;
+        document.getElementById("leftSide").style.display = null;
+        document.getElementById("buttonSubmitAll").style.display = "none";
+        tableIsBig = false;
+    } else {
+        document.getElementById("rightSide").style.width = "100%";
+        document.getElementById("leftSide").style.display = "none";
+        document.getElementById("buttonSubmitAll").style.display = "inline";
+    tableIsBig = true;
+    }
+}
+
+function sortTableRimborsi(data, tableRimborso){
+    if(tableRimborso.length == 0){
+        return 0;
+    }
+    let i;
+    for(i = 0; i < tableRimborso.length; i++){
+        console.log(data + tableRimborso[i].date)
+        if(data < tableRimborso[i].date)
+            return i;
+    }
+    return i;
 }

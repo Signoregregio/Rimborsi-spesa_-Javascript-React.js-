@@ -16,16 +16,29 @@ form {
   width: 800px;
 }
 
+.tableChange {
+  position: absolute;
+  top: 30%;
+  width: 4%;
+  padding: 10px;
+}
+
+#buttonSubmitAll{
+  top: 40%;
+  display: none;
+}
+
 .login {
   width: fit-content;
 }
 
 /* TABLE  */
 #tableForm {
-  width: 100%;
+  width: 90%;
   text-align: center;
   border: 2px solid black;
   border-collapse: collapse;
+  float: right;
 }
 
 th, td {
@@ -33,7 +46,7 @@ th, td {
   height: 50px;
 }
 
-.leftSide {
+#leftSide {
   width: 45%;
   float: left;
   padding: 15px;
@@ -43,10 +56,11 @@ tfoot{
   width: fit-content;
 }
 
-.rightSide{
+#rightSide{
   width: 55%;
   float: right;
   padding: 15px;
+  height: 80%;
 }
 
 .center{
