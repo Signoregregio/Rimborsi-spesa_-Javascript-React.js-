@@ -3,10 +3,6 @@ body {
   font:normal 20px/1.5 sans-serif;
 }
 
-.flexbox {
-  display: flex;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -21,16 +17,21 @@ form {
 }
 
 #rightSide{
-  width: 60%;
+  width: clamp(25rem, 59vw, 59vw);
   padding: 15px;
   border: 1px solid black;
+  float: right;
+  height: 100%;
 }
 
 #leftSide {
-  width: 40%;
+  width: clamp(25rem, 38vw, 38vw);
   padding: 15px;
-  border: 0px solid black;
-  height: fit-content;
+  height: clamp(57rem, 100vw, 100vw);
+  float: left;
+  background-color: #b8bc31;
+  border: 3px solid #cf1010;
+  border-radius: 20px;
 }
 .tableChange {
   position: sticky;
