@@ -118,8 +118,6 @@ function createRowCell(){
     }
 }
 
-// Fondere queste due funzioni !!! cambia solo row.ricevuta e row.primarykey
-// sol: if row.primary == 0 allora inserisci row.ricevutae primarykey, senno lascia stare primaryKey e calcola unversed ricevuta 
 function formGetValue(row){
     document.getElementById("inputType").value = row.type ;
     document.getElementById("inputDate").value = row.date;
@@ -145,15 +143,17 @@ function aggiungiRiga(){
     let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     document.getElementById("inputMonth").disabled = true;
     arrayGetValue(row);
+
+    let prova = sortTableRimborsi(row.date, tableRimborso);
+    console.log(prova);
+
     tableRimborso.push(row);
     createRowCell();   
     cellWrite(tr, row);
     setRowsAttribute(tableLength);
     console.log(tableRimborso);
-    primaryKey++;
     sommaDovuto(tableRimborso);
-    let prova = sortTableRimborsi(row.date, tableRimborso);
-    console.log(prova);
+    primaryKey++;
     return false;
 }
 
@@ -287,6 +287,6 @@ function sortTableRimborsi(data, tableRimborso){
         if(data < tableRimborso[i].date)
             return i;
     }
-    console.log("%c esco!" + "color:orange;");
+    console.log("%c esco!", "color:orange;");
     return i;
 }
