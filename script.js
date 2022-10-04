@@ -95,7 +95,7 @@ function changeRowButton(){
 
 function setRowsAttribute(){  
     tr.setAttribute("id", primaryKey);
-    for(let i = 0; i < 6; i++){
+    for(let i = 0; i <= 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
 }
@@ -250,6 +250,9 @@ function deleteRow(button){
     tableRimborso.splice(indexToRemove, 1);
     calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
+
+    document.getElementById("buttonChange").disabled = true;
+    document.getElementById("buttonSend").disabled = false;
 }
 
 // Session storage di chi sono loggato
