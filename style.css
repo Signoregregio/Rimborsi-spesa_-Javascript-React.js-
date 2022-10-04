@@ -3,6 +3,10 @@ body {
   font:normal 20px/1.5 sans-serif;
 }
 
+.flexbox {
+  display: flex;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -16,15 +20,31 @@ form {
   width: 800px;
 }
 
+#rightSide{
+  width: 60%;
+  padding: 15px;
+  border: 1px solid black;
+}
+
+#leftSide {
+  width: 40%;
+  padding: 15px;
+  border: 0px solid black;
+  height: fit-content;
+}
 .tableChange {
-  position: absolute;
-  top: 30%;
-  width: 4%;
-  padding: 10px;
+  position: sticky;
+  top: 20%;
+  width: 6%;
+  border:2px solid green;
+}
+
+#buttonSizeTable{
+  padding: 14px;
 }
 
 #buttonSubmitAll{
-  top: 40%;
+  top: 50%;
   display: none;
 }
 
@@ -46,22 +66,11 @@ th, td {
   height: 50px;
 }
 
-#leftSide {
-  width: 45%;
-  float: left;
-  padding: 15px;
-}
 
 tfoot{
   width: fit-content;
 }
 
-#rightSide{
-  width: 55%;
-  float: right;
-  padding: 15px;
-  height: 80%;
-}
 
 .center{
   text-align: center;

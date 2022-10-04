@@ -12,7 +12,7 @@
         <script type="text/javascript" src="rimborsoMax.json"></script>
     </head>
     <body onload="return maxMonth()">
-    
+    <div class="flexbox">
         <!-- Lato sx dell'html -->
         <div id="leftSide">
             <h2>Rimborso spesa</h2>
@@ -71,10 +71,7 @@
         <!-- Lato destro -->
         <div id="rightSide">
             <!-- Tabella dei rimborsi -->
-            <button class="tableChange" id="buttonSizeTable" onclick="changeSizeTable()"> &lt;&nbsp;&nbsp;&gt;</button>
-            <button class="tableChange" id="buttonSubmitAll"> Submit all</button>
-    
-        <table id="tableForm">
+            <table id="tableForm">
                 <thead>
                     <th>Data</th>
                     <th>Tipo</th>
@@ -93,7 +90,15 @@
                     </tr>
                 </tfoot>
             </table>
+            <div class="tableChange">
+                <button id="buttonSizeTable" onclick="changeSizeTable()"> &lt;&nbsp;&nbsp;&gt;</button>
+                <br><br>
+                <button id="buttonSubmitAll"> Submit all</button>
+            </div>
+        
+        </div>
+    </div>
     
-        <script src="script.js"></script>
-    </body>
-        </html>
+    <script src="script.js"></script>
+</body>
+</html>
