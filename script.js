@@ -30,7 +30,6 @@ function regoleApprovazione(row){
 
 
 // Gestisce gli importi dovuti
-// todo il sessionStorage non funziona bene!!!
 function gestisciImportiDovuti(row){
     let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
     let maxVitto = Number(sessionStorage.getItem("maxVitto"));
@@ -65,7 +64,6 @@ function calcolaSommaDovuto(){
         sum += Number(tableRimborso[count].dovuto)
     }
     sum = sum.toFixed(2);
-    document.getElementById("inputTotale").innerHTML = sum;
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
@@ -78,6 +76,8 @@ function activateChangeStatusEvent(cell) {
     document.getElementById("buttonChange").setAttribute("Value", index);
     document.getElementById("buttonChange").disabled = false;
     document.getElementById("buttonSend").disabled = true;
+    if(tableIsBig)
+        changeSizeTable();
 }
 
 
@@ -86,6 +86,7 @@ function changeRowButton(){
     arrayGetValue(tableRimborso[index]);
     cellWrite(tr, tableRimborso[index]);
     calcolaSommaDovuto();
+    document.getElementById("inputTotale").innerHTML = sum;
 
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
@@ -100,8 +101,9 @@ function setRowsAttribute(){
 }
 
 // Posso ciclare gli elementi? foreach
-function cellWrite(tr, row){
-    tr.cells[0].innerHTML = row.date;
+function cellWrite(tr, row){ 
+    let date = translateDay(row.date);
+    tr.cells[0].innerHTML = date;
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
     tr.cells[3].innerHTML = row.ricevuta;
@@ -110,7 +112,7 @@ function cellWrite(tr, row){
     tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
 }
 
-// ciclo for
+
 function createRowCellAtIndex(index){
     let table = document.getElementById("inputTable");
     tr = table.insertRow(index);
@@ -118,6 +120,7 @@ function createRowCellAtIndex(index){
         tr.insertCell(i);
     }
 }
+
 
 function formGetValue(row){
     document.getElementById("inputType").value = row.type ;
@@ -146,6 +149,8 @@ function addRowValue(){
     setRowsAttribute();
     console.log(tableRimborso);
     calcolaSommaDovuto(tableRimborso); // da modificare
+    document.getElementById("inputTotale").innerHTML = sum;
+
 }
 
 function addRowObject(){
@@ -153,7 +158,6 @@ function addRowObject(){
     arrayGetValue(row);
     index = sortTableRimborsi(row.date, tableRimborso);
     tableRimborso.splice(index, 0, row)
-    
 }
 
 function addNewRow(){
@@ -181,7 +185,7 @@ function maxMonth(){
     document.getElementById("inputMonth").setAttribute("max", maxMonth);
 }
 
-
+// calculateRangeDay()
 function getRangeDays (){
     document.getElementById("inputDate").disabled = false;
     let monthInput = document.getElementById("inputMonth").value.slice(5,7);
@@ -196,7 +200,7 @@ function getRangeDays (){
 
 function getMaxDate(yearInput, monthInput, daysInMonth){
     let dateToday = ("0" + date.getDate()).slice(-2);
-    let dateEndMonth = new Date(yearInput, monthInput, daysInMonth);
+    let dateEndMonth = new Date(yearInput, monthInput - 1, daysInMonth);
     let myMonthSelected = date < dateEndMonth;
     // controllo sul mese. La data non puo essere superiore ad oggi
     if(myMonthSelected)
@@ -222,6 +226,7 @@ function resetTable(){
         tbody.deleteRow(0);
     }
     calcolaSommaDovuto(tableRimborso);
+    document.getElementById("inputTotale").innerHTML = sum;
 
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
@@ -244,7 +249,7 @@ function deleteRow(button){
     indexToRemove = findIndexOfId(id);
     tableRimborso.splice(indexToRemove, 1);
     calcolaSommaDovuto(tableRimborso);
-
+    document.getElementById("inputTotale").innerHTML = sum;
 }
 
 // Session storage di chi sono loggato
@@ -296,4 +301,15 @@ function sortTableRimborsi(data, tableRimborso){
             return i;
     }
     return i;
+}
+// 2022-07-28
+function translateDay(date){
+    let giorniSettimana = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]
+    let day = date.slice(8,10);
+    let month = date.slice(5,7);
+    let year = date.slice(0,4);
+    let dateSelected = new Date(year, month - 1, day); 
+    let nameDay = giorniSettimana[dateSelected.getDay()];
+    year = date.slice(2,4);
+    return nameDay + " " + day + "/" + month + "/" + year;
 }
