@@ -110,9 +110,9 @@ function cellWrite(tr, row){
 }
 
 // ciclo for
-function createRowCell(){
+function createRowCellAtIndex(index){
     let table = document.getElementById("inputTable");
-    tr = table.insertRow(-1);
+    tr = table.insertRow(index);
     for(i = 0; i < 7; i++){
         tr.insertCell(i);
     }
@@ -140,15 +140,16 @@ function arrayGetValue(row){
 // Aggiunge righe alla tabella html e attribuisce valori
 function aggiungiRiga(){
     let tableLength = tableRimborso.length - 1;
-    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     document.getElementById("inputMonth").disabled = true;
+    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     arrayGetValue(row);
+    // tableRimborso.push(row);
+    let index = sortTableRimborsi(row.date, tableRimborso);
+    tableRimborso.splice(index, 0, row)
+    console.log(index);
 
-    let prova = sortTableRimborsi(row.date, tableRimborso);
-    console.log(prova);
+    createRowCellAtIndex (index);   
 
-    tableRimborso.push(row);
-    createRowCell();   
     cellWrite(tr, row);
     setRowsAttribute(tableLength);
     console.log(tableRimborso);
