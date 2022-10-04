@@ -4,6 +4,7 @@ let role;
 let tr;
 let date = new Date;
 let tableIsBig = false;
+let sum = 0;
 
 
 // Traduce in stringa l'approvazione del rimborso
@@ -58,8 +59,8 @@ function gestisciImportiDovuti(row){
 }
 
 // Stampa e calcola totale Rimborso
-function sommaDovuto(){
-    let sum = 0;
+function calcolaSommaDovuto(){
+    sum = 0;
     for(let count = 0; count < tableRimborso.length; count++){
         sum += Number(tableRimborso[count].dovuto)
     }
@@ -84,7 +85,7 @@ function changeRowButton(){
     let index = document.getElementById("buttonChange").getAttribute("Value");
     arrayGetValue(tableRimborso[index]);
     cellWrite(tr, tableRimborso[index]);
-    sommaDovuto();
+    calcolaSommaDovuto();
 
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
@@ -138,26 +139,31 @@ function arrayGetValue(row){
 
 
 // Aggiunge righe alla tabella html e attribuisce valori
-function aggiungiRiga(){
-    let tableLength = tableRimborso.length - 1;
+function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
-    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
-    arrayGetValue(row);
-    // tableRimborso.push(row);
-    let index = sortTableRimborsi(row.date, tableRimborso);
-    tableRimborso.splice(index, 0, row)
-    console.log(index);
-
     createRowCellAtIndex (index);   
-
     cellWrite(tr, row);
-    setRowsAttribute(tableLength);
+    setRowsAttribute();
     console.log(tableRimborso);
-    sommaDovuto(tableRimborso);
+    calcolaSommaDovuto(tableRimborso); // da modificare
+}
+
+function addRowObject(){
+    row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
+    arrayGetValue(row);
+    index = sortTableRimborsi(row.date, tableRimborso);
+    tableRimborso.splice(index, 0, row)
+    
+}
+
+function addNewRow(){
+    let index;
+    let row = [];
+    addRowObject();
+    addRowValue();
     primaryKey++;
     return false;
 }
-
 
 // Funzione che mi setta il max nel mese che posso scegliere
 // ONLOAD EVENT PAGE RIMBORSI.HTML
@@ -215,7 +221,8 @@ function resetTable(){
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
-    sommaDovuto(tableRimborso);
+    calcolaSommaDovuto(tableRimborso);
+
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
 }
@@ -236,7 +243,8 @@ function deleteRow(button){
     tr.parentNode.removeChild(tr); 
     indexToRemove = findIndexOfId(id);
     tableRimborso.splice(indexToRemove, 1);
-    sommaDovuto(tableRimborso);
+    calcolaSommaDovuto(tableRimborso);
+
 }
 
 // Session storage di chi sono loggato
@@ -284,10 +292,8 @@ function sortTableRimborsi(data, tableRimborso){
     }
     let i;
     for(i = 0; i < tableRimborso.length; i++){
-        console.log(data + tableRimborso[i].date)
         if(data < tableRimborso[i].date)
             return i;
     }
-    console.log("%c esco!", "color:orange;");
     return i;
 }
