@@ -287,5 +287,6 @@ function sortTableRimborsi(data, tableRimborso){
         if(data < tableRimborso[i].date)
             return i;
     }
+    console.log("%c esco!" + "color:orange;");
     return i;
 }
