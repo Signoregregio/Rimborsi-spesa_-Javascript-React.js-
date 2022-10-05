@@ -57,13 +57,12 @@ function gestisciImportiDovuti(row){
     return row.importo;    
 }
 
-// Stampa e calcola totale Rimborso
-function calcolaSommaDovuto(){
-    sum = 0;
-    for(let count = 0; count < tableRimborso.length; count++){
-        sum += Number(tableRimborso[count].dovuto)
-    }
+
+function calcolaSommaDovuto(){  
+    sum = tableRimborso.reduce((accumulator, current) => 
+        accumulator + Number(current.dovuto), 0);
     sum = sum.toFixed(2);
+    return sum;
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
@@ -95,15 +94,14 @@ function changeRowButton(){
 
 function setRowsAttribute(){  
     tr.setAttribute("id", primaryKey);
-    for(let i = 0; i <= 6; i++){
+    for(let i = 0; i < 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
 }
 
 // Posso ciclare gli elementi? foreach
 function cellWrite(tr, row){ 
-    let date = translateDay(row.date);
-    tr.cells[0].innerHTML = date;
+    tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
     tr.cells[3].innerHTML = row.ricevuta;
@@ -148,7 +146,7 @@ function addRowValue(){
     cellWrite(tr, row);
     setRowsAttribute();
     console.log(tableRimborso);
-    calcolaSommaDovuto(tableRimborso); // da modificare
+    calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
 
 }
@@ -225,7 +223,7 @@ function resetTable(){
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
-    calcolaSommaDovuto(tableRimborso);
+    calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
 
     document.getElementById("buttonChange").disabled = true;
@@ -234,6 +232,7 @@ function resetTable(){
 
 
 //for each or indexof
+// reduce o una map in deleteRow per cancellare li la riga
 function findIndexOfId(id){
     for(let i = 0; i < tableRimborso.length; i++){
         if(tableRimborso[i].primaryKey == id)
@@ -248,7 +247,7 @@ function deleteRow(button){
     tr.parentNode.removeChild(tr); 
     indexToRemove = findIndexOfId(id);
     tableRimborso.splice(indexToRemove, 1);
-    calcolaSommaDovuto(tableRimborso);
+    calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
 
     document.getElementById("buttonChange").disabled = true;
@@ -294,6 +293,8 @@ function changeSizeTable(){
     }
 }
 
+// reduce
+// senno se volessi creare un altro array... 
 function sortTableRimborsi(data, tableRimborso){
     if(tableRimborso.length == 0){
         return 0;
