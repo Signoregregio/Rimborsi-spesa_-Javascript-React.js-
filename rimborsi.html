@@ -74,13 +74,13 @@
             <!-- Tabella dei rimborsi -->
             <table id="tableForm">
                 <thead>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Importo</th>
-                    <th>Ricevuta</th>
-                    <th>Stato</th>
-                    <th>Importo dovuto</th>
-                    <th></th>
+                    <th id="thDate" onclick="changeSortByColumn(this)">Data</th>
+                    <th id="thType" onclick="changeSortByColumn(this)">Tipo</th>
+                    <th id="thImporto" onclick="changeSortByColumn(this)">Importo</th>
+                    <th id="thRicevuta" onclick="changeSortByColumn(this)">Ricevuta</th>
+                    <th id="thStato" onclick="changeSortByColumn(this)">Stato</th>
+                    <th id="thDovuto" onclick="changeSortByColumn(this)">Importo dovuto</th>
+                    <th id="th"></th>
                 </thead>
                 <tbody id="inputTable"></tbody>
                 <tfoot>

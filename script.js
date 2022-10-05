@@ -5,6 +5,10 @@ let tr;
 let date = new Date;
 let tableIsBig = false;
 let sum = 0;
+columnType = ["thDate", "thType", "thImporto", "thRicevuta", "thStato", "thDovuto"]
+let columnIndex = 0;
+
+
 
 
 // Traduce in stringa l'approvazione del rimborso
@@ -101,7 +105,7 @@ function setRowsAttribute(){
     }
 }
 
-// Posso ciclare gli elementi? foreach
+
 function cellWrite(tr, row){ 
     tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
@@ -286,39 +290,13 @@ function changeSizeTable(){
 // reduce
 // map che mi gira un array e mi cerca la posizione di row.date e lo infila con splice (i, 0, row)
 function sortTableRimborsi(data){
-    // if(tableRimborso.length == 0){
-    //     return 0;
-    //     console.log("el tablo rimborso" + tableRimborso)
-    if(tableRimborso.length == 0){
-        console.log("el tablo rimborso" + tableRimborso)
-        return 0;
-        // return tableRimborso.splice(0, 0, row)
-    }
-    // tableRimborso = tableRimborso.map(function(roww, i){
-    //    if(data < roww.date)
-    //             return splice(i, 0, row)
-    // })
-    // console.log("el tablo rimborso" + tableRimborso)
-    // return tableRimborso;
-
     let i;
     for(i = 0; i < tableRimborso.length; i++){
         if(data < tableRimborso[i].date){
-            console.log("i è " + i)
             return i;
     }}
     return i;
-    // let index = tableRimborso.reduce(function (accumulator, current, i){
-    //         console.log("data " + data + " current " + current.date + "accumulator" + accumulator)
-    //         if(data < current.date && accumulator == 0){
-    //             console.log("%c aaaaa","color:green")
-    //             return accumulator + i;
-    //         } else {
-    //             console.log("%c aaaaa","color:red")
-    //             return accumulator + 0;
-    //         }}, 0);
-    // console.log(index + "index è !!:....")
-    // return index;
+
 }
 // 2022-07-28
 function translateDay(date){
@@ -330,4 +308,35 @@ function translateDay(date){
     let nameDay = giorniSettimana[dateSelected.getDay()];
     year = date.slice(2,4);
     return nameDay + " " + day + "/" + month + "/" + year;
+}
+
+function changeSortByColumn(th){
+    console.log("%c :D  :D  :D  :D  :D  ","background-color:yellow;color:blue;")
+    let column = th.getAttribute("id");
+    columnIndex = columnType.indexOf(column);
+    console.log(columnIndex);
+    sortByColumn(columnIndex);
+}
+
+function sortByColumn (columnIndex){
+    if(columnIndex == 2 || columnIndex == 5){
+        const sortedAsc = tableRimborso.sort(
+            (objA, objB) => Number(objA.importo) - Number(objB.importo),
+          );
+          console.log(tableRimborso);
+          writeTable();
+          console.log("%c ______________________","background-color:black;color:yellow");
+          console.log(tableRimborso);
+        }
+
+    // if(column == thImporto)
+    // const sortedAsc = tableRimborso.sort(
+    //     (objA, objB) => Number(objA.date) - Number(objB.date),
+    //   );
+}
+
+function writeTable(){
+    let table = document.getElementById("inputTable");
+    tableRimborso.map((row, i) =>
+                cellWrite(table.rows[i], row));
 }
