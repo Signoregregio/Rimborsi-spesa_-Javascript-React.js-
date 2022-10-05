@@ -86,6 +86,7 @@ function activateChangeStatusEvent(cell) {
         changeSizeTable();
 }
 
+
 function changeButtonActivate(){
         document.getElementById("buttonChange").disabled = false;
         document.getElementById("buttonSend").disabled = true;
@@ -295,17 +296,7 @@ function changeSizeTable(){
     }
 }
 
-// reduce
-// map che mi gira un array e mi cerca la posizione di row.date e lo infila con splice (i, 0, row)
-function sortTableRimborsi(data){
-    let i;
-    for(i = 0; i < tableRimborso.length; i++){
-        if(data < tableRimborso[i].date){
-            return i;
-    }}
-    return i;
 
-}
 // 2022-07-28
 function translateDay(date){
     let giorniSettimana = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]
@@ -341,34 +332,35 @@ function sortByColumn (columnIndexSort ){
     
     if(columnIndexSort  == 1){
         console.log("%c _______________ ","background-color:red")
-        sortedAsc = tableRimborso.sort(function (a, b) {
-            return ('' + a.type).localeCompare(b.type);
-        })
+        sortedAsc = tableRimborso.sort((a, b) =>
+             ('' + a.type).localeCompare(b.type))
+
+        
     }
 
     if(columnIndexSort  == 2){
         console.log("%c _______________ ","background-color:red")
-        sortedAsc = tableRimborso.sort(
-            (objA, objB) => Number(objA.importo) - Number(objB.importo),
+        sortedAsc = tableRimborso.sort( (a, b) =>
+             Number(a.importo) - Number(b.importo)
         );
     }
     if(columnIndexSort  == 3){
         console.log("%c _______________ ","background-color:red")
-        sortedAsc = tableRimborso.sort(function (a, b) {
-            return ('' + a.ricevuta).localeCompare(b.ricevuta);
-        })
+        sortedAsc = tableRimborso.sort( (a, b)  =>
+            ('' + a.ricevuta).localeCompare(b.ricevuta)
+        )
     }
     if(columnIndexSort  == 4){
         console.log("%c _______________ ","background-color:red")
-        sortedAsc = tableRimborso.sort(function (a, b) {
-            return ('' + a.stato).localeCompare(b.stato);
-        })
+        sortedAsc = tableRimborso.sort( (a, b)   =>
+            ('' + a.stato).localeCompare(b.stato)
+        )
     }
     
     if(columnIndexSort  == 5){
         console.log("%c _______________ ","background-color:red")
-        sortedAsc = tableRimborso.sort(
-            (objA, objB) => Number(objA.dovuto) - Number(objB.dovuto),
+        sortedAsc = tableRimborso.sort( (a, b) =>
+            Number(a.dovuto) - Number(b.dovuto)
         );
     }
     
