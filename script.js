@@ -69,7 +69,9 @@ function calcolaSommaDovuto(){
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
     let id = tr.getAttribute("id");
-    let index = findIndexOfId(id);
+    let index = tableRimborso.reduce((accumulator, current, i) =>
+            current.primaryKey == id ? accumulator + i : accumulator + 0, 0);
+    console.log(index);
     formGetValue(tableRimborso[index]);
 
     document.getElementById("buttonChange").setAttribute("Value", index);
@@ -154,7 +156,7 @@ function addRowValue(){
 function addRowObject(){
     row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     arrayGetValue(row);
-    index = sortTableRimborsi(row.date, tableRimborso);
+    index = sortTableRimborsi(row.date);
     tableRimborso.splice(index, 0, row)
 }
 
@@ -242,7 +244,7 @@ function deleteRow(button){
     document.getElementById("buttonSend").disabled = false;
 }
 
-// Session storage di chi sono loggato
+// Session storage di chi è loggato
 function storeJSON(){
     role = document.getElementById("inputRole").value;
     fetch('./rimborsoMax.json')
@@ -277,22 +279,46 @@ function changeSizeTable(){
         document.getElementById("rightSide").style.width = "100%";
         document.getElementById("leftSide").style.display = "none";
         document.getElementById("buttonSubmitAll").style.display = "inline";
-    tableIsBig = true;
+        tableIsBig = true;
     }
 }
 
 // reduce
-// senno se volessi creare un altro array... 
-function sortTableRimborsi(data, tableRimborso){
+// map che mi gira un array e mi cerca la posizione di row.date e lo infila con splice (i, 0, row)
+function sortTableRimborsi(data){
+    // if(tableRimborso.length == 0){
+    //     return 0;
+    //     console.log("el tablo rimborso" + tableRimborso)
     if(tableRimborso.length == 0){
+        console.log("el tablo rimborso" + tableRimborso)
         return 0;
+        // return tableRimborso.splice(0, 0, row)
     }
+    // tableRimborso = tableRimborso.map(function(roww, i){
+    //    if(data < roww.date)
+    //             return splice(i, 0, row)
+    // })
+    // console.log("el tablo rimborso" + tableRimborso)
+    // return tableRimborso;
+
     let i;
     for(i = 0; i < tableRimborso.length; i++){
-        if(data < tableRimborso[i].date)
+        if(data < tableRimborso[i].date){
+            console.log("i è " + i)
             return i;
-    }
+    }}
     return i;
+    // let index = tableRimborso.reduce(function (accumulator, current, i){
+    //         console.log("data " + data + " current " + current.date + "accumulator" + accumulator)
+    //         if(data < current.date && accumulator == 0){
+    //             console.log("%c aaaaa","color:green")
+    //             return accumulator + i;
+    //         } else {
+    //             console.log("%c aaaaa","color:red")
+    //             return accumulator + 0;
+    //         }}, 0);
+    // console.log(index + "index è !!:....")
+    // return index;
 }
 // 2022-07-28
 function translateDay(date){
