@@ -231,25 +231,13 @@ function resetTable(){
 }
 
 
-//for each or indexof
-// reduce o una map in deleteRow per cancellare li la riga
-function findIndexOfId(id){
-    for(let i = 0; i < tableRimborso.length; i++){
-        if(tableRimborso[i].primaryKey == id)
-            return i;   
-    }
-}
-
-
 function deleteRow(button){
     let tr = button.parentNode.parentNode;
     let id = tr.getAttribute("id");
     tr.parentNode.removeChild(tr); 
-    indexToRemove = findIndexOfId(id);
-    tableRimborso.splice(indexToRemove, 1);
+    tableRimborso = tableRimborso.filter(row => row.primaryKey != id);
     calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
-
     document.getElementById("buttonChange").disabled = true;
     document.getElementById("buttonSend").disabled = false;
 }
