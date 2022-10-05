@@ -73,6 +73,7 @@ function calcolaSommaDovuto(){
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
     let id = tr.getAttribute("id");
+    console.log(tableRimborso)
     let index = tableRimborso.reduce((accumulator, current, i) =>
             current.primaryKey == id ? accumulator + i : accumulator + 0, 0);
     console.log(index);
@@ -107,7 +108,8 @@ function setRowsAttribute(){
 
 
 function cellWrite(tr, row){ 
-    tr.cells[0].innerHTML = translateDay(row.date);
+    tr.cells[0].innerHTML = row.date;
+    // tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
     tr.cells[3].innerHTML = row.ricevuta;
@@ -149,7 +151,8 @@ function arrayGetValue(row){
 function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
     createRowCellAtIndex (index);   
-    cellWrite(tr, row);
+    sortByColumn(columnIndex)
+    writeTable(); // prima dovro inviare il sort by column!!! 
     setRowsAttribute();
     console.log(tableRimborso);
     calcolaSommaDovuto();
@@ -311,7 +314,7 @@ function translateDay(date){
 }
 
 function changeSortByColumn(th){
-    console.log("%c :D  :D  :D  :D  :D  ","background-color:yellow;color:blue;")
+    console.log("%c __________________ ","background-color:yellow;color:blue;")
     let column = th.getAttribute("id");
     columnIndex = columnType.indexOf(column);
     console.log(columnIndex);
@@ -319,24 +322,37 @@ function changeSortByColumn(th){
 }
 
 function sortByColumn (columnIndex){
+    console.log(columnIndex)
+    let sortedAsc;
     if(columnIndex == 2 || columnIndex == 5){
-        const sortedAsc = tableRimborso.sort(
+        console.log("%c _______________ ","background-color:red")
+        sortedAsc = tableRimborso.sort(
             (objA, objB) => Number(objA.importo) - Number(objB.importo),
-          );
-          console.log(tableRimborso);
-          writeTable();
-          console.log("%c ______________________","background-color:black;color:yellow");
-          console.log(tableRimborso);
+        );
         }
+    if(columnIndex == 0){
+        console.log("%c _______________ ","background-color:green")
+        // tableRimborso.map(obj => {
+        //     return {...obj, date: new Date(obj.date)};
+        // });
+        // sortedAsc = tableRimborso.sort(function(a, b){
+        // var aa = a.split('-').join(),
+        // bb = b.split('-').join();
+        // return aa < bb ? -1 : (aa > bb ? 1 : 0);
+        // });
+        
+        
+        console.log("'''")
+    }
+    
+    writeTable();
+    console.log(tableRimborso)
 
-    // if(column == thImporto)
-    // const sortedAsc = tableRimborso.sort(
-    //     (objA, objB) => Number(objA.date) - Number(objB.date),
-    //   );
 }
 
 function writeTable(){
     let table = document.getElementById("inputTable");
-    tableRimborso.map((row, i) =>
-                cellWrite(table.rows[i], row));
+    tableRimborso.map(function (row, i) {
+                table.rows[i].setAttribute("id", row.primaryKey);
+                cellWrite(table.rows[i], row)});
 }
