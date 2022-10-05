@@ -1,3 +1,4 @@
+
 let tableRimborso = [];
 let primaryKey = 0;
 let role;
@@ -6,7 +7,7 @@ let date = new Date;
 let tableIsBig = false;
 let sum = 0;
 columnType = ["thDate", "thType", "thImporto", "thRicevuta", "thStato", "thDovuto"]
-let columnIndex = 0;
+let columnIndexSort = 0;
 
 
 
@@ -80,12 +81,20 @@ function activateChangeStatusEvent(cell) {
     formGetValue(tableRimborso[index]);
 
     document.getElementById("buttonChange").setAttribute("Value", index);
-    document.getElementById("buttonChange").disabled = false;
-    document.getElementById("buttonSend").disabled = true;
+    changeButtonActivate();
     if(tableIsBig)
         changeSizeTable();
 }
 
+function changeButtonActivate(){
+        document.getElementById("buttonChange").disabled = false;
+        document.getElementById("buttonSend").disabled = true;
+}
+
+function changeButtonDisable(){
+    document.getElementById("buttonChange").disabled = true;
+    document.getElementById("buttonSend").disabled = false;
+}
 
 function changeRowButton(){
     let index = document.getElementById("buttonChange").getAttribute("Value");
@@ -94,8 +103,7 @@ function changeRowButton(){
     calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
 
-    document.getElementById("buttonChange").disabled = true;
-    document.getElementById("buttonSend").disabled = false;
+    changeButtonDisable
 }
 
 
@@ -119,9 +127,9 @@ function cellWrite(tr, row){
 }
 
 
-function createRowCellAtIndex(index){
+function createRowCellAtIndex(){
     let table = document.getElementById("inputTable");
-    tr = table.insertRow(index);
+    tr = table.insertRow(0);
     for(i = 0; i < 7; i++){
         tr.insertCell(i);
     }
@@ -150,8 +158,8 @@ function arrayGetValue(row){
 // Aggiunge righe alla tabella html e attribuisce valori
 function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
-    createRowCellAtIndex (index);   
-    sortByColumn(columnIndex)
+    createRowCellAtIndex ();   
+    // sortByColumn(columnIndexSort)
     writeTable(); // prima dovro inviare il sort by column!!! 
     setRowsAttribute();
     console.log(tableRimborso);
@@ -163,8 +171,7 @@ function addRowValue(){
 function addRowObject(){
     row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     arrayGetValue(row);
-    index = sortTableRimborsi(row.date);
-    tableRimborso.splice(index, 0, row)
+    tableRimborso.push(row);
 }
 
 function addNewRow(){
@@ -235,8 +242,7 @@ function resetTable(){
     calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
 
-    document.getElementById("buttonChange").disabled = true;
-    document.getElementById("buttonSend").disabled = false;
+    changeButtonDisable();
 }
 
 
@@ -247,8 +253,7 @@ function deleteRow(button){
     tableRimborso = tableRimborso.filter(row => row.primaryKey != id);
     calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
-    document.getElementById("buttonChange").disabled = true;
-    document.getElementById("buttonSend").disabled = false;
+    changeButtonDisable();
 }
 
 // Session storage di chi è loggato
@@ -316,33 +321,55 @@ function translateDay(date){
 function changeSortByColumn(th){
     console.log("%c __________________ ","background-color:yellow;color:blue;")
     let column = th.getAttribute("id");
-    columnIndex = columnType.indexOf(column);
-    console.log(columnIndex);
-    sortByColumn(columnIndex);
+    columnIndexSort = columnType.indexOf(column);
+    console.log(columnIndexSort);
+    changeButtonDisable();
+    sortByColumn(columnIndexSort);
 }
 
-function sortByColumn (columnIndex){
-    console.log(columnIndex)
+function sortByColumn (columnIndexSort ){
+    console.log(columnIndexSort)
     let sortedAsc;
-    if(columnIndex == 2 || columnIndex == 5){
+    if(columnIndexSort  == 0){
+        console.log("%c _______________ ","background-color:green")
+        sortedAsc = tableRimborso.sort(function(a, b){
+        let aa = a.date.split('-').join();
+        let bb = b.date.split('-').join();
+        return aa < bb ? -1 : (aa > bb ? 1 : 0);
+        });
+    }
+    
+    if(columnIndexSort  == 1){
+        console.log("%c _______________ ","background-color:red")
+        sortedAsc = tableRimborso.sort(function (a, b) {
+            return ('' + a.type).localeCompare(b.type);
+        })
+    }
+
+    if(columnIndexSort  == 2){
         console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort(
             (objA, objB) => Number(objA.importo) - Number(objB.importo),
         );
-        }
-    if(columnIndex == 0){
-        console.log("%c _______________ ","background-color:green")
-        // tableRimborso.map(obj => {
-        //     return {...obj, date: new Date(obj.date)};
-        // });
-        // sortedAsc = tableRimborso.sort(function(a, b){
-        // var aa = a.split('-').join(),
-        // bb = b.split('-').join();
-        // return aa < bb ? -1 : (aa > bb ? 1 : 0);
-        // });
-        
-        
-        console.log("'''")
+    }
+    if(columnIndexSort  == 3){
+        console.log("%c _______________ ","background-color:red")
+        sortedAsc = tableRimborso.sort(function (a, b) {
+            return ('' + a.ricevuta).localeCompare(b.ricevuta);
+        })
+    }
+    if(columnIndexSort  == 4){
+        console.log("%c _______________ ","background-color:red")
+        sortedAsc = tableRimborso.sort(function (a, b) {
+            return ('' + a.stato).localeCompare(b.stato);
+        })
+    }
+    
+    if(columnIndexSort  == 5){
+        console.log("%c _______________ ","background-color:red")
+        sortedAsc = tableRimborso.sort(
+            (objA, objB) => Number(objA.dovuto) - Number(objB.dovuto),
+        );
     }
     
     writeTable();
@@ -352,6 +379,9 @@ function sortByColumn (columnIndex){
 
 function writeTable(){
     let table = document.getElementById("inputTable");
+    if( tableRimborso.length == 0){
+        cellWrite(table.rows[0], row)
+    }
     tableRimborso.map(function (row, i) {
                 table.rows[i].setAttribute("id", row.primaryKey);
                 cellWrite(table.rows[i], row)});
