@@ -110,8 +110,8 @@ function changeRowButton(){
 }
 
 
-function setRowsAttribute(){  
-    tr.setAttribute("id", primaryKey);
+function setRowsAttribute(tr, row){  
+    tr.setAttribute("id", row.primaryKey);
     for(let i = 0; i < 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
@@ -129,12 +129,13 @@ function cellWrite(tr, row){
 }
 
 
-function createRowCellAtIndex(){
+function createRowCells(numberOfRow){
     let table = document.getElementById("inputTable");
-    tr = table.insertRow(0);
-    for(i = 0; i < 7; i++){
-        tr.insertCell(i);
-    }
+    for(numberOfRow; numberOfRow > 0; numberOfRow--)
+        tr = table.insertRow(0);
+        for(i = 0; i < 7; i++){
+            tr.insertCell(i);
+        }
 }
 
 
@@ -160,9 +161,8 @@ function arrayGetValue(row){
 // Aggiunge righe alla tabella html e attribuisce valori
 function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
-    createRowCellAtIndex (); 
+    createRowCells(1); 
     writeTable(tableRimborso);
-    setRowsAttribute();
 }
 
 function addRowObject(row){
@@ -231,17 +231,22 @@ function resetMonth(){
 
 // reset table come funzione da sola? resetAll?
 // resettare anche lo status di cambio riga
-function resetTable(){
+function resetAll(){
     resetMonth();
     tableRimborso = [];
+    console.log(tableRimborso);
+    resetTable();
+    calcolaSommaDovuto();
+    document.getElementById("inputTotale").innerHTML = sum;
+    changeButtonDisable();
+}
+
+
+function resetTable(){
     let tbody = document.getElementById("inputTable")
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
-    calcolaSommaDovuto();
-    document.getElementById("inputTotale").innerHTML = sum;
-
-    changeButtonDisable();
 }
 
 
@@ -293,7 +298,6 @@ function changeSizeTable(){
         tableIsBig = true;
     }
 }
-
 
 // 2022-07-28
 function translateDay(date){
@@ -370,7 +374,7 @@ function writeTable(tableRimborso){
         cellWrite(table.rows[0], row)
     }
     tableRimborso.map(function (row, i) {
-        table.rows[i].setAttribute("id", row.primaryKey);
+        setRowsAttribute(table.rows[i], row);
         cellWrite(table.rows[i], row)});
     
   document.getElementById("inputTotale").innerHTML = sum;
@@ -378,7 +382,10 @@ function writeTable(tableRimborso){
 
 function filterTable(){
     let value = document.getElementById("inputFilter").value;
-    tableRimborsoFiltered = tableRimborso;
+    let tableRimborsoFiltered = tableRimborso;
     tableRimborsoFiltered = tableRimborsoFiltered.filter( row => row.importo >= Number(value))
+    resetTable();
+    createRowCells(tableRimborsoFiltered.length)
+    writeTable(tableRimborsoFiltered)
     console.log(tableRimborsoFiltered);
 }
