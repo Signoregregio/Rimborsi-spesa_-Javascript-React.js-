@@ -10,6 +10,8 @@ let tableIsBig = false;
 let sum = 0;
 columnType = ["thDate", "thType", "thImporto", "thRicevuta", "thStato", "thDovuto"]
 let columnIndexSort = 0;
+let tbody = document.getElementById("inputTable");
+let filterEvent = 0;
 
 
 
@@ -65,7 +67,7 @@ function gestisciImportiDovuti(row){
 }
 
 
-function calcolaSommaDovuto(){  
+function calcolaSommaDovuto(tableRimborso){  
     sum = tableRimborso.reduce((accumulator, current) => 
         accumulator + current.dovuto, 0);
     sum = sum.toFixed(2);
@@ -104,14 +106,14 @@ function changeRowButton(){
     let index = document.getElementById("buttonChange").getAttribute("Value");
     arrayGetValue(tableRimborso[index]);
     cellWrite(tr, tableRimborso[index]);
-    calcolaSommaDovuto();
+    calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
     changeButtonDisable();
 }
 
 
-function setRowsAttribute(tr, row){  
-    tr.setAttribute("id", row.primaryKey);
+function setRowsAttribute(){  
+    tr.setAttribute("id", primaryKey);
     for(let i = 0; i < 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
@@ -129,13 +131,11 @@ function cellWrite(tr, row){
 }
 
 
-function createRowCells(numberOfRow){
-    let table = document.getElementById("inputTable");
-    for(numberOfRow; numberOfRow > 0; numberOfRow--)
-        tr = table.insertRow(0);
-        for(i = 0; i < 7; i++){
-            tr.insertCell(i);
-        }
+function createRowCell(){
+    tr = tbody.insertRow(-1);
+    for(i = 0; i < 7; i++){
+        tr.insertCell(i);
+    }
 }
 
 
@@ -161,15 +161,16 @@ function arrayGetValue(row){
 // Aggiunge righe alla tabella html e attribuisce valori
 function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
-    createRowCells(1); 
+    createRowCell();
     writeTable(tableRimborso);
+    setRowsAttribute();
 }
 
 function addRowObject(row){
     arrayGetValue(row);
     tableRimborso.push(row);
     sortByColumn(columnIndexSort, tableRimborso);
-    calcolaSommaDovuto();
+    calcolaSommaDovuto(tableRimborso);
 }
 
 function addNewRow(){
@@ -179,6 +180,8 @@ function addNewRow(){
     addRowValue();
     console.log(tableRimborso);
     primaryKey++;
+    if(filterEvent == 1)
+        filterTable();
     return false;
 }
 
@@ -231,23 +234,22 @@ function resetMonth(){
 
 // reset table come funzione da sola? resetAll?
 // resettare anche lo status di cambio riga
-function resetAll(){
-    resetMonth();
-    tableRimborso = [];
-    console.log(tableRimborso);
-    resetTable();
-    calcolaSommaDovuto();
-    document.getElementById("inputTotale").innerHTML = sum;
-    changeButtonDisable();
-}
-
-
 function resetTable(){
-    let tbody = document.getElementById("inputTable")
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
 }
+
+function resetAll(){
+    resetMonth();
+    tableRimborso = [];
+    resetTable();
+    calcolaSommaDovuto(tableRimborso);
+    document.getElementById("inputTotale").innerHTML = sum;
+
+    changeButtonDisable();
+}
+
 
 
 function deleteRow(button){
@@ -255,7 +257,7 @@ function deleteRow(button){
     let id = tr.getAttribute("id");
     tr.parentNode.removeChild(tr); 
     tableRimborso = tableRimborso.filter(row => row.primaryKey != id);
-    calcolaSommaDovuto();
+    calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
     changeButtonDisable();
 }
@@ -299,6 +301,7 @@ function changeSizeTable(){
     }
 }
 
+
 // 2022-07-28
 function translateDay(date){
     let giorniSettimana = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]
@@ -325,7 +328,6 @@ function sortByColumn (columnIndexSort, tableRimborso){
     console.log(columnIndexSort)
     let sortedAsc;
     if(columnIndexSort  == 0){
-        console.log("%c _______________ ","background-color:green")
         sortedAsc = tableRimborso.sort(function(a, b){
         let aa = a.date.split('-').join();
         let bb = b.date.split('-').join();
@@ -334,7 +336,6 @@ function sortByColumn (columnIndexSort, tableRimborso){
     }
     
     if(columnIndexSort  == 1){
-        console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort((a, b) =>
              ('' + a.type).localeCompare(b.type))
 
@@ -342,26 +343,22 @@ function sortByColumn (columnIndexSort, tableRimborso){
     }
 
     if(columnIndexSort  == 2){
-        console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort( (a, b) =>
              Number(a.importo) - Number(b.importo)
         );
     }
     if(columnIndexSort  == 3){
-        console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort( (a, b)  =>
             ('' + a.ricevuta).localeCompare(b.ricevuta)
         )
     }
     if(columnIndexSort  == 4){
-        console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort( (a, b)   =>
             ('' + a.stato).localeCompare(b.stato)
         )
     }
     
     if(columnIndexSort  == 5){
-        console.log("%c _______________ ","background-color:red")
         sortedAsc = tableRimborso.sort( (a, b) =>
             Number(a.dovuto) - Number(b.dovuto)
         );
@@ -369,23 +366,32 @@ function sortByColumn (columnIndexSort, tableRimborso){
 }
 
 function writeTable(tableRimborso){
-    let table = document.getElementById("inputTable");
-    if( tableRimborso.length == 0){
-        cellWrite(table.rows[0], row)
-    }
     tableRimborso.map(function (row, i) {
-        setRowsAttribute(table.rows[i], row);
-        cellWrite(table.rows[i], row)});
-    
-  document.getElementById("inputTotale").innerHTML = sum;
+        // createRowCell();
+        cellWrite(tbody.rows[i], row)});  
 }
 
+function writeCreateTable(tableRimborso){
+    tableRimborso.map(function (row, i) {
+        createRowCell();
+        cellWrite(tbody.rows[i], row);
+        setRowsAttribute();
+        console.log(row)});
+    document.getElementById("inputTotale").innerHTML = sum;
+}
+
+// creo una seconda tabella e nascondo la primaria 
 function filterTable(){
     let value = document.getElementById("inputFilter").value;
-    let tableRimborsoFiltered = tableRimborso;
-    tableRimborsoFiltered = tableRimborsoFiltered.filter( row => row.importo >= Number(value))
+    value == "" ? filterEvent = 0 : filterEvent = 1;
+    if(filterEvent == 1){
+    console.log("%cfilter event = 1","background-color:purple")
     resetTable();
-    createRowCells(tableRimborsoFiltered.length)
-    writeTable(tableRimborsoFiltered)
-    console.log(tableRimborsoFiltered);
-}
+    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
+    writeCreateTable(tableRimborsoFiltered)
+    sortByColumn(columnIndexSort, tableRimborsoFiltered);
+    } else { // riscrivere la tabella principale
+        writeCreateTable(tableRimborso)
+        sortByColumn(columnIndexSort, tableRimborsoFiltered);
+    }
+  }
