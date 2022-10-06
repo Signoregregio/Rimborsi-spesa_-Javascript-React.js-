@@ -1,105 +1,176 @@
 body {
-    background-color:#ccc;
-    font:normal 20px/1.5 sans-serif;
+  background-color:#D4E4F7;
+  font:normal 20px/1.5 sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h2 {
-    margin: 1rem 2rem;
+  margin: 1rem 2rem;
 }
 
-.center{
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    width: 100%;
+form {
+  margin: 2rem;
+  width: 800px;
 }
 
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
+#rightSide{
+  width: clamp(25rem, 59vw, 59vw);
+  padding: 15px;
+  float: right;
+  height: 100%;
 }
 
-form{
-    margin: 2rem;
-    width: 800px;
+#leftSide {
+  width: clamp(25rem, 38vw, 38vw);
+  padding: 15px;
+  height:fit-content;
+  float: left;
+  background-color: rgb(255, 146, 88);
+  border: 3px solid #341C09;
+  border-radius: 20px;
+}
+.tableChange {
+  position: sticky;
+  top: 20%;
+  width: 6%;
 }
 
-.formBox{
-    padding: 1rem;
-    clear: both;
-    width: 100%;
-    position: relative;
+
+#buttonSizeTable{
+  padding: 14px;
 }
 
-.formBox input {
-    font-size: 1rem;
-    width: 300px;
-    padding: 0.25rem 1rem;
-}
-
-.formBox select {
-    font-size: 1rem;
-    width: 300px;
-    padding: 0.25rem 1rem;
-}
-
-.form-box option{
-    font-size: 1rem;
-    width: 300px;
-    padding: 0.25rem 1rem;
-}
-
-.formBox label{
-    font-size: 1rem;
-    float: left;
-    width: 100px;
-    margin-right: 20px;
-}
-
-.green {
-    color:green;
-    font-size: 28px;
-    font-weight: 1000;
-    padding: 0px;
-}
-
-.button-23 {
-    width: 30%;
-    background-color: #FFFFFF;
-    border: 1px solid #222222;
-    box-sizing: border-box;
-    cursor: pointer;
-    border-radius: 8px;
-    display: inline-block;
-    touch-action: manipulation;
-    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-    width: auto;
+#buttonSubmitAll{
+  top: 50%;
+  display: none;
 }
 
 .login {
-    color: #222222;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 20px;
-    padding: 13px 23px;
+  width: fit-content;
+}
+
+.center{
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+}
+
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
 }
 
 
-
-.button-23:focus-visible {
-    box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
-    transition: box-shadow .2s;
+.formBox{
+  padding: 1rem;
+  clear: both;
+  position: relative;
 }
 
-.button-23:active {
-    background-color: #F7F7F7;
-    border-color: #000000;
-    transform: scale(.96);
+.formBox input {
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.25rem 1rem;
 }
 
-.button-23:disabled {
-    border-color: #DDDDDD;
-    color: #DDDDDD;
-    cursor: not-allowed;
+.formBox select {
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.25rem 1rem;
+}
+
+.formBox option{
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.25rem 1rem;
+}
+
+.formBox label{
+  font-size: 1rem;
+  float: left;
+  width: 100px;
+  margin-right: 20px;
+}
+
+.formBox button{    
+  margin: 2rem 2.5rem;
+}
+
+#role {
+  font-size: 1rem;
+  width: 100px;
+  margin-right: 20px;
+  float: unset;
+}
+
+button {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 13px 23px;
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-block;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+  width: auto;
+}
+
+
+button:focus-visible {
+  box-shadow: #341C09 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+button:active {
+  background-color: #F7F7F7;
+  border-color: #341C09;
+  transform: scale(.96);
+}
+
+button:disabled {
+  border-color: #DDDDDD;
+  color: #DDDDDD;
+  cursor: not-allowed;
+}
+
+/* TABLE  */
+#tableForm {
+  width: 90%;
+  text-align: center;
+  border: 2px solid #341C09;
+  border-collapse: collapse;
+  float: right;
+}
+
+tr {
+  border-bottom: 1px solid #341C09;
+  height: 50px;
+}
+
+th{
+  background-color: rgb(238, 123, 60);
+}
+ 
+tr {
+  background-color: rgb(217, 177, 156);;
+} 
+
+tfoot > tr{
+  background-color: rgb(255, 146, 88);
+  width: fit-content;
+}
+
+tbody > tr:hover td {background-color: coral;}
+
+.deleteRow{ 
+  padding: 3px 17px;
 }
