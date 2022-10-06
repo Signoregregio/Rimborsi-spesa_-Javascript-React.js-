@@ -24,7 +24,7 @@
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="return getRangeDays()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
+                    <input type="month" id="inputMonth" required onchange="return setRangeDays()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
                 </div>
                     
     
@@ -96,6 +96,7 @@
                 <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
                 <br><br>
                 <button id="buttonSubmitAll"> Submit all</button>
+                <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato">
             </div>
         
         </div>

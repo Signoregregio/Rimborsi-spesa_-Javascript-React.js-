@@ -1,4 +1,6 @@
 
+// filtro 
+
 let tableRimborso = [];
 let primaryKey = 0;
 let role;
@@ -65,7 +67,7 @@ function gestisciImportiDovuti(row){
 
 function calcolaSommaDovuto(){  
     sum = tableRimborso.reduce((accumulator, current) => 
-        accumulator + Number(current.dovuto), 0);
+        accumulator + current.dovuto, 0);
     sum = sum.toFixed(2);
     return sum;
 }
@@ -97,14 +99,14 @@ function changeButtonDisable(){
     document.getElementById("buttonSend").disabled = false;
 }
 
+// questa scrive e modifica
 function changeRowButton(){
     let index = document.getElementById("buttonChange").getAttribute("Value");
     arrayGetValue(tableRimborso[index]);
     cellWrite(tr, tableRimborso[index]);
     calcolaSommaDovuto();
     document.getElementById("inputTotale").innerHTML = sum;
-
-    changeButtonDisable
+    changeButtonDisable();
 }
 
 
@@ -117,8 +119,7 @@ function setRowsAttribute(){
 
 
 function cellWrite(tr, row){ 
-    tr.cells[0].innerHTML = row.date;
-    // tr.cells[0].innerHTML = translateDay(row.date);
+    tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
     tr.cells[3].innerHTML = row.ricevuta;
@@ -152,34 +153,31 @@ function arrayGetValue(row){
     row.importo = document.getElementById("inputImporto").value;
     row.ricevuta = document.getElementById("inputRicevuta").checked ?  "Sì" : "No"
     row.stato = approvazione(regoleApprovazione(row));
-    row.dovuto  = gestisciImportiDovuti(row);
+    row.dovuto  = Number(gestisciImportiDovuti(row));
 }
 
 
 // Aggiunge righe alla tabella html e attribuisce valori
 function addRowValue(){
     document.getElementById("inputMonth").disabled = true;
-    createRowCellAtIndex ();   
-    // sortByColumn(columnIndexSort)
-    writeTable(); // prima dovro inviare il sort by column!!! 
+    createRowCellAtIndex (); 
+    writeTable(tableRimborso);
     setRowsAttribute();
-    console.log(tableRimborso);
-    calcolaSommaDovuto();
-    document.getElementById("inputTotale").innerHTML = sum;
-
 }
 
-function addRowObject(){
-    row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
+function addRowObject(row){
     arrayGetValue(row);
     tableRimborso.push(row);
+    sortByColumn(columnIndexSort, tableRimborso);
+    calcolaSommaDovuto();
 }
 
 function addNewRow(){
     let index;
-    let row = [];
-    addRowObject();
+    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
+    addRowObject(row);
     addRowValue();
+    console.log(tableRimborso);
     primaryKey++;
     return false;
 }
@@ -201,7 +199,7 @@ function maxMonth(){
 }
 
 // calculateRangeDay()
-function getRangeDays (){
+function setRangeDays (){
     document.getElementById("inputDate").disabled = false;
     let monthInput = document.getElementById("inputMonth").value.slice(5,7);
     let yearInput = document.getElementById("inputMonth").value.slice(0,4);
@@ -315,10 +313,11 @@ function changeSortByColumn(th){
     columnIndexSort = columnType.indexOf(column);
     console.log(columnIndexSort);
     changeButtonDisable();
-    sortByColumn(columnIndexSort);
+    sortByColumn(columnIndexSort, tableRimborso);
+    writeTable(tableRimborso);
 }
 
-function sortByColumn (columnIndexSort ){
+function sortByColumn (columnIndexSort, tableRimborso){
     console.log(columnIndexSort)
     let sortedAsc;
     if(columnIndexSort  == 0){
@@ -363,18 +362,23 @@ function sortByColumn (columnIndexSort ){
             Number(a.dovuto) - Number(b.dovuto)
         );
     }
-    
-    writeTable();
-    console.log(tableRimborso)
-
 }
 
-function writeTable(){
+function writeTable(tableRimborso){
     let table = document.getElementById("inputTable");
     if( tableRimborso.length == 0){
         cellWrite(table.rows[0], row)
     }
     tableRimborso.map(function (row, i) {
-                table.rows[i].setAttribute("id", row.primaryKey);
-                cellWrite(table.rows[i], row)});
+        table.rows[i].setAttribute("id", row.primaryKey);
+        cellWrite(table.rows[i], row)});
+    
+  document.getElementById("inputTotale").innerHTML = sum;
+}
+
+function filterTable(){
+    let value = document.getElementById("inputFilter").value;
+    tableRimborsoFiltered = tableRimborso;
+    tableRimborsoFiltered = tableRimborsoFiltered.filter( row => row.importo >= Number(value))
+    console.log(tableRimborsoFiltered);
 }
