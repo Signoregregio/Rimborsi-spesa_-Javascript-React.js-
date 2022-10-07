@@ -104,6 +104,7 @@ function changeRowButton(){
         index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
     }
     arrayGetValue(tableRimborso[index]);
+
     if(filterEvent){
         filterTable();
     }
@@ -163,6 +164,7 @@ function arrayGetValue(row){
 
 function addNewRow(){
     let index;
+    document.getElementById("inputMonth").disabled = true;
     let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     addRowObject(row);
     filterEvent == 0 ?  addRowValue() : filterTable();
@@ -174,7 +176,6 @@ function addNewRow(){
 // Aggiunge righe alla tabella html e attribuisce valori
 // Posso cambiare writeTable con una semplice writeCell?
 function addRowValue(){
-    document.getElementById("inputMonth").disabled = true;
     createRowCell();
     setRowsAttribute();
     writeTable(tableRimborso);
@@ -267,11 +268,11 @@ function resetAll(){
 
 function deleteRow(button){
     let tr = button.parentNode.parentNode;
-    let id = tr.getAttribute("id");
-    tr.parentNode.removeChild(tr); 
+    let index = tr.rowIndex - 1;
+    id = filterEvent ? tableRimborsoFiltered[index].primaryKey : tableRimborso[index].primaryKey;
     tableRimborso = tableRimborso.filter(row => row.primaryKey != id);
-    calcolaSommaDovuto(tableRimborso);
-    document.getElementById("inputTotale").innerHTML = sum;
+    resetTable();
+    filterEvent ? filterTable() : writeCreateTable(tableRimborso);
     changeButtonDisable();
 }
 
@@ -381,7 +382,7 @@ function writeCreateTable(tableRimborso){
         document.getElementById("inputTotale").innerHTML = sum;
 }
 
-// 
+// prova
 function filterTable(){
     console.log("%c DENTRO AL filterTable() !","background-color:purple")
     let value = document.getElementById("inputFilter").value;
