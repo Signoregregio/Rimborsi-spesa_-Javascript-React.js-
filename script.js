@@ -164,6 +164,7 @@ function addRowValue(){
     createRowCell();
     writeTable(tableRimborso);
     setRowsAttribute();
+    document.getElementById("inputTotale").innerHTML = sum;
 }
 
 function addRowObject(row){
@@ -377,10 +378,11 @@ function writeCreateTable(tableRimborso){
         cellWrite(tbody.rows[i], row);
         setRowsAttribute();
         console.log(row)});
-    document.getElementById("inputTotale").innerHTML = sum;
+        calcolaSommaDovuto(tableRimborsoFiltered);
+        document.getElementById("inputTotale").innerHTML = sum;
 }
 
-// creo una seconda tabella e nascondo la primaria 
+// 
 function filterTable(){
     let value = document.getElementById("inputFilter").value;
     value == "" ? filterEvent = 0 : filterEvent = 1;
@@ -388,9 +390,10 @@ function filterTable(){
     console.log("%cfilter event = 1","background-color:purple")
     resetTable();
     tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
-    writeCreateTable(tableRimborsoFiltered)
     sortByColumn(columnIndexSort, tableRimborsoFiltered);
+    writeCreateTable(tableRimborsoFiltered)
     } else { // riscrivere la tabella principale
+        resetTable();
         writeCreateTable(tableRimborso)
         sortByColumn(columnIndexSort, tableRimborsoFiltered);
     }
