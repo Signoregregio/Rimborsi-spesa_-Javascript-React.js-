@@ -75,16 +75,20 @@ function calcolaSommaDovuto(tableRimborso){
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
+// cambio comunque l'array originale, e poi chiamo la filter se event = 1
+// 
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
-    let id = tr.getAttribute("id");
-    console.log(tableRimborso)
-    let index = tableRimborso.reduce((accumulator, current, i) =>
-            current.primaryKey == id ? accumulator + i : accumulator + 0, 0);
+    console.log("%c sono dentro activateChangeStatusEvent","background-color:blue");
+    console.log(tableRimborso);
+    let index = tr.rowIndex - 1;
     console.log(index);
-    formGetValue(tableRimborso[index]);
 
+    filterEvent == 0 ? console.log(tableRimborso[index]) : console.log(tableRimborsoFiltered[index]);
+    
+    filterEvent == 0 ? formGetValue(tableRimborso[index]) : formGetValue(tableRimborsoFiltered[index]);
     document.getElementById("buttonChange").setAttribute("Value", index);
+    // blocco filtra per dato
     changeButtonActivate();
     if(tableIsBig)
         changeSizeTable();
@@ -103,11 +107,23 @@ function changeButtonDisable(){
 
 // questa scrive e modifica
 function changeRowButton(){
-    let index = document.getElementById("buttonChange").getAttribute("Value");
-    arrayGetValue(tableRimborso[index]);
-    cellWrite(tr, tableRimborso[index]);
-    calcolaSommaDovuto(tableRimborso);
-    document.getElementById("inputTotale").innerHTML = sum;
+    index = document.getElementById("buttonChange").getAttribute("Value");
+    if(filterEvent == 1){
+        index = tableRimborso.findIndex(row => 
+            row.primaryKey === tableRimborsoFiltered[index].primaryKey
+          );
+    console.log("%c ___","background-color:brown;");
+    console.log(index);
+     }
+    
+     arrayGetValue(tableRimborso[index]);
+     if(filterEvent == 1){
+         filterTable();
+    }
+    if(filterEvent == 0){
+        sortByColumn(columnIndexSort, tableRimborso);
+        writeTable(tableRimborso);
+    }
     changeButtonDisable();
 }
 
@@ -164,25 +180,21 @@ function addRowValue(){
     createRowCell();
     writeTable(tableRimborso);
     setRowsAttribute();
-    document.getElementById("inputTotale").innerHTML = sum;
 }
 
 function addRowObject(row){
     arrayGetValue(row);
     tableRimborso.push(row);
     sortByColumn(columnIndexSort, tableRimborso);
-    calcolaSommaDovuto(tableRimborso);
 }
 
 function addNewRow(){
     let index;
     let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     addRowObject(row);
-    addRowValue();
+    filterEvent == 0 ?  addRowValue() : filterTable();
     console.log(tableRimborso);
     primaryKey++;
-    if(filterEvent == 1)
-        filterTable();
     return false;
 }
 
@@ -316,16 +328,15 @@ function translateDay(date){
 }
 
 function changeSortByColumn(th){
-    console.log("%c __________________ ","background-color:yellow;color:blue;")
     let column = th.getAttribute("id");
     columnIndexSort = columnType.indexOf(column);
-    console.log(columnIndexSort);
     changeButtonDisable();
     sortByColumn(columnIndexSort, tableRimborso);
     writeTable(tableRimborso);
 }
 
 function sortByColumn (columnIndexSort, tableRimborso){
+    console.log("%c sort by","background-color:yellow;color:blue;")
     console.log(columnIndexSort)
     let sortedAsc;
     if(columnIndexSort  == 0){
@@ -368,17 +379,18 @@ function sortByColumn (columnIndexSort, tableRimborso){
 
 function writeTable(tableRimborso){
     tableRimborso.map(function (row, i) {
-        // createRowCell();
         cellWrite(tbody.rows[i], row)});  
+    calcolaSommaDovuto(tableRimborso);
+    document.getElementById("inputTotale").innerHTML = sum;
 }
 
+//addRowObject()
 function writeCreateTable(tableRimborso){
     tableRimborso.map(function (row, i) {
         createRowCell();
         cellWrite(tbody.rows[i], row);
-        setRowsAttribute();
-        console.log(row)});
-        calcolaSommaDovuto(tableRimborsoFiltered);
+        setRowsAttribute();});
+        calcolaSommaDovuto(tableRimborso);
         document.getElementById("inputTotale").innerHTML = sum;
 }
 
@@ -387,14 +399,14 @@ function filterTable(){
     let value = document.getElementById("inputFilter").value;
     value == "" ? filterEvent = 0 : filterEvent = 1;
     if(filterEvent == 1){
-    console.log("%cfilter event = 1","background-color:purple")
-    resetTable();
-    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
-    sortByColumn(columnIndexSort, tableRimborsoFiltered);
-    writeCreateTable(tableRimborsoFiltered)
+        console.log("%cfilter event = 1","background-color:purple")
+        resetTable();
+        tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
+        sortByColumn(columnIndexSort, tableRimborsoFiltered);
+        writeCreateTable(tableRimborsoFiltered)
     } else { // riscrivere la tabella principale
         resetTable();
+        sortByColumn(columnIndexSort, tableRimborso);
         writeCreateTable(tableRimborso)
-        sortByColumn(columnIndexSort, tableRimborsoFiltered);
     }
   }
