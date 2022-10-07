@@ -8,8 +8,8 @@ let tr;
 let date = new Date;
 let tableIsBig = false;
 let sum = 0;
-columnType = ["thDate", "thType", "thImporto", "thRicevuta", "thStato", "thDovuto"]
-let columnIndexSort = 0;
+columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
+let columnSort = "date";
 let tbody = document.getElementById("inputTable");
 let filterEvent = 0;
 
@@ -75,20 +75,11 @@ function calcolaSommaDovuto(tableRimborso){
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
-// cambio comunque l'array originale, e poi chiamo la filter se event = 1
-// 
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
-    console.log("%c sono dentro activateChangeStatusEvent","background-color:blue");
-    console.log(tableRimborso);
     let index = tr.rowIndex - 1;
-    console.log(index);
-
-    filterEvent == 0 ? console.log(tableRimborso[index]) : console.log(tableRimborsoFiltered[index]);
-    
     filterEvent == 0 ? formGetValue(tableRimborso[index]) : formGetValue(tableRimborsoFiltered[index]);
     document.getElementById("buttonChange").setAttribute("Value", index);
-    // blocco filtra per dato
     changeButtonActivate();
     if(tableIsBig)
         changeSizeTable();
@@ -106,22 +97,18 @@ function changeButtonDisable(){
 }
 
 // questa scrive e modifica
+// quando sono in status event devo disabilitare il sorting, senno il valore che ho messo nel bottone cambia riga diventa sbagliato
 function changeRowButton(){
     index = document.getElementById("buttonChange").getAttribute("Value");
-    if(filterEvent == 1){
-        index = tableRimborso.findIndex(row => 
-            row.primaryKey === tableRimborsoFiltered[index].primaryKey
-          );
-    console.log("%c ___","background-color:brown;");
-    console.log(index);
-     }
-    
-     arrayGetValue(tableRimborso[index]);
-     if(filterEvent == 1){
-         filterTable();
+    if(filterEvent){
+        index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
+    }
+    arrayGetValue(tableRimborso[index]);
+    if(filterEvent){
+        filterTable();
     }
     if(filterEvent == 0){
-        sortByColumn(columnIndexSort, tableRimborso);
+        sortByColumn(columnSort, tableRimborso);
         writeTable(tableRimborso);
     }
     changeButtonDisable();
@@ -136,7 +123,7 @@ function setRowsAttribute(){
 }
 
 
-function cellWrite(tr, row){ 
+function writeCell(tr, row){ 
     tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
@@ -174,20 +161,6 @@ function arrayGetValue(row){
 }
 
 
-// Aggiunge righe alla tabella html e attribuisce valori
-function addRowValue(){
-    document.getElementById("inputMonth").disabled = true;
-    createRowCell();
-    writeTable(tableRimborso);
-    setRowsAttribute();
-}
-
-function addRowObject(row){
-    arrayGetValue(row);
-    tableRimborso.push(row);
-    sortByColumn(columnIndexSort, tableRimborso);
-}
-
 function addNewRow(){
     let index;
     let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
@@ -197,6 +170,22 @@ function addNewRow(){
     primaryKey++;
     return false;
 }
+
+// Aggiunge righe alla tabella html e attribuisce valori
+// Posso cambiare writeTable con una semplice writeCell?
+function addRowValue(){
+    document.getElementById("inputMonth").disabled = true;
+    createRowCell();
+    setRowsAttribute();
+    writeTable(tableRimborso);
+}
+
+function addRowObject(row){
+    arrayGetValue(row);
+    tableRimborso.push(row);
+    sortByColumn(columnSort, tableRimborso);
+}
+
 
 // Funzione che mi setta il max nel mese che posso scegliere
 // ONLOAD EVENT PAGE RIMBORSI.HTML
@@ -233,9 +222,9 @@ function getMaxDate(yearInput, monthInput, daysInMonth){
     let myMonthSelected = date < dateEndMonth;
     // controllo sul mese. La data non puo essere superiore ad oggi
     if(myMonthSelected)
-        return yearInput + "-" + monthInput + "-" + dateToday;
+    return yearInput + "-" + monthInput + "-" + dateToday;
     else
-        return yearInput + "-" + monthInput + "-" + daysInMonth;
+    return yearInput + "-" + monthInput + "-" + daysInMonth;
 }
 
 
@@ -244,6 +233,18 @@ function resetMonth(){
     document.getElementById("inputDate").disabled = true;
 }
 
+
+// 2022-07-28
+function translateDay(date){
+    let giorniSettimana = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]
+    let day = date.slice(8,10);
+    let month = date.slice(5,7);
+    let year = date.slice(0,4);
+    let dateSelected = new Date(year, month - 1, day); 
+    let nameDay = giorniSettimana[dateSelected.getDay()];
+    year = date.slice(2,4);
+    return nameDay + " " + day + "/" + month + "/" + year;
+}
 
 // reset table come funzione da sola? resetAll?
 // resettare anche lo status di cambio riga
@@ -262,7 +263,6 @@ function resetAll(){
 
     changeButtonDisable();
 }
-
 
 
 function deleteRow(button){
@@ -315,31 +315,18 @@ function changeSizeTable(){
 }
 
 
-// 2022-07-28
-function translateDay(date){
-    let giorniSettimana = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]
-    let day = date.slice(8,10);
-    let month = date.slice(5,7);
-    let year = date.slice(0,4);
-    let dateSelected = new Date(year, month - 1, day); 
-    let nameDay = giorniSettimana[dateSelected.getDay()];
-    year = date.slice(2,4);
-    return nameDay + " " + day + "/" + month + "/" + year;
-}
-
 function changeSortByColumn(th){
-    let column = th.getAttribute("id");
-    columnIndexSort = columnType.indexOf(column);
+    columnSort = th.getAttribute("id");
     changeButtonDisable();
-    sortByColumn(columnIndexSort, tableRimborso);
+    sortByColumn(columnSort, tableRimborso);
     writeTable(tableRimborso);
 }
 
-function sortByColumn (columnIndexSort, tableRimborso){
+function sortByColumn (columnSort, tableRimborso){
     console.log("%c sort by","background-color:yellow;color:blue;")
-    console.log(columnIndexSort)
+    console.log(columnSort)
     let sortedAsc;
-    if(columnIndexSort  == 0){
+    if(columnSort  == "date"){
         sortedAsc = tableRimborso.sort(function(a, b){
         let aa = a.date.split('-').join();
         let bb = b.date.split('-').join();
@@ -347,30 +334,30 @@ function sortByColumn (columnIndexSort, tableRimborso){
         });
     }
     
-    if(columnIndexSort  == 1){
+    if(columnSort  == "type"){
         sortedAsc = tableRimborso.sort((a, b) =>
              ('' + a.type).localeCompare(b.type))
 
         
     }
 
-    if(columnIndexSort  == 2){
+    if(columnSort  == "importo"){
         sortedAsc = tableRimborso.sort( (a, b) =>
              Number(a.importo) - Number(b.importo)
         );
     }
-    if(columnIndexSort  == 3){
+    if(columnSort  == "ricevuta"){
         sortedAsc = tableRimborso.sort( (a, b)  =>
             ('' + a.ricevuta).localeCompare(b.ricevuta)
         )
     }
-    if(columnIndexSort  == 4){
+    if(columnSort  == "stato"){
         sortedAsc = tableRimborso.sort( (a, b)   =>
             ('' + a.stato).localeCompare(b.stato)
         )
     }
     
-    if(columnIndexSort  == 5){
+    if(columnSort  == "dovuto"){
         sortedAsc = tableRimborso.sort( (a, b) =>
             Number(a.dovuto) - Number(b.dovuto)
         );
@@ -379,7 +366,7 @@ function sortByColumn (columnIndexSort, tableRimborso){
 
 function writeTable(tableRimborso){
     tableRimborso.map(function (row, i) {
-        cellWrite(tbody.rows[i], row)});  
+        writeCell(tbody.rows[i], row)});  
     calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
 }
@@ -388,7 +375,7 @@ function writeTable(tableRimborso){
 function writeCreateTable(tableRimborso){
     tableRimborso.map(function (row, i) {
         createRowCell();
-        cellWrite(tbody.rows[i], row);
+        writeCell(tbody.rows[i], row);
         setRowsAttribute();});
         calcolaSommaDovuto(tableRimborso);
         document.getElementById("inputTotale").innerHTML = sum;
@@ -396,17 +383,11 @@ function writeCreateTable(tableRimborso){
 
 // 
 function filterTable(){
+    console.log("%c DENTRO AL filterTable() !","background-color:purple")
     let value = document.getElementById("inputFilter").value;
     value == "" ? filterEvent = 0 : filterEvent = 1;
-    if(filterEvent == 1){
-        console.log("%cfilter event = 1","background-color:purple")
-        resetTable();
-        tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
-        sortByColumn(columnIndexSort, tableRimborsoFiltered);
-        writeCreateTable(tableRimborsoFiltered)
-    } else { // riscrivere la tabella principale
-        resetTable();
-        sortByColumn(columnIndexSort, tableRimborso);
-        writeCreateTable(tableRimborso)
-    }
-  }
+    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
+    resetTable();
+    sortByColumn(columnSort, tableRimborsoFiltered);
+    writeCreateTable(tableRimborsoFiltered)
+}
