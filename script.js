@@ -382,12 +382,12 @@ function writeCreateTable(tableRimborso){
         document.getElementById("inputTotale").innerHTML = sum;
 }
 
-// prova commit di prova
+// prova commit di prova.
 function filterTable(){
     console.log("%c DENTRO AL filterTable() !","background-color:purple")
     let value = document.getElementById("inputFilter").value;
     value == "" ? filterEvent = 0 : filterEvent = 1;
-    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
+    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value));
     resetTable();
     sortByColumn(columnSort, tableRimborsoFiltered);
     writeCreateTable(tableRimborsoFiltered);
