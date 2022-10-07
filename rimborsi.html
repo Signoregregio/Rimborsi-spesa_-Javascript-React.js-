@@ -96,7 +96,7 @@
                 <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
                 <br><br>
                 <button id="buttonSubmitAll"> Submit all</button>
-                <select id="inputTypeFilter" onchange=""> 
+                <select id="inputTypeFilter" onchange="filterTable()"> 
                     <option value="" selected disabled hidden>Filtra per</option> 
                     <option value="date">Data</option> 
                     <option value="type">Tipo</option> 
@@ -105,7 +105,7 @@
                     <option value="stato">Stato</option>
                     <option value="dovuto">Dovuto</option>
                 </select>
-                <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato">
+                <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato" disabled>
             </div>
         
         </div>

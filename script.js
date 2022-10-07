@@ -262,7 +262,7 @@ function resetAll(){
     resetTable();
     calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
-
+    document.getElementById("inputFilter").disabled = true;
     changeButtonDisable();
 }
 
@@ -383,6 +383,7 @@ function writeCreateTable(tableRimborso){
 
 // In teoria se non metto nulla e !filterEvent dovrebbe entrare e prendere tutto l'array
 function filterTable(){
+    document.getElementById("inputFilter").disabled = false;
     console.log("%c DENTRO AL filterTable() !","background-color:purple")
     let value = document.getElementById("inputFilter").value;
     let filterType = document.getElementById("inputTypeFilter").value
