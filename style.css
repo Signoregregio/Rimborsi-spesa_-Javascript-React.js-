@@ -159,10 +159,14 @@ button:disabled {
 
 /* TABLE  */
 #tableForm {
-  width: 90%;
+  width: 100%;
   text-align: center;
   /* border: 2px solid var(--colorBorder); */
   border-collapse: collapse;
+}
+
+.table{
+  width: 90%;
   float: right;
 }
 
@@ -346,19 +350,20 @@ tbody > tr:hover td {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    /* min-height: .01%;
-    overflow-x: auto;
-    overflow-y: hidden; */
+    padding: 10px 0px;
   }
 
 /* TABLE  */
 #tableForm {
-  width: fit-content;
-  text-align: center;
   border-collapse: collapse;
-  width: 100%;
 }
 
+.table {
+    min-height: .01%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
 /* 
 #rightSide > #tableForm > thead > tr > th,
 #rightSide > #tableForm > tbody > tr > td,

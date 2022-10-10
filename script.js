@@ -412,7 +412,6 @@ function filterTable(){
     }
 
     console.log(tableRimborsoFiltered);
-
     resetTable();
     sortByColumn(columnSort, tableRimborsoFiltered);
     writeCreateTable(tableRimborsoFiltered);
