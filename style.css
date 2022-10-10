@@ -1,7 +1,18 @@
+:root{
+  --color1: black;
+  --colorBackgroundForm: rgba(40, 40, 40, 0.66);
+  --colorTh:rgba(40, 40, 40, 0.66);
+  --colorTbody:rgb(51, 51, 51);
+  --colorHover:#4d3e3e;
+  --colorBorder:rgba(80, 80, 80, 1);
+  --colorText: #ddd;
+  --colorTfoot: #4d3e3e8e;
+}
 
 body {
-  background-color:#D4E4F7;
+  background-color:var(--color1);
   font:normal 20px/1.5 sans-serif;
+  color: var(--colorText);
 }
 
 * {
@@ -17,36 +28,25 @@ form {
   width: 800px;
 }
 
+.flexbox{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 #rightSide{
   width: 60%;
   padding: 15px;
-  float: left;
   height: 100%;
 }
+
 
 #leftSide {
   width: 40%;
   padding: 15px;
   height:fit-content;
-  float: left;
-  background-color: rgb(255, 146, 88);
-  border: 3px solid #341C09;
+  background-color: var(--colorBackgroundForm);
+  border: 3px solid var(--colorBorder);
   border-radius: 20px;
-}
-
-@media screen and (max-width: 992px) {
-  #leftSide {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #leftSide {
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .tableChange {
@@ -55,13 +55,13 @@ form {
   width: 6%;
 }
 
-
 #buttonSizeTable{
-  padding: 14px;
+  padding: 1rem;
+  margin-bottom: 3rem;
 }
 
 #buttonSubmitAll{
-  top: 50%;
+  padding: 1rem;
   display: none;
 }
 
@@ -95,6 +95,12 @@ form {
   padding: 0.25rem 1rem;
 }
 
+input:disabled {
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
+}
+
 .formBox select {
   font-size: 1rem;
   width: 300px;
@@ -115,14 +121,7 @@ form {
 }
 
 .formBox button{    
-  margin: 2rem 2.5rem;
-}
-
-#role {
-  font-size: 1rem;
-  width: 100px;
-  margin-right: 20px;
-  float: unset;
+  margin: 1rem 2.5rem;
 }
 
 button {
@@ -130,9 +129,8 @@ button {
   font-weight: 600;
   line-height: 20px;
   padding: 13px 23px;
-  background-color: #FFFFFF;
-  border: 1px solid #222222;
-  box-sizing: border-box;
+  background-color: var(--colorText);
+  border: 1px solid var(--colorBorder);
   cursor: pointer;
   border-radius: 8px;
   display: inline-block;
@@ -141,21 +139,21 @@ button {
   width: auto;
 }
 
-
 button:focus-visible {
-  box-shadow: #341C09 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  box-shadow: var(--colorBorder) 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
   transition: box-shadow .2s;
 }
 
 button:active {
   background-color: #F7F7F7;
-  border-color: #341C09;
+  border-color: var(--colorBorder);
   transform: scale(.96);
 }
 
 button:disabled {
-  border-color: #DDDDDD;
-  color: #DDDDDD;
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
   cursor: not-allowed;
 }
 
@@ -163,31 +161,249 @@ button:disabled {
 #tableForm {
   width: 90%;
   text-align: center;
-  border: 2px solid #341C09;
+  /* border: 2px solid var(--colorBorder); */
   border-collapse: collapse;
   float: right;
 }
 
 tr {
-  border-bottom: 1px solid #341C09;
+  border-bottom: 1px solid var(--colorBorder)9;
   height: 50px;
 }
 
 th{
-  background-color: rgb(238, 123, 60);
+  background-color: var(--colorTh);
 }
- 
-tr {
-  background-color: rgb(217, 177, 156);;
+
+tbody > tr {
+  background-color: var(--colorTbody);
 } 
 
 tfoot > tr{
-  background-color: rgb(255, 146, 88);
+  background-color: var(--colorTfoot);
   width: fit-content;
 }
 
-tbody > tr:hover td {background-color: coral;}
+tbody > tr:hover td {
+  background-color: var(--colorHover);
+}
 
 .deleteRow{ 
   padding: 3px 17px;
+}
+
+
+@media screen and (max-width: 992px) {
+  #leftSide {
+    width: 100vw;
+    height: 100%;
+    padding: 5px 3px;
+    overflow: hidden;
+  }
+  #rightSide {
+    width: 100%;
+    height: 100%;
+  }
+
+  .formBox{
+    padding: 1rem 0rem;
+    clear: both;
+    position: relative;
+  }  
+
+  .formBox input {
+    font-size: 1rem;
+    width: 140px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox select {
+    font-size: 1rem;
+    width: 160px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox option{
+    font-size: 1rem;
+    width: 160px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox label{
+    font-size: 1rem;
+    float: left;
+    width: 150px;
+    margin-right: 20px;
+  }
+
+  .formBox button{    
+    margin: 1rem 2.5rem;
+  }
+
+  button {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 13px 23px;
+    background-color: var(--colorText);
+    border: 1px solid var(--colorBorder);
+    cursor: pointer;
+    border-radius: 8px;
+    display: inline-block;
+    touch-action: manipulation;
+    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+.flexbox{
+  width: 100%;
+}
+
+  #leftSide {
+    width: 100%;
+    height: 100%;
+    padding: 5px 3px;
+  }
+  
+  .formBox{
+    padding: 1rem 0rem;
+    clear: both;
+    position: relative;
+  }  
+  
+  .formBox input {
+    font-size: 1rem;
+    width: 140px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox select {
+    font-size: 1rem;
+    width: 140px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox option{
+    font-size: 1rem;
+    width: 140px;
+    padding: 0.25rem 1rem;
+  }
+  
+  .formBox label{
+    font-size: 1rem;
+    float: left;
+    width: 150px;
+    margin-right: 5px;
+  }
+  
+  .formBox button{    
+    margin: 1rem 0.5rem;
+  }
+  
+  .divButton{
+    margin-top: 4rem;
+  }
+  
+  button {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 13px 23px;
+    background-color: var(--colorText);
+    border: 1px solid var(--colorBorder);
+    cursor: pointer;
+    border-radius: 8px;
+    display: inline-block;
+    touch-action: manipulation;
+    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+    width: auto;
+  }
+  
+  .tableChange{
+    top: 5%;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  #buttonSizeTable{
+    margin-top: 2rem;
+    padding: 1rem;
+    margin-bottom: 0rem;
+  }
+  
+  #buttonSubmitAll{
+    margin-top: 2rem;
+    top: 50%;
+    display: none;
+    right: 10%;
+  }
+  
+  #rightSide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    /* min-height: .01%;
+    overflow-x: auto;
+    overflow-y: hidden; */
+  }
+
+/* TABLE  */
+#tableForm {
+  width: fit-content;
+  text-align: center;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* 
+#rightSide > #tableForm > thead > tr > th,
+#rightSide > #tableForm > tbody > tr > td,
+#rightSide > #tableForm > tfoot > tr > td {
+    white-space: nowrap;
+} */
+
+tr {
+  border-bottom: 1px solid var(--colorBorder);
+  height: 50px;
+}
+
+th{
+  background-color: var(--colorTh);
+}
+
+tbody > tr {
+  background-color: var(--colorTbody);
+} 
+
+tfoot > tr{
+  background-color: var(--colorTfoot);
+  width: fit-content;
+}
+
+tbody > tr:hover td {
+  background-color: var(--colorHover);
+}
+
+.deleteRow{ 
+  padding: 3px 17px;
+}
+
+}
+
+@media print {
+  #leftSide,
+  #inputFilter,
+  #inputTypeFilter,
+  .tableChange,
+  .deleteRow {
+    display: none;
+  }
+  #rightSide,
+  #tableForm {
+    width: 100%;
+  }
 }

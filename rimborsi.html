@@ -59,12 +59,12 @@
                 </div>
     
                 <!-- Bottoni -->
-                <div class="formBox">
-                    <button id="buttonCancel" class="login" type="reset" onclick="return resetAll()">Reset</button>
+                <div class="formBox divButton">
+                    <button id="buttonSubmit" class="login" type="submit" >Submit all</button>
                     <button id="buttonSend" class="login" type="submit" >Calcola</button>
                     <br>
-                    <button id="buttonSubmit" class="login" type="submit" >Submit all</button>
                     <button id="buttonChange" class="login" type="button" onclick="changeRowButton()" disabled>Cambia riga</button>
+                    <button id="buttonCancel" class="login" type="reset" onclick="return resetAll()">Reset</button>
                 </div>
             </form>
         </div>
@@ -72,41 +72,42 @@
         <!-- Lato destro -->
         <div id="rightSide">
             <!-- Tabella dei rimborsi -->
-            <table id="tableForm">
-                <thead>
-                    <th id="date" onclick="changeSortByColumn(this)">Data</th>
-                    <th id="type" onclick="changeSortByColumn(this)">Tipo</th>
-                    <th id="importo" onclick="changeSortByColumn(this)">Importo</th>
-                    <th id="ricevuta" onclick="changeSortByColumn(this)">Ricevuta</th>
-                    <th id="stato" onclick="changeSortByColumn(this)">Stato</th>
-                    <th id="dovuto" onclick="changeSortByColumn(this)">Importo dovuto</th>
-                    <th id="th">                
-                        <select id="inputTypeFilter" onchange="filterTable()"> 
-                            <option value="" selected disabled hidden>Filtra per</option> 
-                            <option value="date">Data</option> 
-                            <option value="type">Tipo</option> 
-                            <option value="importo">Importo</option> 
-                            <option value="ricevuta">Ricevuta</option>
-                            <option value="stato">Stato</option>
-                            <option value="dovuto">Dovuto</option>
-                        </select>
-                        <br>
-                        <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato" disabled>
-                    </th>
-                </thead>
-                <tbody id="inputTable"></tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4"></td>
-                        <td>IMPORTO TOTALE : </td>
-                        <td id="inputTotale"></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="table">
+                <table id="tableForm">
+                    <thead>
+                        <th id="date" onclick="changeSortByColumn(this)">Data</th>
+                        <th id="type" onclick="changeSortByColumn(this)">Tipo</th>
+                        <th id="importo" onclick="changeSortByColumn(this)">Importo</th>
+                        <th id="ricevuta" onclick="changeSortByColumn(this)">Ricevuta</th>
+                        <th id="stato" onclick="changeSortByColumn(this)">Stato</th>
+                        <th id="dovuto" onclick="changeSortByColumn(this)">Importo dovuto</th>
+                        <th id="thFilter">                
+                            <select id="inputTypeFilter" onchange="filterTable()"> 
+                                <option value="" selected disabled hidden>Filtra per</option> 
+                                <option value="date">Data</option> 
+                                <option value="type">Tipo</option> 
+                                <option value="importo">Importo</option> 
+                                <option value="ricevuta">Ricevuta</option>
+                                <option value="stato">Stato</option>
+                                <option value="dovuto">Dovuto</option>
+                            </select>
+                            <br>
+                            <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato" disabled>
+                        </th>
+                    </thead>
+                    <tbody id="inputTable"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td>IMPORTO TOTALE : </td>
+                            <td id="inputTotale"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
             <div class="tableChange">
                 <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
-                <br><br>
                 <button id="buttonSubmitAll"> Submit all</button>
             </div>
         
