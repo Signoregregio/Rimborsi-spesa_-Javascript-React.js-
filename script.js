@@ -1,18 +1,19 @@
 //css print e responsivo
 // filtro 
+// css print media query e responsive
 
 let tableRimborso = [];
+let tableRimborsoFiltered = [];
 let primaryKey = 0;
 let role;
 let tr;
 let date = new Date;
 let tableIsBig = false;
 let sum = 0;
-columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
+let columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let columnSort = "date";
 let tbody = document.getElementById("inputTable");
 let filterEvent = 0;
-
 
 
 
@@ -261,7 +262,7 @@ function resetAll(){
     resetTable();
     calcolaSommaDovuto(tableRimborso);
     document.getElementById("inputTotale").innerHTML = sum;
-
+    document.getElementById("inputFilter").disabled = true;
     changeButtonDisable();
 }
 
@@ -337,9 +338,7 @@ function sortByColumn (columnSort, tableRimborso){
     
     if(columnSort  == "type"){
         sortedAsc = tableRimborso.sort((a, b) =>
-             ('' + a.type).localeCompare(b.type))
-
-        
+             ('' + a.type).localeCompare(b.type)) 
     }
 
     if(columnSort  == "importo"){
@@ -382,13 +381,38 @@ function writeCreateTable(tableRimborso){
         document.getElementById("inputTotale").innerHTML = sum;
 }
 
-// prova
+// In teoria se non metto nulla e !filterEvent dovrebbe entrare e prendere tutto l'array
 function filterTable(){
+    document.getElementById("inputFilter").disabled = false;
     console.log("%c DENTRO AL filterTable() !","background-color:purple")
     let value = document.getElementById("inputFilter").value;
+    let filterType = document.getElementById("inputTypeFilter").value
     value == "" ? filterEvent = 0 : filterEvent = 1;
-    tableRimborsoFiltered = tableRimborso.filter( row => row.importo >= Number(value))
+    tableRimborsoFiltered = tableRimborso;
+    console.log(filterEvent == 1);
+    if(filterEvent == 1){
+        if(filterType  == "date"){
+            tableRimborsoFiltered = tableRimborso.filter(row => row.date.split('-')[2] == value);
+        }
+        if(filterType  == "type"){
+            tableRimborsoFiltered = tableRimborso.filter(row => row.type.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        }
+        if(filterType  == "importo"){
+            tableRimborsoFiltered = tableRimborso.filter(row => row.importo >= Number(value));
+        }
+        if(filterType  == "ricevuta"){
+            tableRimborsoFiltered = tableRimborso.filter(row => row.ricevuta.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        }
+        if(filterType  == "stato"){
+            tableRimborsoFiltered = tableRimborso.filter(row => row.stato.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        }
+        if(filterType  == "dovuto"){
+            tableRimborsoFiltered = tableRimborso.filter( row => row.dovuto >= Number(value));
+        }
+    }
+
+    console.log(tableRimborsoFiltered);
     resetTable();
     sortByColumn(columnSort, tableRimborsoFiltered);
-    writeCreateTable(tableRimborsoFiltered)
+    writeCreateTable(tableRimborsoFiltered);
 }
