@@ -5,7 +5,7 @@
 
 let tableRimborso = [];
 let tableRimborsoFiltered = [];
-let id = 0;
+let primaryKey = 0;
 let role;
 let tr;
 let date = new Date;
@@ -15,7 +15,7 @@ let columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let columnSort = "date";
 let tbody = document.getElementById("inputTable");
 let filterEvent = 0;
-
+let idUser = 5; 
 
 
 // Traduce in stringa l'approvazione del rimborso
@@ -103,7 +103,7 @@ function changeButtonDisable(){
 function changeRowButton(){
     index = document.getElementById("buttonChange").getAttribute("Value");
     if(filterEvent){
-        index = tableRimborso.findIndex(row => row.id === tableRimborsoFiltered[index].id);
+        index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
     }
     arrayGetValue(tableRimborso[index]);
 
@@ -119,7 +119,7 @@ function changeRowButton(){
 
 
 function setRowsAttribute(){  
-    tr.setAttribute("id", id);
+    tr.setAttribute("id", primaryKey);
     for(let i = 0; i < 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
@@ -167,11 +167,11 @@ function arrayGetValue(row){
 function addNewRow(){
     let index;
     document.getElementById("inputMonth").disabled = true;
-    let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "id" : id};
+    let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
     addRowObject(row);
     filterEvent == 0 ?  addRowValue() : filterTable();
     console.log(tableRimborso);
-    id++;
+    primaryKey++;
     console.log(typeof tableRimborso)
     return false;
 }
@@ -272,8 +272,8 @@ function resetAll(){
 function deleteRow(button){
     let tr = button.parentNode.parentNode;
     let index = tr.rowIndex - 1;
-    id = filterEvent ? tableRimborsoFiltered[index].id : tableRimborso[index].id;
-    tableRimborso = tableRimborso.filter(row => row.id != id);
+    primaryKey = filterEvent ? tableRimborsoFiltered[index].primaryKey : tableRimborso[index].primaryKey;
+    tableRimborso = tableRimborso.filter(row => row.primaryKey != primaryKey);
     resetTable();
     filterEvent ? filterTable() : writeCreateTable(tableRimborso);
     changeButtonDisable();
@@ -423,7 +423,7 @@ function filterTable(){
 
 function postTable(){
     console.log("%c ___ ","background-color:white;")
-    fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user/5/spesa',{
+    fetch(mockLink(idUser),{
         method: "POST",
         body: JSON.stringify(tableRimborso),
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -433,32 +433,48 @@ function postTable(){
     .catch(error => console.log(error));
 }
 
-
+function mockLink(idUser){
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + idUser + "/spesa";
+}
 function getTable(){
     console.log("%c ___ ","background-color:red;")
-    fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user/5/spesa',{
+    fetch(mockLink(idUser),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())
-    .then(data => {
-        // console.log(data.items.length)
-        data = data[1];
-        for (const key in data){
-            if(key == "id" || key == "userId"){
+    .then(data => jsonToTable(data))
+    .catch(error => console.log(error));
+}
+
+function jsonToTable(obj) {
+    // for (const key in obj) {
+    //     const value = obj[key];
+    //     if (key == "id" || key == "userId"){
+    //         continue;
+    //     }
+    //     if (typeof value === 'object') {
+    //         tableRimborso.push(toArray(value)); // <- recursive call
+    //     }
+    //     else {
+    //         tableRimborso.push(value);
+    //     }
+    // }
+
+    for (const key in obj) {
+        const value = obj[key];
+        for(const prop in value){
+            console.log(prop)
+            if (prop == "id" || prop == "userId"){
                 break;
             }
-            tableRimborso.push(data[key]);
-            console.log(data[key])
+            value[prop].primaryKey = primaryKey;
+            tableRimborso.push(value[prop]);
+            console.log(value[prop])
+            primaryKey++;
         }
-        console.log(tableRimborso)
-        writeCreateTable(tableRimborso);
-        
-        
-        // console.log(data)
-        // data = JSON.stringify(data[1])
-        // data = JSON.parse(data)
-        // console.log(data)
-    })
-    .catch(error => console.log(error));
+    }
+    console.log(tableRimborso)
+    sortByColumn(columnSort, tableRimborso)
+    writeCreateTable(tableRimborso);
 }
