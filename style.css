@@ -165,6 +165,7 @@ input:disabled {
 }
 
 button {
+  width: fit-content;
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
@@ -176,7 +177,6 @@ button {
   display: inline-block;
   touch-action: manipulation;
   transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-  width: auto;
 }
 
 button:focus-visible {
@@ -198,7 +198,7 @@ button:disabled {
 }
 
 @media screen and (max-width: 992px) {
-  /* .flexbox{
+  .flexbox{
     width: 97vw;
   }
 
@@ -209,9 +209,15 @@ button:disabled {
     overflow: hidden;
   }
   
+  form {
+    margin: 2rem 0.5rem;
+    width: auto;
+  }
+
   #formUser{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
   }
 
   .divButton{
@@ -220,8 +226,7 @@ button:disabled {
   
   .formBox{
     padding: 1rem 0rem;
-    width: fit-content;
-    margin: 0.2rem 2rem;
+    margin: 0.2rem 1rem;
   }  
   
   .formBox input {
@@ -241,11 +246,16 @@ button:disabled {
   }
   
   .formBox button{    
-    margin: 1rem 0.5rem;
+    margin: 1rem 1.3rem;
   }
   
   .divButton{
-    margin-top: 4rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: 19rem;
+    justify-content: space-around; 
+    margin: auto;
   }
   
   .tableChange{
@@ -284,7 +294,7 @@ button:disabled {
     overflow-y: hidden;
     width: 100%;
     min-height: .01%;
-  } */
+  }
 }
 
 
@@ -293,24 +303,35 @@ button:disabled {
     width: 95vw;
   }
 
+  #formUser{
+    display: flex; 
+  }
+
   .center{
     width: 21rem;
     margin-left: 1rem;
+  }
+
+  form {
+    width: auto;
   }
 
   .formBox > .login {
     margin: 4rem 1.7rem;
   }
 
+  /* perché?! overflow y su iPhoneSE */
   #leftSide {
     width: 100%;
-    height: 98vh;
+    height: 100%;
     padding: 5px 3px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   
   .formBox{
     padding: 1rem 0rem;
+    margin: auto;
   }  
   
   .formBox input {
@@ -331,10 +352,6 @@ button:disabled {
   
   .formBox button{    
     margin: 1rem 0.5rem;
-  }
-  
-  .divButton{
-    margin-top: 4rem;
   }
   
   .tableChange{
@@ -373,7 +390,8 @@ button:disabled {
     flex-wrap: wrap;
     width: 19rem;
     margin-top: 1rem;
-   justify-content: space-around; 
+    justify-content: space-around; 
+    margin: auto;
   }
 
   .table {

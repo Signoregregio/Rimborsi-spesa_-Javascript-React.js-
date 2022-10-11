@@ -418,3 +418,10 @@ function filterTable(){
     sortByColumn(columnSort, tableRimborsoFiltered);
     writeCreateTable(tableRimborsoFiltered);
 }
+
+// function getAccount(){
+//     fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user')
+//     .then(response => response.json())
+//     .then(data => {console.log(data);})
+//     .catch(error => console.log(error));
+// }
