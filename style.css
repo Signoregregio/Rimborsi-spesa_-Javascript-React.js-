@@ -31,7 +31,7 @@ h2 {
 
 form {
   margin: 2rem;
-  width: 800px;
+  width: auto;
 }
 
 .login {
@@ -82,7 +82,7 @@ form {
 #buttonSubmitAll{
   padding: 1rem;
   width: 7rem;
-  display: none;
+  /* display: none; */
 }
 
 .deleteRow{ 
@@ -162,6 +162,14 @@ input:disabled {
 
 .formBox button{    
   margin: 1rem 2.5rem;
+}
+
+.divButton{
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; 
+  margin: auto;
 }
 
 button {

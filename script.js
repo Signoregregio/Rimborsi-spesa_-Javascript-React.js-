@@ -1,10 +1,11 @@
 //css print e responsivo
 // filtro 
 // css print media query e responsive
+// quando cambio riga, posso evitare di bloccare il tasto calcola?
 
 let tableRimborso = [];
 let tableRimborsoFiltered = [];
-let primaryKey = 0;
+let id = 0;
 let role;
 let tr;
 let date = new Date;
@@ -102,7 +103,7 @@ function changeButtonDisable(){
 function changeRowButton(){
     index = document.getElementById("buttonChange").getAttribute("Value");
     if(filterEvent){
-        index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
+        index = tableRimborso.findIndex(row => row.id === tableRimborsoFiltered[index].id);
     }
     arrayGetValue(tableRimborso[index]);
 
@@ -118,7 +119,7 @@ function changeRowButton(){
 
 
 function setRowsAttribute(){  
-    tr.setAttribute("id", primaryKey);
+    tr.setAttribute("id", id);
     for(let i = 0; i < 6; i++){
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
@@ -166,11 +167,12 @@ function arrayGetValue(row){
 function addNewRow(){
     let index;
     document.getElementById("inputMonth").disabled = true;
-    let row = {"type" : "", "date" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey};
+    let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "id" : id};
     addRowObject(row);
     filterEvent == 0 ?  addRowValue() : filterTable();
     console.log(tableRimborso);
-    primaryKey++;
+    id++;
+    console.log(typeof tableRimborso)
     return false;
 }
 
@@ -270,8 +272,8 @@ function resetAll(){
 function deleteRow(button){
     let tr = button.parentNode.parentNode;
     let index = tr.rowIndex - 1;
-    id = filterEvent ? tableRimborsoFiltered[index].primaryKey : tableRimborso[index].primaryKey;
-    tableRimborso = tableRimborso.filter(row => row.primaryKey != id);
+    id = filterEvent ? tableRimborsoFiltered[index].id : tableRimborso[index].id;
+    tableRimborso = tableRimborso.filter(row => row.id != id);
     resetTable();
     filterEvent ? filterTable() : writeCreateTable(tableRimborso);
     changeButtonDisable();
@@ -419,9 +421,44 @@ function filterTable(){
     writeCreateTable(tableRimborsoFiltered);
 }
 
-// function getAccount(){
-//     fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user')
-//     .then(response => response.json())
-//     .then(data => {console.log(data);})
-//     .catch(error => console.log(error));
-// }
+function postTable(){
+    console.log("%c ___ ","background-color:white;")
+    fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user/5/spesa',{
+        method: "POST",
+        body: JSON.stringify(tableRimborso),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => { console.log(data);})
+    .catch(error => console.log(error));
+}
+
+
+function getTable(){
+    console.log("%c ___ ","background-color:red;")
+    fetch('https://63453f7439ca915a69f9a522.mockapi.io/api/user/5/spesa',{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => {
+        // console.log(data.items.length)
+        data = data[1];
+        for (const key in data){
+            if(key == "id" || key == "userId"){
+                break;
+            }
+            tableRimborso.push(data[key]);
+            console.log(data[key])
+        }
+        console.log(tableRimborso)
+        writeCreateTable(tableRimborso);
+        
+        
+        // console.log(data)
+        // data = JSON.stringify(data[1])
+        // data = JSON.parse(data)
+        // console.log(data)
+    })
+    .catch(error => console.log(error));
+}
