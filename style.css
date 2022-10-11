@@ -1,3 +1,4 @@
+/* Galaxy fold da fare <300 width */
 :root{
   --color1: black;
   --colorBackgroundForm: rgba(40, 40, 40, 0.66);
@@ -9,14 +10,19 @@
   --colorTfoot: #4d3e3e8e;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color:var(--color1);
   font:normal 20px/1.5 sans-serif;
   color: var(--colorText);
 }
 
-* {
-  box-sizing: border-box;
+.flexbox{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 h2 {
@@ -26,43 +32,6 @@ h2 {
 form {
   margin: 2rem;
   width: 800px;
-}
-
-.flexbox{
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#rightSide{
-  width: 60%;
-  padding: 15px;
-  height: 100%;
-}
-
-
-#leftSide {
-  width: 40%;
-  padding: 15px;
-  height:fit-content;
-  background-color: var(--colorBackgroundForm);
-  border: 3px solid var(--colorBorder);
-  border-radius: 20px;
-}
-
-.tableChange {
-  position: sticky;
-  top: 20%;
-  width: 6%;
-}
-
-#buttonSizeTable{
-  padding: 1rem;
-  margin-bottom: 3rem;
-}
-
-#buttonSubmitAll{
-  padding: 1rem;
-  display: none;
 }
 
 .login {
@@ -83,6 +52,76 @@ form {
   height:100%;
 }
 
+#leftSide {
+  width: 40%;
+  padding: 15px;
+  height:fit-content;
+  background-color: var(--colorBackgroundForm);
+  border: 3px solid var(--colorBorder);
+  border-radius: 20px;
+}
+
+#rightSide{
+  width: 60%;
+  padding: 15px;
+  height: 100%;
+}
+
+.tableChange {
+  position: sticky;
+  top: 20%;
+  width: 6%;
+}
+
+#buttonSizeTable{
+  padding: 0.6rem 1rem;
+  margin-bottom: 3rem;
+  margin-top: 10rem;
+}
+
+#buttonSubmitAll{
+  padding: 1rem;
+  width: 7rem;
+  display: none;
+}
+
+.deleteRow{ 
+  padding: 0.6rem 1rem;
+}
+
+/* TABLE  */
+#tableForm {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.table{
+  width: 90%;
+  float: right;
+}
+
+tr {
+  border-bottom: 1px solid var(--colorBorder)9;
+  height: 50px;
+}
+
+th{
+  background-color: var(--colorTh);
+}
+
+tbody > tr {
+  background-color: var(--colorTbody);
+} 
+
+tfoot > tr{
+  background-color: var(--colorTfoot);
+  width: fit-content;
+}
+
+tbody > tr:hover td {
+  background-color: var(--colorHover);
+}
 
 .formBox{
   padding: 1rem;
@@ -158,148 +197,46 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* TABLE  */
-#tableForm {
-  width: 100%;
-  text-align: center;
-  /* border: 2px solid var(--colorBorder); */
-  border-collapse: collapse;
-}
-
-.table{
-  width: 90%;
-  float: right;
-}
-
-tr {
-  border-bottom: 1px solid var(--colorBorder)9;
-  height: 50px;
-}
-
-th{
-  background-color: var(--colorTh);
-}
-
-tbody > tr {
-  background-color: var(--colorTbody);
-} 
-
-tfoot > tr{
-  background-color: var(--colorTfoot);
-  width: fit-content;
-}
-
-tbody > tr:hover td {
-  background-color: var(--colorHover);
-}
-
-.deleteRow{ 
-  padding: 3px 17px;
-}
-
-
 @media screen and (max-width: 992px) {
+  /* .flexbox{
+    width: 97vw;
+  }
+
   #leftSide {
-    width: 100vw;
-    height: 100%;
+    width: 100%;
+    height: fit-content;
     padding: 5px 3px;
     overflow: hidden;
   }
-  #rightSide {
-    width: 100%;
-    height: 100%;
-  }
-
-  .formBox{
-    padding: 1rem 0rem;
-    clear: both;
-    position: relative;
-  }  
-
-  .formBox input {
-    font-size: 1rem;
-    width: 140px;
-    padding: 0.25rem 1rem;
-  }
   
-  .formBox select {
-    font-size: 1rem;
-    width: 160px;
-    padding: 0.25rem 1rem;
-  }
-  
-  .formBox option{
-    font-size: 1rem;
-    width: 160px;
-    padding: 0.25rem 1rem;
-  }
-  
-  .formBox label{
-    font-size: 1rem;
-    float: left;
-    width: 150px;
-    margin-right: 20px;
+  #formUser{
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .formBox button{    
-    margin: 1rem 2.5rem;
-  }
-
-  button {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 20px;
-    padding: 13px 23px;
-    background-color: var(--colorText);
-    border: 1px solid var(--colorBorder);
-    cursor: pointer;
-    border-radius: 8px;
-    display: inline-block;
-    touch-action: manipulation;
-    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-    width: auto;
-  }
-}
-
-@media screen and (max-width: 600px) {
-.flexbox{
-  width: 100%;
-}
-
-  #leftSide {
-    width: 100%;
-    height: 100%;
-    padding: 5px 3px;
+  .divButton{
+    flex-basis: 100%;
   }
   
   .formBox{
     padding: 1rem 0rem;
-    clear: both;
-    position: relative;
+    width: fit-content;
+    margin: 0.2rem 2rem;
   }  
   
   .formBox input {
-    font-size: 1rem;
-    width: 140px;
-    padding: 0.25rem 1rem;
+    width: 11rem;
   }
   
   .formBox select {
-    font-size: 1rem;
-    width: 140px;
-    padding: 0.25rem 1rem;
+    width: 11rem;
   }
   
   .formBox option{
-    font-size: 1rem;
-    width: 140px;
-    padding: 0.25rem 1rem;
+    width: 11rem;
   }
   
   .formBox label{
-    font-size: 1rem;
-    float: left;
-    width: 150px;
     margin-right: 5px;
   }
   
@@ -309,21 +246,6 @@ tbody > tr:hover td {
   
   .divButton{
     margin-top: 4rem;
-  }
-  
-  button {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 20px;
-    padding: 13px 23px;
-    background-color: var(--colorText);
-    border: 1px solid var(--colorBorder);
-    cursor: pointer;
-    border-radius: 8px;
-    display: inline-block;
-    touch-action: manipulation;
-    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-    width: auto;
   }
   
   .tableChange{
@@ -336,71 +258,127 @@ tbody > tr:hover td {
   #buttonSizeTable{
     margin-top: 2rem;
     padding: 1rem;
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
+    min-width: 7rem;
+    height: 5rem;
   }
   
   #buttonSubmitAll{
     margin-top: 2rem;
+    margin-bottom: 1rem;
     top: 50%;
-    display: none;
     right: 10%;
+    height: 5rem;
   }
   
   #rightSide {
-    width: 100%;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 10px 0px;
   }
 
-/* TABLE  */
-#tableForm {
-  border-collapse: collapse;
-}
-
-.table {
-    min-height: .01%;
+  .table {
     overflow-x: auto;
     overflow-y: hidden;
     width: 100%;
-}
-/* 
-#rightSide > #tableForm > thead > tr > th,
-#rightSide > #tableForm > tbody > tr > td,
-#rightSide > #tableForm > tfoot > tr > td {
-    white-space: nowrap;
-} */
-
-tr {
-  border-bottom: 1px solid var(--colorBorder);
-  height: 50px;
+    min-height: .01%;
+  } */
 }
 
-th{
-  background-color: var(--colorTh);
-}
 
-tbody > tr {
-  background-color: var(--colorTbody);
-} 
+@media screen and (max-width: 600px) {
+  .flexbox{
+    width: 95vw;
+  }
 
-tfoot > tr{
-  background-color: var(--colorTfoot);
-  width: fit-content;
-}
+  #leftSide {
+    width: 100%;
+    height: 98vh;
+    padding: 5px 3px;
+    overflow: hidden;
+  }
+  
+  .formBox{
+    padding: 1rem 0rem;
+  }  
+  
+  .formBox input {
+    width: 11rem;
+  }
+  
+  .formBox select {
+    width: 11rem;
+  }
+  
+  .formBox option{
+    width: 11rem;
+  }
+  
+  .formBox label{
+    margin-right: 5px;
+  }
+  
+  .formBox button{    
+    margin: 1rem 0.5rem;
+  }
+  
+  .divButton{
+    margin-top: 4rem;
+  }
+  
+  .tableChange{
+    top: 5%;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  #buttonSizeTable{
+    margin-top: 2rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    min-width: 7rem;
+    height: 5rem;
+  }
+  
+  #buttonSubmitAll{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    top: 50%;
+    right: 10%;
+    height: 5rem;
+  }
+  
+  #rightSide {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0px;
+  }
 
-tbody > tr:hover td {
-  background-color: var(--colorHover);
-}
+  .divButton{
+    display: flex;
+    flex-wrap: wrap;
+    width: 19rem;
+    margin-top: 1rem;
+   justify-content: space-around; 
+  }
 
-.deleteRow{ 
-  padding: 3px 17px;
-}
-
+  .table {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    min-height: .01%;
+  }
 }
 
 @media print {
+  body {
+    color: black;
+  }
   #leftSide,
   #inputFilter,
   #inputTypeFilter,

@@ -132,7 +132,7 @@ function writeCell(tr, row){
     tr.cells[3].innerHTML = row.ricevuta;
     tr.cells[4].innerHTML = row.stato;
     tr.cells[5].innerHTML = row.dovuto;
-    tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)">X</button>';
+    tr.cells[6].innerHTML = '<button class="deleteRow" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></button>';
 }
 
 
@@ -307,11 +307,13 @@ function changeSizeTable(){
         document.getElementById("rightSide").style.width = null;
         document.getElementById("leftSide").style.display = null;
         document.getElementById("buttonSubmitAll").style.display = "none";
+        document.getElementById("buttonSizeTable").style.width = null;
         tableIsBig = false;
     } else {
         document.getElementById("rightSide").style.width = "100%";
         document.getElementById("leftSide").style.display = "none";
         document.getElementById("buttonSubmitAll").style.display = "inline";
+        document.getElementById("buttonSizeTable").style.width = "7rem";
         tableIsBig = true;
     }
 }
