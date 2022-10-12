@@ -61,7 +61,7 @@
     
                 <!-- Bottoni -->
                 <div class="formBox divButton">
-                    <button id="buttonSubmit" class="command" type="submit" >Submit all</button>
+                    <button id="buttonSubmit" class="command" type="button" onclick="postTable()">Submit all</button>
                     <button id="buttonSend" class="command" type="submit" >Calcola</button>
                     <button id="buttonChange" class="command" type="button" onclick="changeRowButton()" disabled>Cambia riga</button>
                     <button id="buttonCancel" class="command" type="reset" onclick="return resetAll()">Reset</button>
@@ -107,8 +107,8 @@
                 </table>
             </div>
             <div class="tableChange">
-                <button id="buttonSizeTable" onclick="postTable()"><sup>⇱</sup><sub>⇲</sub></button>
-                <button id="buttonSubmitAll" onclick="getTable()"> Submit all</button>
+                <button id="buttonSizeTable" onclick="getTable()"><sup>⇱</sup><sub>⇲</sub></button>
+                <button id="buttonSubmitAll"> Submit all</button>
             </div>
         
         </div>

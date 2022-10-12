@@ -2,6 +2,7 @@
 // filtro 
 // css print media query e responsive
 // quando cambio riga, posso evitare di bloccare il tasto calcola?
+// l'id tr serve?
 
 let tableRimborso = [];
 let tableRimborsoFiltered = [];
@@ -15,8 +16,13 @@ let columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let columnSort = "date";
 let tbody = document.getElementById("inputTable");
 let filterEvent = 0;
-let idUser = 5; 
 
+let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
+let maxVitto = Number(sessionStorage.getItem("maxVitto"));
+let maxHotel = Number(sessionStorage.getItem("maxHotel"));
+let maxTreno = Number(sessionStorage.getItem("maxTreno"));
+let idUser = sessionStorage.getItem("idUser");
+console.log( maxTaxi, maxVitto, maxHotel, maxTreno, idUser);
 
 // Traduce in stringa l'approvazione del rimborso
 function approvazione(status){
@@ -194,14 +200,6 @@ function addRowObject(row){
 // Funzione che mi setta il max nel mese che posso scegliere
 // ONLOAD EVENT PAGE RIMBORSI.HTML
 function maxMonth(){
-    // Per controllo giusta assegnazione ruolo da JSON
-    // Inizio
-    let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
-    let maxVitto = Number(sessionStorage.getItem("maxVitto"));
-    let maxHotel = Number(sessionStorage.getItem("maxHotel"));
-    let maxTreno = Number(sessionStorage.getItem("maxTreno"));
-    console.log( maxTaxi, maxVitto, maxHotel, maxTreno);
-    // Fine
     let inputMonthYear = date.toISOString().split('T')[0]
     let maxMonth = inputMonthYear.match("[0-9]{4}[-][0-9]{2}");
     document.getElementById("inputMonth").setAttribute("max", maxMonth);
@@ -279,30 +277,6 @@ function deleteRow(button){
     changeButtonDisable();
 }
 
-// Session storage di chi è loggato
-function storeJSON(){
-    role = document.getElementById("inputRole").value;
-    fetch('./rimborsoMax.json')
-    .then(response => response.json())
-    .then(data => {storageRimborsoMax(data);})
-    .catch(error => console.log(error));
-}
-
-
-function storageRimborsoMax(data){
-    for(let i = 0; i < data.length; i++){
-        if(data[i].ruolo == role){
-            sessionStorage.setItem("maxTaxi", data[i].taxi)
-            sessionStorage.setItem("maxVitto", data[i].vitto)
-            sessionStorage.setItem("maxHotel", data[i].hotel)
-            sessionStorage.setItem("maxTreno", data[i].treno)
-        }
-    }
-}
-
-function goToRimborsi(){
-    location.replace("rimborsi.html");
-}
 
 function changeSizeTable(){
     if(tableIsBig){
@@ -380,9 +354,11 @@ function writeCreateTable(tableRimborso){
     tableRimborso.map(function (row, i) {
         createRowCell();
         writeCell(tbody.rows[i], row);
-        setRowsAttribute();});
-        calcolaSommaDovuto(tableRimborso);
-        document.getElementById("inputTotale").innerHTML = sum;
+        setRowsAttribute();
+        primaryKey++;
+    });
+    calcolaSommaDovuto(tableRimborso);
+    document.getElementById("inputTotale").innerHTML = sum;
 }
 
 // In teoria se non metto nulla e !filterEvent dovrebbe entrare e prendere tutto l'array
@@ -423,7 +399,7 @@ function filterTable(){
 
 function postTable(){
     console.log("%c ___ ","background-color:white;")
-    fetch(mockLink(idUser),{
+    fetch(mockLinkSpesa(idUser),{
         method: "POST",
         body: JSON.stringify(tableRimborso),
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -433,12 +409,41 @@ function postTable(){
     .catch(error => console.log(error));
 }
 
-function mockLink(idUser){
+function mockLinkSpesa(idUser){
     return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + idUser + "/spesa";
 }
+function mockLinkUser(idUser){
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + idUser;
+}
+
+// Session storage di chi è loggato
+async function login(){
+    await getRole();
+    await fetch("https://63453f7439ca915a69f9a522.mockapi.io/api/rimborsoMax")
+    .then(response => response.json())
+    .then(data => {storageRimborsoMax(data)})
+    .catch(error => console.log(error));
+    location.replace("rimborsi.html")
+
+}
+
+
+function storageRimborsoMax(data){
+    console.log(data)
+    for (const key in data) {
+        if(data[key].ruolo == role){
+            sessionStorage.setItem("maxTaxi", data[key].taxi)
+            sessionStorage.setItem("maxVitto", data[key].vitto)
+            sessionStorage.setItem("maxHotel", data[key].hotel)
+            sessionStorage.setItem("maxTreno", data[key].treno)
+        }
+    }
+}
+
+
 function getTable(){
     console.log("%c ___ ","background-color:red;")
-    fetch(mockLink(idUser),{
+    fetch(mockLinkSpesa(idUser),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
@@ -447,34 +452,82 @@ function getTable(){
     .catch(error => console.log(error));
 }
 
-function jsonToTable(obj) {
-    // for (const key in obj) {
-    //     const value = obj[key];
-    //     if (key == "id" || key == "userId"){
-    //         continue;
-    //     }
-    //     if (typeof value === 'object') {
-    //         tableRimborso.push(toArray(value)); // <- recursive call
-    //     }
-    //     else {
-    //         tableRimborso.push(value);
-    //     }
-    // }
+// function jsonToTable(obj) {
+//     tableRimborso = [];
+//     for (const key in obj) {
+//         const value = obj[key];
+//         for(const prop in value){
+//             console.log(prop)
+//             if (prop == "id" || prop == "userId"){
+//                 continue;
+//             }
+//             value[prop].primaryKey = primaryKey;
+//             tableRimborso.push(value[prop]);
+//             primaryKey++;
+//         }
+//     }
+//     console.log(tableRimborso)
+//     sortByColumn(columnSort, tableRimborso);
+//     resetTable();
+//     writeCreateTable(tableRimborso);
+// }
 
+async function getRole(){
+    console.log("%c ___ ","background-color:orange;");
+    idUser = document.getElementById("inputId").value;
+    sessionStorage.setItem("idUser", idUser);
+    await fetch(mockLinkUser(idUser),{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => {role = data.role; console.log(role)})
+    .catch(error => console.log(error));
+}
+
+
+
+
+// TEST PER SETTARE I RUOLI AGLI ID. INUTILE ADESSO
+// function patchRoleId(){
+//     console.log("%c ___ ","background-color:orange;")
+//     idUser = document.getElementById("inputId").value
+//     role = document.getElementById("inputRole").value
+//     fetch(mockLinkUser(idUser),{
+//         method: "PUT",
+//         headers: {"Content-type": "application/json; charset=UTF-8"},
+//         body: JSON.stringify(
+//             {
+//                 "role": role
+//             }
+//             )
+//     })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.log(error));
+// }
+
+// 2022-03
+function jsonToTable(obj) {
+    let yearMonth = document.getElementById("inputMonth").value
+    tableRimborso = [];
     for (const key in obj) {
         const value = obj[key];
         for(const prop in value){
             console.log(prop)
             if (prop == "id" || prop == "userId"){
-                break;
+                continue;
             }
-            value[prop].primaryKey = primaryKey;
-            tableRimborso.push(value[prop]);
-            console.log(value[prop])
-            primaryKey++;
+            let tableDate = (value[prop].date).match("[0-9]{4}[-][0-9]{2}");
+            if(yearMonth == tableDate){
+                value[prop].primaryKey = primaryKey;
+                tableRimborso.push(value[prop]);
+                primaryKey++;
+            }
         }
     }
     console.log(tableRimborso)
-    sortByColumn(columnSort, tableRimborso)
+    sortByColumn(columnSort, tableRimborso);
+    resetTable();
     writeCreateTable(tableRimborso);
 }

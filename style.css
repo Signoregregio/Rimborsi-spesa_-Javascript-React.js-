@@ -82,7 +82,7 @@ form {
 #buttonSubmitAll{
   padding: 1rem;
   width: 7rem;
-  /* display: none; */
+  display: none;
 }
 
 .deleteRow{ 
