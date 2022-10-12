@@ -9,31 +9,34 @@
 <body class="overlay">
     
     <div class="center formBox">
-        <label for="inputRole" id="role" >Inserire il proprio ruolo:</label>
-        <!-- <select id="inputRole" tabindex="1" required autofocus onchange="storeJSON()">
-            <option value disabled selected></option> 
-            <option value="Presidente">Presidente</option>
-            <option value="Manager">Manager</option>
-            <option value="Dipendente">Dipendente</option>
-            <option value="Segretaria">Segretaria</option>
-        </select> -->
-        <select id="inputId" tabindex="1" required autofocus>
-            <option value disabled selected></option> 
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-        <br><br>
-        <!-- <button onclick="patchRoleId()">††††</button> -->
-        <button class="login" type="reset">Cancel</button>
-        <button class="login" onclick="login()">Confirm</button>
+        <div class="divLogin">
+            <label for="inputRole" id="role" >Effettuare Log-in</label>
+            <!-- <select id="inputRole" tabindex="1" required autofocus onchange="storeJSON()">
+                <option value disabled selected></option> 
+                <option value="Presidente">Presidente</option>
+                <option value="Manager">Manager</option>
+                <option value="Dipendente">Dipendente</option>
+                <option value="Segretaria">Segretaria</option>
+            </select> -->
+            <select id="inputId" tabindex="1" required autofocus>
+                <option value disabled selected></option> 
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <div class="divLoginButton">
+                <!-- <button onclick="patchRoleId()">††††</button> -->
+                <button class="login" type="reset">Cancel</button>
+                <button class="login" onclick="login()">Confirm</button>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

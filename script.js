@@ -481,7 +481,7 @@ function getTable(){
 //     .catch(error => console.log(error));
 // }
 
-// 2022-03
+
 function jsonToTable(obj) {
     let yearMonth = document.getElementById("inputMonth").value
     tableRimborso = [];
