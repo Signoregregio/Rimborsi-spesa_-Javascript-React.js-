@@ -25,7 +25,7 @@
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="return setRangeDays()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
+                    <input type="month" id="inputMonth" required onchange="setRangeDays(); getTable();" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
                 </div>
                     
     
@@ -61,7 +61,7 @@
     
                 <!-- Bottoni -->
                 <div class="formBox divButton">
-                    <button id="buttonSubmit" class="command" type="button" onclick="postTable()">Submit all</button>
+                    <button id="buttonSubmit" class="command" type="button" onclick="SubmitMonthMock()">Submit all</button>
                     <button id="buttonSend" class="command" type="submit" >Calcola</button>
                     <button id="buttonChange" class="command" type="button" onclick="changeRowButton()" disabled>Cambia riga</button>
                     <button id="buttonCancel" class="command" type="reset" onclick="return resetAll()">Reset</button>
@@ -107,8 +107,9 @@
                 </table>
             </div>
             <div class="tableChange">
-                <button id="buttonSizeTable" onclick="getTable()"><sup>⇱</sup><sub>⇲</sub></button>
+                <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
                 <button id="buttonSubmitAll"> Submit all</button>
+                <button id="buttonLoad" onclick="getTable()"><i class="fa-solid fa-download"></i></i></button>
             </div>
         
         </div>

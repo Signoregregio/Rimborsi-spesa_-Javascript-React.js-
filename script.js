@@ -16,13 +16,14 @@ let columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let columnSort = "date";
 let tbody = document.getElementById("inputTable");
 let filterEvent = 0;
+let idArray = [];
 
 let maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
 let maxVitto = Number(sessionStorage.getItem("maxVitto"));
 let maxHotel = Number(sessionStorage.getItem("maxHotel"));
 let maxTreno = Number(sessionStorage.getItem("maxTreno"));
-let idUser = sessionStorage.getItem("idUser");
-console.log( maxTaxi, maxVitto, maxHotel, maxTreno, idUser);
+let userId = sessionStorage.getItem("userId");
+console.log( maxTaxi, maxVitto, maxHotel, maxTreno, userId);
 
 // Traduce in stringa l'approvazione del rimborso
 function approvazione(status){
@@ -284,12 +285,14 @@ function changeSizeTable(){
         document.getElementById("leftSide").style.display = null;
         document.getElementById("buttonSubmitAll").style.display = "none";
         document.getElementById("buttonSizeTable").style.width = null;
+        document.getElementById("buttonLoad").style.width = null;
         tableIsBig = false;
     } else {
         document.getElementById("rightSide").style.width = "100%";
         document.getElementById("leftSide").style.display = "none";
         document.getElementById("buttonSubmitAll").style.display = "inline";
         document.getElementById("buttonSizeTable").style.width = "7rem";
+        document.getElementById("buttonLoad").style.width = "7rem";
         tableIsBig = true;
     }
 }
@@ -397,34 +400,40 @@ function filterTable(){
     writeCreateTable(tableRimborsoFiltered);
 }
 
-function postTable(){
-    console.log("%c ___ ","background-color:white;")
-    fetch(mockLinkSpesa(idUser),{
-        method: "POST",
-        body: JSON.stringify(tableRimborso),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    })
-    .then(response => response.json())
-    .then(data => { console.log(data);})
-    .catch(error => console.log(error));
-}
 
-function mockLinkSpesa(idUser){
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + idUser + "/spesa";
+function mockLinkSpesa(userId){
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId + "/spesa";
 }
-function mockLinkUser(idUser){
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + idUser;
+function mockLinkUser(userId){
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId;
+}
+function mockLink(){
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/"
 }
 
 // Session storage di chi è loggato
 async function login(){
     await getRole();
-    await fetch("https://63453f7439ca915a69f9a522.mockapi.io/api/rimborsoMax")
+    await fetch(mockLink() + "rimborsoMax")
     .then(response => response.json())
     .then(data => {storageRimborsoMax(data)})
     .catch(error => console.log(error));
     location.replace("rimborsi.html")
+    
+}
 
+
+async function getRole(){
+    console.log("%c ___ ","background-color:orange;");
+    userId = document.getElementById("inputId").value;
+    sessionStorage.setItem("userId", userId);
+    await fetch(mockLinkUser(userId),{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => {role = data.role; console.log(role)})
+    .catch(error => console.log(error));
 }
 
 
@@ -443,7 +452,7 @@ function storageRimborsoMax(data){
 
 function getTable(){
     console.log("%c ___ ","background-color:red;")
-    fetch(mockLinkSpesa(idUser),{
+    fetch(mockLinkSpesa(userId),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
@@ -452,48 +461,13 @@ function getTable(){
     .catch(error => console.log(error));
 }
 
-// function jsonToTable(obj) {
-//     tableRimborso = [];
-//     for (const key in obj) {
-//         const value = obj[key];
-//         for(const prop in value){
-//             console.log(prop)
-//             if (prop == "id" || prop == "userId"){
-//                 continue;
-//             }
-//             value[prop].primaryKey = primaryKey;
-//             tableRimborso.push(value[prop]);
-//             primaryKey++;
-//         }
-//     }
-//     console.log(tableRimborso)
-//     sortByColumn(columnSort, tableRimborso);
-//     resetTable();
-//     writeCreateTable(tableRimborso);
-// }
-
-async function getRole(){
-    console.log("%c ___ ","background-color:orange;");
-    idUser = document.getElementById("inputId").value;
-    sessionStorage.setItem("idUser", idUser);
-    await fetch(mockLinkUser(idUser),{
-        method: "GET",
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    })
-    .then(response => response.json())
-    .then(data => {role = data.role; console.log(role)})
-    .catch(error => console.log(error));
-}
-
-
-
 
 // TEST PER SETTARE I RUOLI AGLI ID. INUTILE ADESSO
 // function patchRoleId(){
 //     console.log("%c ___ ","background-color:orange;")
-//     idUser = document.getElementById("inputId").value
+//     userId = document.getElementById("inputId").value
 //     role = document.getElementById("inputRole").value
-//     fetch(mockLinkUser(idUser),{
+//     fetch(mockLinkUser(userId),{
 //         method: "PUT",
 //         headers: {"Content-type": "application/json; charset=UTF-8"},
 //         body: JSON.stringify(
@@ -514,11 +488,10 @@ function jsonToTable(obj) {
     for (const key in obj) {
         const value = obj[key];
         for(const prop in value){
-            console.log(prop)
             if (prop == "id" || prop == "userId"){
                 continue;
             }
-            let tableDate = (value[prop].date).match("[0-9]{4}[-][0-9]{2}");
+            let tableDate = value[prop].date.match("[0-9]{4}[-][0-9]{2}");
             if(yearMonth == tableDate){
                 value[prop].primaryKey = primaryKey;
                 tableRimborso.push(value[prop]);
@@ -530,4 +503,72 @@ function jsonToTable(obj) {
     sortByColumn(columnSort, tableRimborso);
     resetTable();
     writeCreateTable(tableRimborso);
+}
+
+  
+async function SubmitMonthMock(){
+    idArray = await getIdMock();
+    console.log("%c ___ ","background-color:brown;")
+    await deleteMockByUserId(idArray)
+    idArray = [];
+    postTable();
+}
+
+async function deleteMockByUserId(idArray){
+    for(const element of idArray){
+        await fetch(mockLinkSpesa(userId) + "/" + element, {
+        method: "DELETE",
+        headers: {
+                'Content-type': 'application/json'
+            }
+      })
+    .then(response => { return response.json()})
+    .then(data => console.log(data) 
+    );
+    };
+}
+
+
+function findIdMonthMock(obj){
+    let yearMonth = document.getElementById("inputMonth").value
+    console.log(yearMonth)
+    for (const key in obj) {
+        const value = obj[key];
+        if(value.userId == userId){
+            for (const prop in value) {
+                let tableDate = value[prop].date.match("[0-9]{4}[-][0-9]{2}");
+                if(tableDate == yearMonth){
+                    idArray.push(value.id);
+                }
+                break;
+            }
+        }
+        continue;
+    }
+}
+
+
+async function getIdMock(){
+    console.log("%c ___ ","background-color:red;")
+    await fetch(mockLinkSpesa(userId),{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => findIdMonthMock(data))
+    .catch(error => console.log(error));
+    console.log(idArray)
+    return idArray;
+}
+
+function postTable(){
+    console.log("%c ___ ","background-color:white;")
+    fetch(mockLinkSpesa(userId),{
+        method: "POST",
+        body: JSON.stringify(tableRimborso),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => { console.log(data);})
+    .catch(error => console.log(error));
 }
