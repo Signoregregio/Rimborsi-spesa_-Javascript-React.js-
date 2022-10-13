@@ -68,6 +68,11 @@ form {
   height: 2rem;
 }
 
+.flexbox{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 #leftSide {
   width: 40%;
   padding: 1rem;
@@ -77,9 +82,45 @@ form {
   border-radius: 1.25rem;
 }
 
-.flexbox{
-  display: flex;
-  flex-wrap: wrap;
+.formBox{
+  padding: 1rem;
+  clear: both;
+  position: relative;
+}
+
+.formBox input {
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.25rem 1rem;
+}
+
+input:disabled {
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
+}
+
+.formBox select {
+  font-size: 1rem;
+  width: 18.75rem;
+  padding: 0.25rem 1rem;
+}
+
+.formBox option{
+  font-size: 1rem;
+  width: 18.75rem;
+  padding: 0.25rem 1rem;
+}
+
+.formBox label{
+  font-size: 1rem;
+  float: left;
+  width: 6.25rem;
+  margin-right: 1.25rem;
+}
+
+.formBox button{    
+  margin: 1rem 2.5rem;
 }
 
 #rightSide{
@@ -147,47 +188,6 @@ tfoot > tr{
 
 tbody > tr:hover td {
   background-color: var(--colorHover);
-}
-
-.formBox{
-  padding: 1rem;
-  clear: both;
-  position: relative;
-}
-
-.formBox input {
-  font-size: 1rem;
-  width: 300px;
-  padding: 0.25rem 1rem;
-}
-
-input:disabled {
-  background-color: var(--colorBorder);
-  border-color: var(--colorBorder);
-  color: var(--colorText);
-}
-
-.formBox select {
-  font-size: 1rem;
-  width: 18.75rem;
-  padding: 0.25rem 1rem;
-}
-
-.formBox option{
-  font-size: 1rem;
-  width: 18.75rem;
-  padding: 0.25rem 1rem;
-}
-
-.formBox label{
-  font-size: 1rem;
-  float: left;
-  width: 6.25rem;
-  margin-right: 1.25rem;
-}
-
-.formBox button{    
-  margin: 1rem 2.5rem;
 }
 
 #divProgressBar{
@@ -299,7 +299,7 @@ button:disabled {
     margin: 0.2rem 1rem;
   }  
 
-  .overlay > .center {
+  .overlay > .loginPageCenter {
     margin: auto;
   }
   
@@ -375,7 +375,7 @@ button:disabled {
   }
 
 /* che è sta roba */
-  .overlay > .center{
+  .overlay > .loginPageCenter{
     width: 94vw;
     margin: 0px;
     top: 20%;
