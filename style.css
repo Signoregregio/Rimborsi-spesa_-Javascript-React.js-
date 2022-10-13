@@ -33,9 +33,11 @@ form {
 }
 
 .overlay{
-  position:fixed;
+  display: flex;
+  justify-content: center;
   width:100%;
   height:100%;
+  margin: 0;
 }
 
 /* login-page--center */
@@ -43,7 +45,6 @@ form {
   text-align: center;
   position: absolute;
   padding: 2rem;
-  top: 30%;
   width: 30rem;
   height: 20rem;
   margin: auto;
@@ -51,18 +52,24 @@ form {
   border-radius: 1.25rem;
   background-color: var(--colorBackgroundForm);
   display: flex;
-  flex-wrap: wrap;
+  align-content: center;
 }
 
 .divLogin{
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .divLoginButton{
-  flex-basis: 100%;
   margin-top: 2rem;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
-
+ 
 #inputId{
   width: 18rem;
   height: 2rem;
@@ -374,32 +381,21 @@ button:disabled {
     width: 95vw;
   }
 
-/* che è sta roba */
-  .overlay > .loginPageCenter{
+  .loginPageCenter{
     width: 94vw;
-    margin: 0px;
-    top: 20%;
-    margin: 0px;
-  }
-
-  /* home page */
-  .formBox > .login {
-    margin: 4rem 1.7rem;
+    height: 40vh;
   }
 
   #role {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   #inputId {
     width: 15rem;
-    padding: 1rem;
+    height: 2.5rem;
   }
-  
-  .divLogin{
-    overflow: hidden;
-  }
+
   /* Posso cambiare height */
   #leftSide {
     height: 100%;
