@@ -1,12 +1,12 @@
 :root{
   --color1: black;
   --colorBackgroundForm: #26282c;
-  --colorTh:rgba(40, 40, 40, 0.66);
+  --colorTh:rgba(40, 40, 40, 1);
   --colorTbody:#373636;
   --colorHover:#4d3e3e;
   --colorBorder:#59585b;
   --colorText: #ddd;
-  --colorTfoot: #4d3e3e8e;
+  --colorTfoot: #4d3e3e;
   --colorbar: #8754de;
   --colorTextBar: greenyellow;
   --colorBackgroundBar: #222222;
@@ -20,11 +20,7 @@ body {
   background-color:var(--color1);
   font:normal 20px/1.5 sans-serif;
   color: var(--colorText);
-}
-
-.flexbox{
-  display: flex;
-  flex-wrap: wrap;
+  background-image: url("7jSe14i.jpeg");
 }
 
 h2 {
@@ -36,12 +32,14 @@ form {
   width: auto;
 }
 
-/* button-login */
-.login {
-  width: fit-content;
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
 }
+
 /* login-page--center */
-.center{
+.loginPageCenter{
   text-align: center;
   position: absolute;
   padding: 2rem;
@@ -69,11 +67,6 @@ form {
   width: 18rem;
   height: 2rem;
 }
-.overlay{
-  position:fixed;
-  width:100%;
-  height:100%;
-}
 
 #leftSide {
   width: 40%;
@@ -82,6 +75,11 @@ form {
   background-color: var(--colorBackgroundForm);
   border: 3px solid var(--colorBorder);
   border-radius: 1.25rem;
+}
+
+.flexbox{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #rightSide{
