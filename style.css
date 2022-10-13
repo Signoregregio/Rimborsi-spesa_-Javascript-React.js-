@@ -32,6 +32,39 @@ form {
   width: auto;
 }
 
+button {
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 0.8rem 1.4rem;
+  background-color: var(--colorText);
+  border: 1px solid var(--colorBorder);
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-block;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+}
+
+button:focus-visible {
+  box-shadow: var(--colorBorder) 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+button:active {
+  background-color: #F7F7F7;
+  border-color: var(--colorBorder);
+  transform: scale(.96);
+}
+
+button:disabled {
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
+  cursor: not-allowed;
+}
+
 .overlay{
   display: flex;
   justify-content: center;
@@ -43,7 +76,6 @@ form {
 /* login-page--center */
 .loginPageCenter{
   text-align: center;
-  position: absolute;
   padding: 2rem;
   width: 30rem;
   height: 20rem;
@@ -62,6 +94,11 @@ form {
   justify-content: center;
 }
 
+#inputId{
+  width: 18rem;
+  height: 2rem;
+}
+
 .divLoginButton{
   margin-top: 2rem;
   flex-basis: 100%;
@@ -69,19 +106,16 @@ form {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
- 
-#inputId{
-  width: 18rem;
-  height: 2rem;
-}
 
+/* Inizio pagina rimborsi */
 .flexbox{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 #leftSide {
-  width: 40%;
+  width: 35%;
   padding: 1rem;
   height:fit-content;
   background-color: var(--colorBackgroundForm);
@@ -90,15 +124,14 @@ form {
 }
 
 .formBox{
-  padding: 1rem;
-  clear: both;
-  position: relative;
+  padding: 2rem;
 }
 
 .formBox input {
   font-size: 1rem;
   width: 300px;
-  padding: 0.25rem 1rem;
+  padding: 0.3rem 1rem;
+  text-align: center;
 }
 
 input:disabled {
@@ -107,36 +140,40 @@ input:disabled {
   color: var(--colorText);
 }
 
-.formBox select {
+.formBox select,
+.formBox option {
   font-size: 1rem;
   width: 18.75rem;
-  padding: 0.25rem 1rem;
-}
-
-.formBox option{
-  font-size: 1rem;
-  width: 18.75rem;
-  padding: 0.25rem 1rem;
+  padding: 0.3rem 1rem;
+  text-align: center;
 }
 
 .formBox label{
-  font-size: 1rem;
   float: left;
   width: 6.25rem;
   margin-right: 1.25rem;
 }
 
 .formBox button{    
-  margin: 1rem 2.5rem;
+  margin: 1rem 0.5rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.divButton{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly; 
+  margin: auto;
 }
 
 #rightSide{
-  width: 60%;
+  width: 65%;
   padding: 1rem;
   height: 100%;
 }
 
-.tableChange {
+.divTableChange {
   position: sticky;
   top: 20%;
   width: 6%;
@@ -157,10 +194,6 @@ input:disabled {
 
 #buttonLoad {
   padding: 1rem;
-}
-
-.deleteRow{ 
-  padding: 0.6rem 1rem;
 }
 
 /* TABLE  */
@@ -195,6 +228,10 @@ tfoot > tr{
 
 tbody > tr:hover td {
   background-color: var(--colorHover);
+}
+
+.deleteRow{ 
+  padding: 0.6rem 1rem;
 }
 
 #divProgressBar{
@@ -239,62 +276,20 @@ tbody > tr:hover td {
   padding-right: 0.5rem;
 }
 
-.divButton{
-  width: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; 
-  margin: auto;
-}
-
-button {
-  width: fit-content;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 0.8rem 1.4rem;
-  background-color: var(--colorText);
-  border: 1px solid var(--colorBorder);
-  cursor: pointer;
-  border-radius: 8px;
-  display: inline-block;
-  touch-action: manipulation;
-  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-}
-
-button:focus-visible {
-  box-shadow: var(--colorBorder) 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
-  transition: box-shadow .2s;
-}
-
-button:active {
-  background-color: #F7F7F7;
-  border-color: var(--colorBorder);
-  transform: scale(.96);
-}
-
-button:disabled {
-  background-color: var(--colorBorder);
-  border-color: var(--colorBorder);
-  color: var(--colorText);
-  cursor: not-allowed;
-}
 
 @media screen and (max-width: 62rem) {
-  .flexbox{
-    width: 97vw;
+  form {
+    margin: 2rem 0.5rem;
+  }
+  
+  .overlay > .loginPageCenter {
+    margin: auto;
   }
 
   #leftSide {
     width: 100%;
-    padding: 5px 3px;
-    overflow: hidden;
   }
   
-  form {
-    margin: 2rem 0.5rem;
-  }
-
   #formUser{
     display: flex;
     flex-wrap: wrap;
@@ -306,10 +301,6 @@ button:disabled {
     margin: 0.2rem 1rem;
   }  
 
-  .overlay > .loginPageCenter {
-    margin: auto;
-  }
-  
   .formBox input,
   .formBox select {    
     width: 12rem;
@@ -322,15 +313,34 @@ button:disabled {
   .formBox button{    
     margin: 1rem 1.3rem;
   }
+
+  #inputRicevuta{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
   
   .divButton{
     margin-top: 1rem;
     width: 19rem;
     flex-basis: 100%;
   }
-  
-  .tableChange{
-    top: 5%;
+
+  #rightSide {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.6rem 0px;
+  }
+
+  .table {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    min-height: .01%;
+  }
+
+  .divTableChange{
+    margin-top: 1rem;
     display: flex;
     width: 100%;
     justify-content: space-around;
@@ -348,6 +358,7 @@ button:disabled {
     margin-top: 2rem;
     margin-bottom: 1rem;
     height: 5rem;
+    min-width: 7rem;
   }
   
   #buttonLoad{
@@ -357,19 +368,6 @@ button:disabled {
     height: 5rem;
   }
 
-  #rightSide {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0.6rem 0px;
-  }
-
-  .table {
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-    min-height: .01%;
-  }
   #divProgressBar{
     width: 100%;
   }
@@ -377,13 +375,11 @@ button:disabled {
 
 /* Molte regole sono definite in max width 60rem */
 @media screen and (max-width: 38rem) {
-  .flexbox{
-    width: 95vw;
-  }
-
   .loginPageCenter{
-    width: 94vw;
-    height: 40vh;
+    width: 95%;
+  }
+  .divLoginButton button{
+    padding: 1rem 1.7rem !important;
   }
 
   #role {
@@ -396,6 +392,10 @@ button:disabled {
     height: 2.5rem;
   }
 
+  .flexbox{
+    width: 95vw;
+  }
+
   /* Posso cambiare height */
   #leftSide {
     height: 100%;
@@ -404,15 +404,24 @@ button:disabled {
   }
   
   .formBox{
-    margin: auto;
+    text-align: center;
   }  
   
   .formBox button{    
     margin: 1rem 0.5rem;
+    height: 4rem;
+    min-width: 7rem;
   }
+
   .formBox input,
   .formBox select {    
     width: 15rem;
+    padding: 0.5rem;
+  }
+
+  .formBox label {
+    float: unset;
+    width: 100%;
   }
 }
 
@@ -423,7 +432,7 @@ button:disabled {
   #leftSide,
   #inputFilter,
   #inputTypeFilter,
-  .tableChange,
+  .divTableChange,
   .deleteRow {
     display: none;
   }
