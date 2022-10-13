@@ -8,7 +8,7 @@
   --colorText: #ddd;
   --colorTfoot: #4d3e3e8e;
   --colorbar: #8754de;
-  --colorTextBar: black;
+  --colorTextBar: greenyellow;
   --colorBackgroundBar: #222222;
 }
 
@@ -192,7 +192,8 @@ input:disabled {
   margin: 1rem 2.5rem;
 }
 
-.divProgressBar{
+#divProgressBar{
+  display: none;
   margin-top: 3rem;
   height: 5rem;
   width: 90%;
@@ -202,9 +203,10 @@ input:disabled {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   background-color: var(--colorBackgroundForm);
+
 }
 
-.progressBar{
+#progressBar{
   border: 2px solid var(--colorBorder);
   border-bottom: 5px solid var(--colorBorder);
   height: 3rem;
@@ -218,6 +220,8 @@ input:disabled {
   padding-top: 0.38rem;
   background-color: var(--colorbar);
   color: var(--colorTextBar);
+  overflow-x: visible;
+  white-space: nowrap;
 }
 
 #progressStart{
@@ -361,7 +365,7 @@ button:disabled {
     width: 100%;
     min-height: .01%;
   }
-  .divProgressBar{
+  #divProgressBar{
     width: 100%;
   }
 }
@@ -434,7 +438,7 @@ button:disabled {
     width: 100%;
   }
   .table,
-  .divProgressBar{
+  #divProgressBar{
     float:none;
     width: 100%;
   }

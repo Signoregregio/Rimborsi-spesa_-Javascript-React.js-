@@ -258,14 +258,15 @@ function resetTable(){
     while(tbody.hasChildNodes()){
         tbody.deleteRow(0);
     }
+    document.getElementById("divProgressBar").style.display = "none";
 }
 
 function resetAll(){
     resetMonth();
     tableRimborso = [];
-    resetTable();
     calcolaSommaDovuto(tableRimborso);
     progressBar();
+    resetTable();
     document.getElementById("inputTotale").innerHTML = sum;
     document.getElementById("inputFilter").disabled = true;
     changeButtonDisable();
@@ -580,13 +581,17 @@ function postTable(){
 }
 
 function progressBar() {
-    console.log("ciao")
+    document.getElementById("divProgressBar").style.display = "inline";
     end = document.getElementById("progressEnd")
     actual = document.getElementById("progressActual")
     barInside = document.getElementById("progressBarInside")
-
-    end.innerHTML = sumImporto;
-    actual.innerHTML = sum;
-    percentual = (sum/sumImporto) * 100;
-    barInside.style.width = percentual + '%'
+    bar = document.getElementById("progressBar")
+    if(sumImporto != 0){
+        end.innerHTML = sumImporto + '€';
+        barInside.innerHTML = sum + ' € / ' + sumImporto + ' €';
+        percentual = (sum/sumImporto) * 100;
+        barInside.style.width = percentual + '%'
+    } else {
+       document.getElementById("divProgressBar").style.display = "none";
+    }
 }
