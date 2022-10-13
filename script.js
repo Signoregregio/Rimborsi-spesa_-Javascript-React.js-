@@ -12,6 +12,7 @@ let tr;
 let date = new Date;
 let tableIsBig = false;
 let sum = 0;
+let sumImporto = 0;
 let columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let columnSort = "date";
 let tbody = document.getElementById("inputTable");
@@ -77,10 +78,12 @@ function gestisciImportiDovuti(row){
 
 
 function calcolaSommaDovuto(tableRimborso){  
-    sum = tableRimborso.reduce((accumulator, current) => 
+    sum = tableRimborso.reduce((accumulator, current) =>  
         accumulator + current.dovuto, 0);
+    sumImporto = tableRimborso.reduce((accumulator, current) =>  
+        accumulator + Number(current.importo), 0);
     sum = sum.toFixed(2);
-    return sum;
+    sumImporto = sumImporto.toFixed(2);
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
@@ -262,6 +265,7 @@ function resetAll(){
     tableRimborso = [];
     resetTable();
     calcolaSommaDovuto(tableRimborso);
+    progressBar();
     document.getElementById("inputTotale").innerHTML = sum;
     document.getElementById("inputFilter").disabled = true;
     changeButtonDisable();
@@ -349,6 +353,7 @@ function writeTable(tableRimborso){
     tableRimborso.map(function (row, i) {
         writeCell(tbody.rows[i], row)});  
     calcolaSommaDovuto(tableRimborso);
+    progressBar();
     document.getElementById("inputTotale").innerHTML = sum;
 }
 
@@ -361,6 +366,7 @@ function writeCreateTable(tableRimborso){
         primaryKey++;
     });
     calcolaSommaDovuto(tableRimborso);
+    progressBar();
     document.getElementById("inputTotale").innerHTML = sum;
 }
 
@@ -571,4 +577,16 @@ function postTable(){
     .then(response => response.json())
     .then(data => { console.log(data);})
     .catch(error => console.log(error));
+}
+
+function progressBar() {
+    console.log("ciao")
+    end = document.getElementById("progressEnd")
+    actual = document.getElementById("progressActual")
+    barInside = document.getElementById("progressBarInside")
+
+    end.innerHTML = sumImporto;
+    actual.innerHTML = sum;
+    percentual = (sum/sumImporto) * 100;
+    barInside.style.width = percentual + '%'
 }

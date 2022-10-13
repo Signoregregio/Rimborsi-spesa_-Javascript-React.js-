@@ -1,12 +1,15 @@
 :root{
   --color1: black;
-  --colorBackgroundForm: rgba(40, 40, 40, 0.66);
+  --colorBackgroundForm: #26282c;
   --colorTh:rgba(40, 40, 40, 0.66);
-  --colorTbody:rgb(51, 51, 51);
+  --colorTbody:#373636;
   --colorHover:#4d3e3e;
-  --colorBorder:rgba(80, 80, 80, 1);
+  --colorBorder:#59585b;
   --colorText: #ddd;
   --colorTfoot: #4d3e3e8e;
+  --colorbar: #8754de;
+  --colorTextBar: black;
+  --colorBackgroundBar: #222222;
 }
 
 * {
@@ -33,15 +36,16 @@ form {
   width: auto;
 }
 
+/* button-login */
 .login {
   width: fit-content;
 }
-
+/* login-page--center */
 .center{
   text-align: center;
   position: absolute;
   padding: 2rem;
-  top: 40%;
+  top: 30%;
   width: 30rem;
   height: 20rem;
   margin: auto;
@@ -53,7 +57,7 @@ form {
 }
 
 .divLogin{
-  margin: 4rem 2rem;
+  margin: auto;
 }
 
 .divLoginButton{
@@ -188,6 +192,44 @@ input:disabled {
   margin: 1rem 2.5rem;
 }
 
+.divProgressBar{
+  margin-top: 3rem;
+  height: 5rem;
+  width: 90%;
+  float:right;
+  color: var(--colorText);
+  border: 3px solid var(--colorBorder);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background-color: var(--colorBackgroundForm);
+}
+
+.progressBar{
+  border: 2px solid var(--colorBorder);
+  border-bottom: 5px solid var(--colorBorder);
+  height: 3rem;
+  background-color: var(--colorBackgroundBar);
+}
+
+#progressBarInside{
+  width: 20%;
+  height: 2.56rem;
+  text-align: center;
+  padding-top: 0.38rem;
+  background-color: var(--colorbar);
+  color: var(--colorTextBar);
+}
+
+#progressStart{
+  float: left;
+  padding-left: 0.5rem;
+}
+
+#progressEnd{
+  float: right;
+  padding-right: 0.5rem;
+}
+
 .divButton{
   width: auto;
   display: flex;
@@ -255,24 +297,17 @@ button:disabled {
     margin: 0.2rem 1rem;
   }  
 
-.overlay > .center {
-  margin: auto;
-}
-  
-  .formBox input {
-    width: 11rem;
+  .overlay > .center {
+    margin: auto;
   }
   
-  .formBox select {
-    width: 11rem;
+  .formBox input,
+  .formBox select {    
+    width: 12rem;
   }
-  
-  .formBox option{
-    width: 11rem;
-  }
-  
+
   .formBox label{
-    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
   }
   
   .formBox button{    
@@ -326,20 +361,22 @@ button:disabled {
     width: 100%;
     min-height: .01%;
   }
+  .divProgressBar{
+    width: 100%;
+  }
 }
 
-
+/* Molte regole sono definite in max width 60rem */
 @media screen and (max-width: 38rem) {
   .flexbox{
     width: 95vw;
   }
 
 /* che è sta roba */
-  .center{
+  .overlay > .center{
     width: 94vw;
     margin: 0px;
-  }
-  .overlay > .center {
+    top: 20%;
     margin: 0px;
   }
 
@@ -349,10 +386,18 @@ button:disabled {
   }
 
   #role {
-    width: 10rem;
+    width: 100%;
     margin-bottom: 1rem;
   }
-  .divLogin
+
+  #inputId {
+    width: 15rem;
+    padding: 1rem;
+  }
+  
+  .divLogin{
+    overflow: hidden;
+  }
   /* Posso cambiare height */
   #leftSide {
     height: 100%;
@@ -366,6 +411,10 @@ button:disabled {
   
   .formBox button{    
     margin: 1rem 0.5rem;
+  }
+  .formBox input,
+  .formBox select {    
+    width: 15rem;
   }
 }
 
@@ -382,6 +431,11 @@ button:disabled {
   }
   #rightSide,
   #tableForm {
+    width: 100%;
+  }
+  .table,
+  .divProgressBar{
+    float:none;
     width: 100%;
   }
 }

@@ -25,7 +25,7 @@
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="setRangeDays(); getTable();" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
+                    <input type="month" id="inputMonth"  max="2022-10" required onchange="setRangeDays(); getTable()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
                 </div>
                     
     
@@ -109,9 +109,17 @@
             <div class="tableChange">
                 <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
                 <button id="buttonSubmitAll"> Submit all</button>
-                <button id="buttonLoad" onclick="getTable()"><i class="fa-solid fa-download"></i></i></button>
+                <!-- <button id="buttonLoad" onclick="getTable()"><i class="fa-solid fa-download"></i></i></button> -->
+                <button id="buttonLoad" onclick="progressBar()"><i class="fa-solid fa-download"></i></i></button>
             </div>
-        
+            <div class="divProgressBar">
+                <div class="progressBar">
+                    <div id="progressBarInside">
+                        <span id="progressActual"></span>
+                    </div>
+                </div>
+                <span id="progressStart">0€</span><span id="progressEnd">4€</span>
+            </div>
         </div>
     </div>
     
