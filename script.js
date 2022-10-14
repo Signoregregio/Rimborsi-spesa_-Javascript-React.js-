@@ -30,15 +30,14 @@ function newRow() {
     document.getElementById("inputMonth").disabled = true;
     let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
     addRowObject(row);
-    filterEvent == 0 ?  addRowValue() : addRowValueFiltered();
+    filterEvent == 0 ?  addRowValue() : filterTable();
     console.log(tableRimborso);
     return false;
 }
 
-function addRowValueFiltered(){
-    filterTable();
+function filterTable(){
+    filterArray();
     resetTable();
-    sortByColumn(columnSort, tableRimborsoFiltered);
     writeCreateTable(tableRimborsoFiltered);
 }
 
@@ -157,7 +156,7 @@ function calcolaSommaDovuto(tableRimborso) {
 }
 
 
-function filterTable() {
+function filterArray() {
     document.getElementById("inputFilter").disabled = false;
     let value = document.getElementById("inputFilter").value;
     let filterType = document.getElementById("inputTypeFilter").value
@@ -301,17 +300,8 @@ function changeRowButton() {
         index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
     }
     arrayGetValue(tableRimborso[index]);
-
-    if (filterEvent) {
-        filterTable();
-        resetTable();
-        sortByColumn(columnSort, tableRimborsoFiltered);
-        writeCreateTable(tableRimborsoFiltered);
-    }
-    if (!filterEvent) {
-        sortByColumn(columnSort, tableRimborso);
-        writeTable(tableRimborso);
-    }
+    sortByColumn(columnSort, tableRimborso);
+    filterEvent ? filterTable() : writeTable(tableRimborso)
     changeButtonDisable();
 }
 
@@ -324,6 +314,7 @@ function resetAll() {
     resetTable();
     document.getElementById("inputTotale").innerHTML = sum;
     document.getElementById("inputFilter").disabled = true;
+    document.getElementById("inputFilter").value = "";
     changeButtonDisable();
 }
 
@@ -339,8 +330,7 @@ function deleteRow(button) {
     primaryKey = filterEvent ? tableRimborsoFiltered[index].primaryKey : tableRimborso[index].primaryKey;
     tableRimborso = tableRimborso.filter(row => row.primaryKey != primaryKey);
     resetTable();
-    filterTable()
-    filterEvent ? writeCreateTable(tableRimborsoFiltered) : writeCreateTable(tableRimborso);
+    filterEvent ? filterTable() : writeCreateTable(tableRimborso);
     changeButtonDisable();
 }
 
