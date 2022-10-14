@@ -20,12 +20,12 @@
     
             <!-- Inizio della form con i vari inputs 
             Type, Date importo e ricevuta  -->
-            <form id="formUser" onsubmit="return addNewRow()">
+            <form id="formUser" onsubmit="return newRow()">
                 
                 <!-- Month -->
                 <div class="formBox">
                     <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth"  max="2022-10" required onchange="setRangeDays(); getTable()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
+                    <input type="month" id="inputMonth" required onchange="setRangeDays(); getTable()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
                 </div>
                     
     
