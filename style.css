@@ -21,7 +21,7 @@ body {
   background-color:var(--color1);
   font:normal 20px/1.5 sans-serif;
   color: var(--colorText);
-  background-image: url("7jSe14i.jpeg");
+  background-image: url("./files/7jSe14i.jpeg");
 }
 
 h2 {
@@ -435,16 +435,20 @@ tbody > tr:hover td {
   #inputFilter,
   #inputTypeFilter,
   .divTableChange,
-  .deleteRow {
+  .deleteRow,
+  #divProgressBar,
+  #progressBar,
+  #progressBarInside,
+  #progressActual, 
+  #progressStart, 
+  #progressEnd {
     display: none;
   }
   #rightSide,
   #tableForm {
     width: 100%;
   }
-  .table,
-  #divProgressBar{
-    float:none;
+  .table {
     width: 100%;
   }
 }

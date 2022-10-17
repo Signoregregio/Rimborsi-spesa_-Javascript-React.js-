@@ -1,7 +1,3 @@
-<!--
-    fare il css dinamico
- -->
-
  <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -9,10 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rimborsi</title>
         <link rel="stylesheet" type="text/css" href="style.css">
-        <script type="text/javascript" src="rimborsoMax.json"></script>
         <script src="https://kit.fontawesome.com/3b6b16d411.js" crossorigin="anonymous"></script>
     </head>
-    <body onload="return maxMonth()">
+    <body onload="return loadingConfiguration()" >
     <div class="flexbox">
         <!-- Lato sx dell'html -->
         <div id="leftSide">
@@ -115,7 +110,6 @@
                 <div id="progressBar">
                     <div id="progressBarInside">
                         <span id="progressActual"></span>
-
                     </div>
                 </div>
                 <span id="progressStart">0.00 €</span><span id="progressEnd"></span>
@@ -123,6 +117,10 @@
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script src="createTable.js"></script>
+    <script src="approvationRules.js"></script>
+    <script src="dateSetting.js"></script>
+    <script src="fetch.js"></script>
+    <script src="modifyTable.js"></script>
 </body>
 </html>
