@@ -1,9 +1,10 @@
 // filtro 
 // quando cambio riga, posso evitare di bloccare il tasto calcola?
 // l'id tr serve?
+//amount payable
 
-let tableRimborso = [];
-let tableRimborsoFiltered = [];
+let tableListRimborso = [];
+let tableListRimborsoFiltered = [];
 let primaryKey = 0;
 let role;
 let tr;
@@ -30,21 +31,21 @@ function newRow() {
     document.getElementById("inputMonth").disabled = true;
     let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
     addRowObject(row);
-    filterEvent == 0 ?  addRowValue() : filterTable();
-    console.log(tableRimborso);
+    filterEvent == 0 ?  addRowToTable() : filterTable();
+    console.log(tableListRimborso);
     return false;
 }
 
 function filterTable(){
     filterArray();
     resetTable();
-    writeCreateTable(tableRimborsoFiltered);
+    writeCreateTable(tableListRimborsoFiltered);
 }
 
 function addRowObject(row) {
     arrayGetValue(row);
-    tableRimborso.push(row);
-    sortByColumn(columnSort, tableRimborso);
+    tableListRimborso.push(row);
+    sortByColumn(columnSort, tableListRimborso);
 }
 
 function arrayGetValue(row) {
@@ -56,12 +57,12 @@ function arrayGetValue(row) {
     row.dovuto  = Number(gestisciImportiDovuti(row));
 }
 
-function sortByColumn (columnSort, tableRimborso) {
+function sortByColumn (columnSort, tableListRimborso) {
     console.log("%c sort by","background-color:yellow;color:blue;")
     console.log(columnSort)
     let sortedAsc;
     if (columnSort  == "date") {
-        sortedAsc = tableRimborso.sort(function(a, b) {
+        sortedAsc = tableListRimborso.sort(function(a, b) {
         let aa = a.date.split('-').join();
         let bb = b.date.split('-').join();
         return aa < bb ? -1 : (aa > bb ? 1 : 0);
@@ -69,38 +70,38 @@ function sortByColumn (columnSort, tableRimborso) {
     }
     
     if (columnSort  == "type") {
-        sortedAsc = tableRimborso.sort((a, b) =>
+        sortedAsc = tableListRimborso.sort((a, b) =>
              ('' + a.type).localeCompare(b.type)) 
     }
 
     if (columnSort  == "importo") {
-        sortedAsc = tableRimborso.sort((a, b) =>
+        sortedAsc = tableListRimborso.sort((a, b) =>
              Number(a.importo) - Number(b.importo)
         );
     }
     if (columnSort  == "ricevuta") {
-        sortedAsc = tableRimborso.sort((a, b)  =>
+        sortedAsc = tableListRimborso.sort((a, b)  =>
             ('' + a.ricevuta).localeCompare(b.ricevuta)
         )
     }
     if (columnSort  == "stato") {
-        sortedAsc = tableRimborso.sort((a, b)   =>
+        sortedAsc = tableListRimborso.sort((a, b)   =>
             ('' + a.stato).localeCompare(b.stato)
         )
     }
     
     if (columnSort  == "dovuto") {
-        sortedAsc = tableRimborso.sort((a, b) =>
+        sortedAsc = tableListRimborso.sort((a, b) =>
             Number(a.dovuto) - Number(b.dovuto)
         );
     }
 }
 
 
-function addRowValue() {
+function addRowToTable() {
     createRowCell();
     setRowsAttribute();
-    writeTable(tableRimborso);
+    writeTable(tableListRimborso);
 }
 
 function createRowCell() {
@@ -111,21 +112,21 @@ function createRowCell() {
 }
 
 function setRowsAttribute() {  
-    tr.setAttribute("id", primaryKey);
     for (let i = 0; i < 6; i++) {
         tr.cells[i].setAttribute("onclick", "activateChangeStatusEvent(this)");
     }
 }
 
-function writeTable(tableRimborso) {
-    tableRimborso.map(function (row, i) {
-        writeCell(tbody.rows[i], row)});  
-    calcolaSommaDovuto(tableRimborso);
+function writeTable(tableListRimborso) {
+    tableListRimborso.map(function (row, i) {
+        writeRowCells(tbody.rows[i], row)
+    });  
+    calcolaSommaDovuto(tableListRimborso);
     progressBar();
     document.getElementById("inputTotale").innerHTML = sum;
 }
 
-function writeCell(tr, row) { 
+function writeRowCells(tr, row) { 
     tr.cells[0].innerHTML = translateDay(row.date);
     tr.cells[1].innerHTML = row.type;
     tr.cells[2].innerHTML = row.importo;
@@ -146,10 +147,12 @@ function translateDay(date) {
     return nameDay + " " + day + "/" + month + "/" + year;
 }
 
-function calcolaSommaDovuto(tableRimborso) {  
-    sum = tableRimborso.reduce((accumulator, current) =>  
+//calcola sumimporto!!! cambiare nome, fare due funzioni non ha senso
+// calculateSumAmount
+function calcolaSommaDovuto(tableListRimborso) {  
+    sum = tableListRimborso.reduce((accumulator, current) =>  
         accumulator + current.dovuto, 0);
-    sumImporto = tableRimborso.reduce((accumulator, current) =>  
+    sumImporto = tableListRimborso.reduce((accumulator, current) =>  
         accumulator + Number(current.importo), 0);
     sum = sum.toFixed(2);
     sumImporto = sumImporto.toFixed(2);
@@ -158,33 +161,33 @@ function calcolaSommaDovuto(tableRimborso) {
 
 function filterArray() {
     document.getElementById("inputFilter").disabled = false;
-    let value = document.getElementById("inputFilter").value;
+    let filterInput = document.getElementById("inputFilter").value;
     let filterType = document.getElementById("inputTypeFilter").value
-    tableRimborsoFiltered = tableRimborso;
+    tableListRimborsoFiltered = tableListRimborso;
     
-    value == "" ? filterEvent = 0 : filterEvent = 1;
+    filterInput == "" ? filterEvent = 0 : filterEvent = 1;
     if (filterEvent == 1) {
         if (filterType  == "date") {
-            tableRimborsoFiltered = tableRimborso.filter(row => row.date.split('-')[2] == value);
+            tableListRimborsoFiltered = tableListRimborso.filter(row => row.date.split('-')[2] == filterInput);
         }
         if (filterType  == "type") {
-            tableRimborsoFiltered = tableRimborso.filter(row => row.type.toLowerCase().indexOf(value.toLowerCase()) > -1);
+            tableListRimborsoFiltered = tableListRimborso.filter(row => row.type.toLowerCase().indexOf(filterInput.toLowerCase()) > -1);
         }
         if (filterType  == "importo") {
-            tableRimborsoFiltered = tableRimborso.filter(row => row.importo >= Number(value));
+            tableListRimborsoFiltered = tableListRimborso.filter(row => row.importo >= Number(filterInput));
         }
         if (filterType  == "ricevuta") {
-            tableRimborsoFiltered = tableRimborso.filter(row => row.ricevuta.toLowerCase().indexOf(value.toLowerCase()) > -1);
+            tableListRimborsoFiltered = tableListRimborso.filter(row => row.ricevuta.toLowerCase().indexOf(filterInput.toLowerCase()) > -1);
         }
         if (filterType  == "stato") {
-            tableRimborsoFiltered = tableRimborso.filter(row => row.stato.toLowerCase().indexOf(value.toLowerCase()) > -1);
+            tableListRimborsoFiltered = tableListRimborso.filter(row => row.stato.toLowerCase().indexOf(filterInput.toLowerCase()) > -1);
         }
         if (filterType  == "dovuto") {
-            tableRimborsoFiltered = tableRimborso.filter( row => row.dovuto >= Number(value));
+            tableListRimborsoFiltered = tableListRimborso.filter( row => row.dovuto >= Number(filterInput));
         }
     }
 
-    console.log(tableRimborsoFiltered);
+    console.log(tableListRimborsoFiltered);
 }
 
 
@@ -195,14 +198,14 @@ function resetTable() {
     document.getElementById("divProgressBar").style.display = "none";
 }
 
-function writeCreateTable(tableRimborso) {
-    tableRimborso.map(function (row, i) {
+function writeCreateTable(tableListRimborso) {
+    tableListRimborso.map(function (row, i) {
         createRowCell();
-        writeCell(tbody.rows[i], row);
+        writeRowCells(tbody.rows[i], row);
         setRowsAttribute();
         primaryKey++;
     });
-    calcolaSommaDovuto(tableRimborso);
+    calcolaSommaDovuto(tableListRimborso);
     progressBar();
     document.getElementById("inputTotale").innerHTML = sum;
 }
@@ -227,49 +230,51 @@ function progressBar() {
 
 
 function approvazione(status) {
-    if (status == -1)
+    if (status == -1){
         return "Non approvata"
-
+    }
     // if (status == 0)
     //     return "In attesa di approvazione"
 
-    if (status == 1)
+    if (status == 1){
         return "Approvata"
+    }
 }
 
 function regoleApprovazione(row) {
-    if (row.ricevuta == "No" && row.importo > 10 )
+    if (row.ricevuta == "No" && row.importo > 10 ){
         return -1;
-    else
+    } else {
         return 1;
+    }
 }
 
 
 function gestisciImportiDovuti(row) {
-    if (row.stato == "Non approvata" || row.stato == "In attesa di approvazione")
+    if (row.stato == "Non approvata" || row.stato == "In attesa di approvazione"){
         return 0;
-
-    if (row.type == "Taxi" && row.importo > maxTaxi)
+    }
+    if (row.type == "Taxi" && row.importo > maxTaxi){
         return maxTaxi;
-    
-    if (row.type == "Vitto" && row.importo > maxVitto)
+    }
+    if (row.type == "Vitto" && row.importo > maxVitto){
         return maxVitto;
-    
-    if (row.type == "Hotel" && row.importo > maxHotel)
+    }
+    if (row.type == "Hotel" && row.importo > maxHotel){
         return maxHotel;
-        
-    if (row.type == "Treno" && row.importo > maxTreno)
+    }
+    if (row.type == "Treno" && row.importo > maxTreno){
         return maxTreno;
-    
+    }
     return row.importo;    
 }
 
 // Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
-    let index = tr.rowIndex - 1;
-    filterEvent == 0 ? formGetValue(tableRimborso[index]) : formGetValue(tableRimborsoFiltered[index]);
-    document.getElementById("buttonChange").setAttribute("Value", index);
+    let rowIndex = tr.rowIndex - 1;
+    filterEvent == 0 ? formGetValue(tableListRimborso[rowIndex]) : formGetValue(tableListRimborsoFiltered[rowIndex]);
+    document.getElementById("buttonChange").setAttribute("value", rowIndex);
     changeButtonActivate();
     if (tableIsBig)
         changeSizeTable();
@@ -295,21 +300,21 @@ function changeButtonDisable() {
 
 
 function changeRowButton() {
-    let index = document.getElementById("buttonChange").getAttribute("Value");
+    let rowIndex = document.getElementById("buttonChange").getAttribute("Value");
     if (filterEvent) {
-        index = tableRimborso.findIndex(row => row.primaryKey === tableRimborsoFiltered[index].primaryKey);
+        rowIndex = tableListRimborso.findIndex(row => row.primaryKey === tableListRimborsoFiltered[rowIndex].primaryKey);
     }
-    arrayGetValue(tableRimborso[index]);
-    sortByColumn(columnSort, tableRimborso);
-    filterEvent ? filterTable() : writeTable(tableRimborso)
+    arrayGetValue(tableListRimborso[rowIndex]);
+    sortByColumn(columnSort, tableListRimborso);
+    filterEvent ? filterTable() : writeTable(tableListRimborso)
     changeButtonDisable();
 }
 
 
 function resetAll() {
     resetMonth();
-    tableRimborso = [];
-    calcolaSommaDovuto(tableRimborso);
+    tableListRimborso = [];
+    calcolaSommaDovuto(tableListRimborso);
     progressBar();
     resetTable();
     document.getElementById("inputTotale").innerHTML = sum;
@@ -326,11 +331,11 @@ function resetMonth() {
 
 function deleteRow(button) {
     let tr = button.parentNode.parentNode;
-    let index = tr.rowIndex - 1;
-    primaryKey = filterEvent ? tableRimborsoFiltered[index].primaryKey : tableRimborso[index].primaryKey;
-    tableRimborso = tableRimborso.filter(row => row.primaryKey != primaryKey);
+    let rowIndex = tr.rowIndex - 1;
+    primaryKey = filterEvent ? tableListRimborsoFiltered[rowIndex].primaryKey : tableListRimborso[rowIndex].primaryKey;
+    tableListRimborso = tableListRimborso.filter(row => row.primaryKey != primaryKey);
     resetTable();
-    filterEvent ? filterTable() : writeCreateTable(tableRimborso);
+    filterEvent ? filterTable() : writeCreateTable(tableListRimborso);
     changeButtonDisable();
 }
 
@@ -356,8 +361,8 @@ function changeSizeTable() {
 function changeSortByColumn(th) {
     columnSort = th.getAttribute("id");
     changeButtonDisable();
-    sortByColumn(columnSort, tableRimborso);
-    writeTable(tableRimborso);
+    sortByColumn(columnSort, tableListRimborso);
+    writeTable(tableListRimborso);
 }
 
 
@@ -390,19 +395,20 @@ function getMaxDate(yearInput, monthInput, daysInMonth) {
 }
 
 
-function mockLinkSpesa(userId) {
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId + "/spesa";
+function mockLink() {
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/"
 }
 function mockLinkUser(userId) {
     return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId;
 }
-function mockLink() {
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/"
+function mockLinkSpesa(userId) {
+    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId + "/spesa";
 }
 
-// Session storage di chi è loggato
+
 async function login() {
     await getRole();
+    sessionStorage.setItem("userId", userId);
     await storageRimborsoMax();
     location.replace("rimborsi.html")
 }
@@ -410,7 +416,6 @@ async function login() {
 async function getRole() {
     console.log("%c ___ ","background-color:orange;");
     userId = document.getElementById("inputId").value;
-    sessionStorage.setItem("userId", userId);
     await fetch(mockLinkUser(userId),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -436,7 +441,7 @@ async function storageRimborsoMax() {
 }
 
 
-async function getTable() {
+async function downloadTable() {
     disableForm();
     console.log("%c ___ ","background-color:red;")
     await fetch(mockLinkSpesa(userId),{
@@ -447,10 +452,10 @@ async function getTable() {
     .then(data => jsonToArray(data))
     .catch(error => console.log(error));
 
-    console.log(tableRimborso)
-    sortByColumn(columnSort, tableRimborso);
+    console.log(tableListRimborso)
+    sortByColumn(columnSort, tableListRimborso);
     resetTable();
-    writeCreateTable(tableRimborso);
+    writeCreateTable(tableListRimborso);
     undisableForm();
 }
 
@@ -472,7 +477,7 @@ function undisableForm() {
 
 function jsonToArray(obj) {
     let yearMonth = document.getElementById("inputMonth").value
-    tableRimborso = [];
+    tableListRimborso = [];
     for (const key in obj) {
         const value = obj[key];
         for (const prop in value) {
@@ -482,7 +487,7 @@ function jsonToArray(obj) {
             let tableDate = value[prop].date.match("[0-9]{4}[-][0-9]{2}");
             if (yearMonth == tableDate) {
                 value[prop].primaryKey = primaryKey;
-                tableRimborso.push(value[prop]);
+                tableListRimborso.push(value[prop]);
                 primaryKey++;
             }
         }
@@ -549,7 +554,7 @@ function postTable() {
     console.log("%c ___ ","background-color:white;")
     fetch(mockLinkSpesa(userId),{
         method: "POST",
-        body: JSON.stringify(tableRimborso),
+        body: JSON.stringify(tableListRimborso),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())

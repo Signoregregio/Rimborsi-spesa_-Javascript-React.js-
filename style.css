@@ -10,6 +10,7 @@
   --colorbar: #8754de;
   --colorTextBar: greenyellow;
   --colorBackgroundBar: #222222;
+  --focusVisible: rgb(255, 252, 48);
 }
 
 * {
@@ -32,6 +33,16 @@ form {
   width: auto;
 }
 
+input:focus-visible {
+  outline: 2px solid var(--focusVisible);
+  border-radius: 3px;
+}
+
+select:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--focusVisible);
+}
+
 button {
   width: fit-content;
   font-size: 16px;
@@ -43,19 +54,16 @@ button {
   cursor: pointer;
   border-radius: 8px;
   display: inline-block;
-  touch-action: manipulation;
-  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
-}
-
-button:focus-visible {
-  box-shadow: var(--colorBorder) 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
-  transition: box-shadow .2s;
 }
 
 button:active {
   background-color: #F7F7F7;
   border-color: var(--colorBorder);
   transform: scale(.96);
+}
+
+button:focus-visible{
+  outline: 2px solid var(--focusVisible);
 }
 
 button:disabled {
@@ -331,7 +339,6 @@ tbody > tr:hover td {
     overflow-x: auto;
     overflow-y: hidden;
     width: 100%;
-    min-height: .01%;
   }
 
   .divTableChange{
@@ -400,10 +407,11 @@ tbody > tr:hover td {
   
   .formBox{
     text-align: center;
+    margin: 0;
   }  
   
   .formBox button{    
-    margin: 1rem 0.5rem;
+    margin: 1rem auto;
     height: 4rem;
     min-width: 7rem;
   }
@@ -415,8 +423,7 @@ tbody > tr:hover td {
   }
 
   .formBox label {
-    float: unset;
-    width: 100%;
+    margin: 0rem 8rem;
   }
 }
 
