@@ -1,7 +1,7 @@
 //amount payable
 
-let tableListRimborso = [];
-let tableListRimborsoFiltered = [];
+const tableListRimborso = [];
+const tableListRimborsoFiltered = [];
 let primaryKey = 0;
 let tr;
 let sum = 0;
@@ -12,7 +12,7 @@ const tbody = document.getElementById("inputTable");
 
 function newRow() {
     document.getElementById("inputMonth").disabled = true;
-    let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
+    const row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
     addRowObject(row);
     filterEvent == 0 ?  addRowToTable() : filterTable();
     console.table([tableListRimborso]);
