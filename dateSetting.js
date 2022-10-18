@@ -12,14 +12,11 @@ function translateDay(date) {
     return nameDay + " " + day + "/" + month + "/" + year;
 }
 
-
 function maxMonth() {
     let inputMonthYear = date.toISOString().split('T')[0]
     let maxMonth = inputMonthYear.match("[0-9]{4}[-][0-9]{2}");
     document.getElementById("inputMonth").setAttribute("max", maxMonth);
 }
-
-
 
 function maxMonth() {
     let inputMonthYear = date.toISOString().split('T')[0]
@@ -43,8 +40,9 @@ function getMaxDate(yearInput, monthInput, daysInMonth) {
     let dateEndMonth = new Date(yearInput, monthInput - 1, daysInMonth);
     let myMonthSelected = date < dateEndMonth;
     // controllo sul mese. La data non puo essere superiore ad oggi
-    if (myMonthSelected)
+    if (myMonthSelected) {
         return yearInput + "-" + monthInput + "-" + dateToday;
-    else
+    } else {
         return yearInput + "-" + monthInput + "-" + daysInMonth;
+    }
 }

@@ -4,7 +4,7 @@ let filterEvent = 0;
 
 
 function sortByColumn (columnSort, tableListRimborso) {
-    console.log("%c sort by","background-color:yellow;color:blue;")
+    console.log("%c SORTING BY ","background-color:yellow;color:blue;")
     console.log(columnSort)
     let sortedAsc;
     if (columnSort  == "date") {
@@ -14,12 +14,10 @@ function sortByColumn (columnSort, tableListRimborso) {
         return aa < bb ? -1 : (aa > bb ? 1 : 0);
         });
     }
-    
     if (columnSort  == "type") {
         sortedAsc = tableListRimborso.sort((a, b) =>
              ('' + a.type).localeCompare(b.type)) 
     }
-
     if (columnSort  == "importo") {
         sortedAsc = tableListRimborso.sort((a, b) =>
              Number(a.importo) - Number(b.importo)
@@ -34,8 +32,7 @@ function sortByColumn (columnSort, tableListRimborso) {
         sortedAsc = tableListRimborso.sort((a, b)   =>
             ('' + a.stato).localeCompare(b.stato)
         )
-    }
-    
+    } 
     if (columnSort  == "dovuto") {
         sortedAsc = tableListRimborso.sort((a, b) =>
             Number(a.dovuto) - Number(b.dovuto)
@@ -70,7 +67,6 @@ function filterArray() {
             tableListRimborsoFiltered = tableListRimborso.filter( row => row.dovuto >= Number(filterInput));
         }
     }
-
     console.log(tableListRimborsoFiltered);
 }
 
@@ -81,7 +77,6 @@ function changeSortByColumn(th) {
     writeTable(tableListRimborso);
 }
 
-
 function resetTable() {
     while (tbody.hasChildNodes()) {
         tbody.deleteRow(0);
@@ -89,7 +84,6 @@ function resetTable() {
     document.getElementById("divProgressBar").style.display = "none";
 }
 
-// Funzione che mi riporta nella form i dati cliccando su una riga della tabella.
 function activateChangeStatusEvent(cell) {
     tr = cell.parentNode;
     let rowIndex = tr.rowIndex - 1;
@@ -130,7 +124,6 @@ filterEvent ? filterTable() : writeTable(tableListRimborso)
 changeButtonDisable();
 }
 
-
 function resetAll() {
 resetMonth();
 tableListRimborso = [];
@@ -142,7 +135,6 @@ document.getElementById("inputFilter").disabled = true;
 document.getElementById("inputFilter").value = "";
 changeButtonDisable();
 }
-
 
 function resetMonth() {
     document.getElementById("inputMonth").disabled = false;
@@ -177,8 +169,6 @@ function changeSizeTable() {
     }
 }
 
-//calcola sumimporto!!! cambiare nome, fare due funzioni non ha senso
-// calculateSumAmount
 function calculateSumAmount(tableListRimborso) {  
     sum = tableListRimborso.reduce((accumulator, current) =>  
         accumulator + current.dovuto, 0);

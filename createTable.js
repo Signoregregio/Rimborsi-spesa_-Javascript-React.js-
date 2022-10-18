@@ -15,11 +15,11 @@ function newRow() {
     let row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
     addRowObject(row);
     filterEvent == 0 ?  addRowToTable() : filterTable();
-    console.log(tableListRimborso);
+    console.table([tableListRimborso]);
     return false;
 }
 
-function filterTable(){
+function filterTable() {
     filterArray();
     resetTable();
     writeCreateTable(tableListRimborsoFiltered);

@@ -50,7 +50,7 @@ async function storageRimborsoMax() {
 
 async function downloadTable() {
     disableForm();
-    console.log("%c ___ ","background-color:red;")
+    console.log("%c DOWNLOADING ","background-color:DeepPink;color:white;")
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -79,36 +79,57 @@ function undisableForm() {
     var elements = form.elements;
     let changeRowButton = 7
     for (var i = 0, len = elements.length; i < len; ++i) {
-        if(i == changeRowButton){
+        if(i == changeRowButton) {
             continue;
         }
         elements[i].disabled = false;
     }
 }
 
+
+// map map
+
 function jsonToArray(obj) {
     let yearMonth = document.getElementById("inputMonth").value
     tableListRimborso = [];
-    for (const key in obj) {
-        const value = obj[key];
-        for (const prop in value) {
-            if (prop == "id" || prop == "userId") {
-                continue;
+    obj.map(value => {
+        Object.keys(value).map(item => {
+            if (item != 'id' && item != 'userId') {
+                let tableDate = value[item].date.match("[0-9]{4}[-][0-9]{2}");
+                if (yearMonth == tableDate) {
+                    value[item].primaryKey = primaryKey++;
+                    tableListRimborso.push(value[item]);
+                }    
             }
-            let tableDate = value[prop].date.match("[0-9]{4}[-][0-9]{2}");
-            if (yearMonth == tableDate) {
-                value[prop].primaryKey = primaryKey;
-                tableListRimborso.push(value[prop]);
-                primaryKey++;
-            }
-        }
-    }
+        })
+    })
 }
+
+// map filter. Non funziona. ritorna una lista di oggetti che non è sortabile
+
+// function jsonToArray(obj) {
+//     let yearMonth = document.getElementById("inputMonth").value
+//     tableListRimborso = [];
+//     obj.map(value => {
+//         value = Object.entries(value)
+//         let filtered = value.filter(elem => {
+//             if(elem[0] != 'id' && elem[0] != 'userId') {
+//                 let tableDate = elem[1].date.match("[0-9]{4}[-][0-9]{2}");
+//                 if(yearMonth == tableDate) {
+//                     elem[1].primaryKey = primaryKey++;
+//                     return elem[1];
+//                 }
+//             }
+//         })
+//         tableListRimborso = tableListRimborso.concat(filtered)
+//     })
+//     tableListRimborso = Object.fromEntries(tableListRimborso);
+// }
 
   
 async function SubmitMonthMock() {
     disableForm();
-    console.log("%c ___ ","background-color:brown;")
+    console.log("%c SUBMIT IS STARTING ","background-color:brown;color:white;")
     idArray = await getIdByMonthMock();
     await deleteMockByUserId(idArray)
     idArray = [];
@@ -117,7 +138,7 @@ async function SubmitMonthMock() {
 }
 
 async function getIdByMonthMock() {
-    console.log("%c ___ ","background-color:red;")
+    console.log("%c GETTING ID ","background-color:red;color:white;")
 
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
@@ -126,29 +147,42 @@ async function getIdByMonthMock() {
     .then(response => response.json())
     .then(data => idMonthSelected(data))
     .catch(error => console.log(error));
+    console.log("ID TO DELETE : ")
     console.log(idArray)
     return idArray;
 }
 
+
 async function idMonthSelected(obj) {
     let yearMonth = document.getElementById("inputMonth").value
     console.log(yearMonth)
-    for (const key in obj) {
-        const value = obj[key];
-        if (value.userId == userId) {
-            for (const prop in value) {
-                let tableDate = value[prop].date.match("[0-9]{4}[-][0-9]{2}");
-                if (tableDate == yearMonth) {
-                    idArray.push(value.id);
-                }
-                break;
-            }
+    obj.filter(value => {
+        let tableDate = value[0].date.match("[0-9]{4}[-][0-9]{2}");
+        if (tableDate == yearMonth) {
+            idArray.push(value.id)
         }
-        continue;
-    }
+    })
 }
 
+function jsonToArray(obj) {
+    let yearMonth = document.getElementById("inputMonth").value
+    tableListRimborso = [];
+    obj.map(value => {
+        Object.keys(value).map(item => {
+            if (item != 'id' && item != 'userId') {
+                let tableDate = value[item].date.match("[0-9]{4}[-][0-9]{2}");
+                if (yearMonth == tableDate) {
+                    value[item].primaryKey = primaryKey++;
+                    tableListRimborso.push(value[item]);
+                }    
+            }
+        })
+    })
+}
+
+
 async function deleteMockByUserId(idArray) {
+    console.log("%c DELETING ","background-color:black;color:white;")
     for (const element of idArray) {
         await fetch(mockLinkSpesa(userId) + "/" + element, {
         method: "DELETE",
@@ -163,36 +197,17 @@ async function deleteMockByUserId(idArray) {
 
 async function postTable() {
     let tableIsEmpty = sumImporto == 0;
-    if(!tableIsEmpty){
-        console.log("%c ___ ","background-color:white;")
+    if(!tableIsEmpty) {
+        console.log("%c POSTING ","background-color:white;color:black;")
         await fetch(mockLinkSpesa(userId),{
             method: "POST",
             body: JSON.stringify(tableListRimborso),
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
         .then(response => response.json())
-        .then(data => { console.log(data);})
+        .then(data => {console.log(data); console.log("NUOVO ID " + data.id)})
         .catch(error => console.log(error));
     } else {
         console.log("tableIsEmpty")
     }
 }
-
-
-
-// async function unloadCheck(){
-//     let equal;
-//     t
-//     await fetch(mockLinkSpesa(userId),{
-//         method: "GET",
-//         headers: {"Content-type": "application/json; charset=UTF-8"}
-//     })
-//     .then(response => response.json())
-//     .then(data => {equal = jsonToArray(data) == tableListRimborso;
-//         console.log(tableListRimborso);
-//         console.log(jsonToArray(data))})
-//     .catch(error => console.log(error));
-//     console.log(equal)
-//     if(sumImporto == 0 || sumImporto != 0)
-//         return "kkkkkkkkkk"
-// }

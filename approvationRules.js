@@ -5,7 +5,7 @@ let maxTreno;
 let userId;
 
 
-function loadingConfiguration(){
+function loadingConfiguration() {
     maxMonth();
     maxTaxi = Number(sessionStorage.getItem("maxTaxi"));
     maxVitto = Number(sessionStorage.getItem("maxVitto"));
@@ -16,19 +16,19 @@ function loadingConfiguration(){
 }
 
 function approvazione(status) {
-    if (status == -1){
+    if (status == -1) {
         return "Non approvata"
     }
-    // if (status == 0)
+    // if (status == 0) {
     //     return "In attesa di approvazione"
-
-    if (status == 1){
+    // }   
+    if (status == 1) {
         return "Approvata"
     }
 }
 
 function regoleApprovazione(row) {
-    if (row.ricevuta == "No" && row.importo > 10 ){
+    if (row.ricevuta == "No" && row.importo > 10 ) {
         return -1;
     } else {
         return 1;
@@ -37,19 +37,19 @@ function regoleApprovazione(row) {
 
 
 function gestisciImportiDovuti(row) {
-    if (row.stato == "Non approvata" || row.stato == "In attesa di approvazione"){
+    if (row.stato == "Non approvata" || row.stato == "In attesa di approvazione") {
         return 0;
     }
-    if (row.type == "Taxi" && row.importo > maxTaxi){
+    if (row.type == "Taxi" && row.importo > maxTaxi) {
         return maxTaxi;
     }
-    if (row.type == "Vitto" && row.importo > maxVitto){
+    if (row.type == "Vitto" && row.importo > maxVitto) {
         return maxVitto;
     }
-    if (row.type == "Hotel" && row.importo > maxHotel){
+    if (row.type == "Hotel" && row.importo > maxHotel) {
         return maxHotel;
     }
-    if (row.type == "Treno" && row.importo > maxTreno){
+    if (row.type == "Treno" && row.importo > maxTreno) {
         return maxTreno;
     }
     return row.importo;    
