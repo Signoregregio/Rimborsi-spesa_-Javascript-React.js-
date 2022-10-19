@@ -1,7 +1,7 @@
 //amount payable
 
-const tableListRimborso = [];
-const tableListRimborsoFiltered = [];
+let tableListRimborso = [];
+let tableListRimborsoFiltered = [];
 let primaryKey = 0;
 let tr;
 let sum = 0;
