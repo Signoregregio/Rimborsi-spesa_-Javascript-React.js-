@@ -1,42 +1,99 @@
 let tableIsBig = false;
 const columnType = ["date", "type", "importo", "ricevuta", "stato", "dovuto"]
 let filterEvent = 0;
+let asc = true;
+let rememberTh;
 
+function deleteTheadArrow(th){
+    let thArrow = document.getElementsByClassName("thArrow")
+    for(const elem of thArrow){
+        elem.innerHTML = '';
+    }
+}
+
+function changeSortByColumn(th) {
+    if(tableListRimborso != []){
+        deleteTheadArrow(th);
+    }
+    columnSortNew = th.getAttribute("id");
+    changeButtonDisable();
+    if(columnSort != columnSortNew) {
+        asc = true;
+        th.childNodes[1].innerHTML = ' &#9651;'
+    } else {
+        if(asc){
+            asc = false;
+            th.childNodes[1].innerHTML = ' &#9661;'
+        } else { 
+            asc = true;
+            th.childNodes[1].innerHTML = ' &#9651;'
+        }
+    }
+
+    columnSort = columnSortNew;
+    sortByColumn(columnSort, tableListRimborso);
+    writeTable(tableListRimborso);
+}
 
 function sortByColumn (columnSort, tableListRimborso) {
-    console.log("%c SORTING BY ","background-color:yellow;color:blue;")
+    console.log("%c SORTING BY ","background-color:yellow;color:blue;font-size:16px;")
     console.log(columnSort)
-    let sortedAsc;
+    let sortedArray;
     if (columnSort  == "date") {
-        sortedAsc = tableListRimborso.sort(function(a, b) {
+        sortedArray = tableListRimborso.sort(function(a, b) {
         let aa = a.date.split('-').join();
         let bb = b.date.split('-').join();
-        return aa < bb ? -1 : (aa > bb ? 1 : 0);
+        if(asc){
+            return aa < bb ? -1 : (aa > bb ? 1 : 0);
+        } else {
+            return aa < bb ? (aa > bb ? 1 : 0) : -1;
+        }
         });
     }
     if (columnSort  == "type") {
-        sortedAsc = tableListRimborso.sort((a, b) =>
-             ('' + a.type).localeCompare(b.type)) 
+        sortedArray = tableListRimborso.sort((a, b) =>{
+            if(asc){
+                return (a.type).localeCompare(b.type);
+            } else {
+                return (b.type).localeCompare(a.type);
+            }
+        }) 
     }
     if (columnSort  == "importo") {
-        sortedAsc = tableListRimborso.sort((a, b) =>
-             Number(a.importo) - Number(b.importo)
-        );
+        sortedArray = tableListRimborso.sort((a, b) =>{
+            if(asc){
+                return Number(a.importo) - Number(b.importo)
+            } else {
+                return Number(b.importo) - Number(a.importo)
+            }
+        });
     }
     if (columnSort  == "ricevuta") {
-        sortedAsc = tableListRimborso.sort((a, b)  =>
-            ('' + a.ricevuta).localeCompare(b.ricevuta)
-        )
+        sortedArray = tableListRimborso.sort((a, b) =>{
+            if(asc){
+                return (a.ricevuta).localeCompare(b.ricevuta);
+            } else {
+                return (b.ricevuta).localeCompare(a.ricevuta);
+            }
+        }) 
     }
     if (columnSort  == "stato") {
-        sortedAsc = tableListRimborso.sort((a, b)   =>
-            ('' + a.stato).localeCompare(b.stato)
-        )
+        sortedArray = tableListRimborso.sort((a, b) =>{
+            if(asc){
+                return (a.stato).localeCompare(b.stato);
+            } else {
+                return (b.stato).localeCompare(a.stato);
+            }
+        }) 
     } 
     if (columnSort  == "dovuto") {
-        sortedAsc = tableListRimborso.sort((a, b) =>
-            Number(a.dovuto) - Number(b.dovuto)
-        );
+        sortedArray = tableListRimborso.sort((a, b) =>{
+            if(asc){
+                return Number(a.dovuto) - Number(b.dovuto)
+            } else {
+                return Number(b.dovuto) - Number(a.dovuto)
+            }
+    });
     }
 }
 
@@ -70,18 +127,11 @@ function filterArray() {
     console.log(tableListRimborsoFiltered);
 }
 
-function changeSortByColumn(th) {
-    columnSort = th.getAttribute("id");
-    changeButtonDisable();
-    sortByColumn(columnSort, tableListRimborso);
-    writeTable(tableListRimborso);
-}
-
 function resetTable() {
     while (tbody.hasChildNodes()) {
         tbody.deleteRow(0);
     }
-    document.getElementById("divProgressBar").style.display = "none";
+    document.getElementById("divProgressBar").style.display = 'none';
 }
 
 function activateChangeStatusEvent(cell) {
@@ -112,7 +162,6 @@ document.getElementById("buttonChange").disabled = true;
 document.getElementById("buttonSend").disabled = false;
 }
 
-
 function changeRowButton() {
 let rowIndex = document.getElementById("buttonChange").getAttribute("Value");
 if (filterEvent) {
@@ -132,7 +181,7 @@ progressBar();
 resetTable();
 document.getElementById("inputTotale").innerHTML = sum;
 document.getElementById("inputFilter").disabled = true;
-document.getElementById("inputFilter").value = "";
+document.getElementById("inputFilter").value = '';
 changeButtonDisable();
 }
 
@@ -155,16 +204,16 @@ function changeSizeTable() {
     if (tableIsBig) {
         document.getElementById("rightSide").style.width = null;
         document.getElementById("leftSide").style.display = null;
-        document.getElementById("buttonSubmitAll").style.display = "none";
+        document.getElementById("buttonSubmitAll").style.display = 'none';
         document.getElementById("buttonSizeTable").style.width = null;
         document.getElementById("buttonLoad").style.width = null;
         tableIsBig = false;
     } else {
-        document.getElementById("rightSide").style.width = "100%";
-        document.getElementById("leftSide").style.display = "none";
-        document.getElementById("buttonSubmitAll").style.display = "inline";
-        document.getElementById("buttonSizeTable").style.width = "7rem";
-        document.getElementById("buttonLoad").style.width = "7rem";
+        document.getElementById("rightSide").style.width = '100%';
+        document.getElementById("leftSide").style.display = 'none';
+        document.getElementById("buttonSubmitAll").style.display = 'inline';
+        document.getElementById("buttonSizeTable").style.width = '7rem';
+        document.getElementById("buttonLoad").style.width = '7rem';
         tableIsBig = true;
     }
 }

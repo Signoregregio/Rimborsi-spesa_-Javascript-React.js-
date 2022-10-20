@@ -69,13 +69,13 @@
             <!-- Tabella dei rimborsi -->
             <div class="table">
                 <table id="tableForm">
-                    <thead>
-                        <th id="date" onclick="changeSortByColumn(this)">Data</th>
-                        <th id="type" onclick="changeSortByColumn(this)">Tipo</th>
-                        <th id="importo" onclick="changeSortByColumn(this)">Importo</th>
-                        <th id="ricevuta" onclick="changeSortByColumn(this)">Ricevuta</th>
-                        <th id="stato" onclick="changeSortByColumn(this)">Stato</th>
-                        <th id="dovuto" onclick="changeSortByColumn(this)">Importo dovuto</th>
+                    <thead id="thead">
+                        <th id="date" onclick="changeSortByColumn(this)">Data<span class="thArrow"> &#9651;</span></th>
+                        <th id="type" onclick="changeSortByColumn(this)">Tipo<span class="thArrow"></span></th>
+                        <th id="importo" onclick="changeSortByColumn(this)">Importo<span class="thArrow"></span></th>
+                        <th id="ricevuta" onclick="changeSortByColumn(this)">Ricevuta<span class="thArrow"></span></th>
+                        <th id="stato" onclick="changeSortByColumn(this)">Stato<span class="thArrow"></span></th>
+                        <th id="dovuto" onclick="changeSortByColumn(this)">Importo dovuto<span class="thArrow"></span></th>
                         <th id="thFilter">                
                             <select id="inputTypeFilter" onchange="filterTable()"> 
                                 <option value="" selected disabled hidden>Filtra per</option> 

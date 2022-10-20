@@ -12,7 +12,7 @@ const tbody = document.getElementById("inputTable");
 
 function newRow() {
     document.getElementById("inputMonth").disabled = true;
-    const row = {"date" : "", "type" : "", "importo" : 0, "ricevuta" : "", "stato" : "", "dovuto" : 0, "primaryKey" : primaryKey++};
+    const row = {"date" : '', "type" : '', "importo" : 0, "ricevuta" : '', "stato" : '', "dovuto" : 0, "primaryKey" : primaryKey++};
     addRowObject(row);
     filterEvent == 0 ?  addRowToTable() : filterTable();
     console.table([tableListRimborso]);
@@ -35,7 +35,7 @@ function arrayGetValue(row) {
     row.type = document.getElementById("inputType").value;
     row.date = document.getElementById("inputDate").value;
     row.importo = document.getElementById("inputImporto").value;
-    row.ricevuta = document.getElementById("inputRicevuta").checked ?  "Sì" : "No"
+    row.ricevuta = document.getElementById("inputRicevuta").checked ?  'Sì' : 'No'
     row.stato = approvazione(regoleApprovazione(row));
     row.dovuto  = Number(gestisciImportiDovuti(row));
 }
@@ -91,7 +91,7 @@ function writeCreateTable(tableListRimborso) {
 }
 
 function progressBar() {
-    document.getElementById("divProgressBar").style.display = "inline";
+    document.getElementById("divProgressBar").style.display = 'inline';
     end = document.getElementById("progressEnd")
     actual = document.getElementById("progressActual")
     barInside = document.getElementById("progressBarInside")
@@ -104,10 +104,6 @@ function progressBar() {
         barInside.style.width = percentual + '%'
     } 
     if (tableIsEmpty) {
-       document.getElementById("divProgressBar").style.display = "none";
+       document.getElementById("divProgressBar").style.display = 'none';
     }
 }
-
-
-
-// https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event

@@ -3,13 +3,13 @@ let idArray = [];
 
 
 function mockLink() {
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/"
+    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/'
 }
 function mockLinkUser(userId) {
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId;
+    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/user/' + userId;
 }
 function mockLinkSpesa(userId) {
-    return "https://63453f7439ca915a69f9a522.mockapi.io/api/user/" + userId + "/spesa";
+    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/user/' + userId + '/spesa';
 }
 
 
@@ -17,7 +17,7 @@ async function login() {
     await getRole();
     sessionStorage.setItem("userId", userId);
     await storageRimborsoMax();
-    location.replace("rimborsi.html")
+    location.replace('rimborsi.html')
 }
 
 async function getRole() {
@@ -47,10 +47,9 @@ async function storageRimborsoMax() {
     .catch(error => console.log(error));
 }
 
-
 async function downloadTable() {
     disableForm();
-    console.log("%c DOWNLOADING ","background-color:DeepPink;color:white;")
+    console.log("%c DOWNLOADING ","background-color:DeepPink;color:white;font-size:16px;")
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -86,16 +85,13 @@ function undisableForm() {
     }
 }
 
-
-// map map
-
 function jsonToArray(obj) {
     let yearMonth = document.getElementById("inputMonth").value
     tableListRimborso = [];
     obj.map(value => {
         Object.keys(value).map(item => {
-            if (item != 'id' && item != 'userId') {
-                let tableDate = value[item].date.match("[0-9]{4}[-][0-9]{2}");
+            if (item != "id" && item != "userId") {
+                let tableDate = value[item].date.match('[0-9]{4}[-][0-9]{2}');
                 if (yearMonth == tableDate) {
                     value[item].primaryKey = primaryKey++;
                     tableListRimborso.push(value[item]);
@@ -105,31 +101,9 @@ function jsonToArray(obj) {
     })
 }
 
-// map filter. Non funziona. ritorna una lista di oggetti che non è sortabile
-
-// function jsonToArray(obj) {
-//     let yearMonth = document.getElementById("inputMonth").value
-//     tableListRimborso = [];
-//     obj.map(value => {
-//         value = Object.entries(value)
-//         let filtered = value.filter(elem => {
-//             if(elem[0] != 'id' && elem[0] != 'userId') {
-//                 let tableDate = elem[1].date.match("[0-9]{4}[-][0-9]{2}");
-//                 if(yearMonth == tableDate) {
-//                     elem[1].primaryKey = primaryKey++;
-//                     return elem[1];
-//                 }
-//             }
-//         })
-//         tableListRimborso = tableListRimborso.concat(filtered)
-//     })
-//     tableListRimborso = Object.fromEntries(tableListRimborso);
-// }
-
-  
 async function SubmitMonthMock() {
     disableForm();
-    console.log("%c SUBMIT IS STARTING ","background-color:brown;color:white;")
+    console.log("%c SUBMIT IS STARTING ","background-color:brown;color:white;font-size:16px;")
     idArray = await getIdByMonthMock();
     await deleteMockByUserId(idArray)
     idArray = [];
@@ -138,7 +112,7 @@ async function SubmitMonthMock() {
 }
 
 async function getIdByMonthMock() {
-    console.log("%c GETTING ID ","background-color:red;color:white;")
+    console.log("%c GETTING ID ","background-color:red;color:white;font-size:16px;")
 
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
@@ -152,43 +126,23 @@ async function getIdByMonthMock() {
     return idArray;
 }
 
-
 async function idMonthSelected(obj) {
     let yearMonth = document.getElementById("inputMonth").value
     console.log(yearMonth)
     obj.filter(value => {
-        let tableDate = value[0].date.match("[0-9]{4}[-][0-9]{2}");
+        let tableDate = value[0].date.match('[0-9]{4}[-][0-9]{2}');
         if (tableDate == yearMonth) {
             idArray.push(value.id)
         }
     })
 }
 
-function jsonToArray(obj) {
-    let yearMonth = document.getElementById("inputMonth").value
-    tableListRimborso = [];
-    obj.map(value => {
-        Object.keys(value).map(item => {
-            if (item != 'id' && item != 'userId') {
-                let tableDate = value[item].date.match("[0-9]{4}[-][0-9]{2}");
-                if (yearMonth == tableDate) {
-                    value[item].primaryKey = primaryKey++;
-                    tableListRimborso.push(value[item]);
-                }    
-            }
-        })
-    })
-}
-
-
 async function deleteMockByUserId(idArray) {
-    console.log("%c DELETING ","background-color:black;color:white;")
+    console.log("%c DELETING ","background-color:black;color:white;font-size:16px;")
     for (const element of idArray) {
-        await fetch(mockLinkSpesa(userId) + "/" + element, {
+        await fetch(mockLinkSpesa(userId) + '/' + element, {
         method: "DELETE",
-        headers: {
-                'Content-type': 'application/json'
-            }
+        headers: {"Content-type": "application/json"}
       })
     .then(response => { return response.json()})
     .then(data => console.log(data) );
@@ -198,7 +152,7 @@ async function deleteMockByUserId(idArray) {
 async function postTable() {
     let tableIsEmpty = sumImporto == 0;
     if(!tableIsEmpty) {
-        console.log("%c POSTING ","background-color:white;color:black;")
+        console.log("%c POSTING ","background-color:white;color:black;font-size:16px;")
         await fetch(mockLinkSpesa(userId),{
             method: "POST",
             body: JSON.stringify(tableListRimborso),
@@ -208,6 +162,7 @@ async function postTable() {
         .then(data => {console.log(data); console.log("NUOVO ID " + data.id)})
         .catch(error => console.log(error));
     } else {
-        console.log("tableIsEmpty")
+        console.log("%c tableIsEmpty","font-size:16px;")
     }
+    console.log("%c SUBMITTING ENDED ","background-color:brown;color:white;font-size:16px;") 
 }

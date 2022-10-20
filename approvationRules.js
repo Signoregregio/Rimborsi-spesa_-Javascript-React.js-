@@ -17,13 +17,13 @@ function loadingConfiguration() {
 
 function approvazione(status) {
     if (status == -1) {
-        return "Non approvata"
+        return 'Non approvata'
     }
     // if (status == 0) {
-    //     return "In attesa di approvazione"
+    //     return 'In attesa di approvazione'
     // }   
     if (status == 1) {
-        return "Approvata"
+        return 'Approvata'
     }
 }
 
@@ -34,7 +34,6 @@ function regoleApprovazione(row) {
         return 1;
     }
 }
-
 
 function gestisciImportiDovuti(row) {
     if (row.stato == "Non approvata" || row.stato == "In attesa di approvazione") {
