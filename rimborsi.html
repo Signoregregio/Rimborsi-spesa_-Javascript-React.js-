@@ -1,126 +1,174 @@
- <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Rimborsi</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="https://kit.fontawesome.com/3b6b16d411.js" crossorigin="anonymous"></script>
-    </head>
-    <body onload="return loadingConfiguration()" >
-    <div class="flexbox">
-        <!-- Lato sx dell'html -->
-        <div id="leftSide">
-            <h2>Rimborso spesa</h2>
-    
-            <!-- Inizio della form con i vari inputs 
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Rimborsi</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script src="https://kit.fontawesome.com/3b6b16d411.js" crossorigin="anonymous"></script>
+	</head>
+	<body onload="return loadingConfiguration()">
+		<div class="flexbox">
+			<!-- Lato sx dell'html -->
+			<div id="leftSide">
+				<h2>Rimborso spesa</h2>
+
+				<!-- Inizio della form con i vari inputs 
             Type, Date importo e ricevuta  -->
-            <form id="formUser" onsubmit="return newRow()">
-                
-                <!-- Month -->
-                <div class="formBox">
-                    <label for="inputMonth">Mese :</label>
-                    <input type="month" id="inputMonth" required onchange="setRangeDays(); downloadTable()" required oninvalid="this.setCustomValidity('Inserisci un mese')" oninput="this.setCustomValidity('')"> 
-                </div>
-                    
-    
-                <!-- Type -->
-                <div class="formBox">
-                    <label for="inputType">Tipo:</label>
-                    <select id="inputType" tabindex="1"  autofocus required oninvalid="this.setCustomValidity('Inserisci un tipo')" oninput="this.setCustomValidity('')"> 
-                        <option value="" selected disabled hidden>Inserire il tipo</option> 
-                        <option value="Taxi">Taxi</option> 
-                        <option value="Vitto">Vitto</option> 
-                        <option value="Hotel">Hotel</option> 
-                        <option value="Treno">Treno</option>
-                    </select>
-                </div>
-    
-                <!-- Date -->
-                <div class="formBox">
-                    <label for="inputDate">Data:</label>
-                    <input type="date" id="inputDate" tabindex="2" disabled required oninvalid="this.setCustomValidity('Inserisci un giorno')" oninput="this.setCustomValidity('')">
-                </div>
-    
-                <!-- Importo -->
-                <div class="formBox">
-                    <label for="inputImporto">Importo richiesto:</label>
-                    <input id="inputImporto" tabindex="3"  pattern="^[+]?\d+(\.\d{1,2})?$" required oninvalid="this.setCustomValidity('inserisci un importo positivo')" oninput="this.setCustomValidity('')"> 
-                </div>
-    
-                <!-- Ricevuta  -->
-                <div class="formBox">
-                    <label for="inputRicevuta">Ricevuta?</label>
-                    <input type="checkbox" id="inputRicevuta"  tabindex="4" unchecked>
-                </div>
-    
-                <!-- Bottoni -->
-                <div class="formBox divButton">
-                    <button id="buttonSubmit" class="command" type="button" onclick="SubmitMonthMock()">Submit all</button>
-                    <button id="buttonSend" class="command" type="submit" >Calcola</button>
-                    <button id="buttonChange" class="command" type="button" onclick="changeRowButton()" disabled>Cambia riga</button>
-                    <button id="buttonCancel" class="command" type="reset" onclick="return resetAll()">Reset</button>
-                </div>
-            </form>
-        </div>
-    
-        <!-- Lato destro -->
-        <div id="rightSide">
-            <!-- Tabella dei rimborsi -->
-            <div class="table">
-                <table id="tableForm">
-                    <thead id="thead">
-                        <th id="date" onclick="changeSortByColumn(this)">Data<span class="thArrow"> &#9651;</span></th>
-                        <th id="type" onclick="changeSortByColumn(this)">Tipo<span class="thArrow"></span></th>
-                        <th id="importo" onclick="changeSortByColumn(this)">Importo<span class="thArrow"></span></th>
-                        <th id="ricevuta" onclick="changeSortByColumn(this)">Ricevuta<span class="thArrow"></span></th>
-                        <th id="stato" onclick="changeSortByColumn(this)">Stato<span class="thArrow"></span></th>
-                        <th id="dovuto" onclick="changeSortByColumn(this)">Importo dovuto<span class="thArrow"></span></th>
-                        <th id="thFilter">                
-                            <select id="inputTypeFilter" onchange="filterTable()"> 
-                                <option value="" selected disabled hidden>Filtra per</option> 
-                                <option value="date">Data</option> 
-                                <option value="type">Tipo</option> 
-                                <option value="importo">Importo</option> 
-                                <option value="ricevuta">Ricevuta</option>
-                                <option value="stato">Stato</option>
-                                <option value="dovuto">Dovuto</option>
-                            </select>
-                            <br>
-                            <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Filtra per dato" disabled>
-                        </th>
-                    </thead>
-                    <tbody id="inputTable"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4"></td>
-                            <td>IMPORTO TOTALE : </td>
-                            <td id="inputTotale"></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="divTableChange">
-                <button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
-                <button id="buttonSubmitAll"> Submit all</button>
-                <button id="buttonLoad" onclick="downloadTable()"><i class="fa-solid fa-download"></i></i></button>
-            </div>
-            <div id="divProgressBar">
-                <div id="progressBar">
-                    <div id="progressBarInside">
-                        <span id="progressActual"></span>
-                    </div>
-                </div>
-                <span id="progressStart">0.00 €</span><span id="progressEnd"></span>
-            </div>
-        </div>
-    </div>
-    
-    <script src="createTable.js"></script>
-    <script src="approvationRules.js"></script>
-    <script src="dateSetting.js"></script>
-    <script src="fetch.js"></script>
-    <script src="modifyTable.js"></script>
-</body>
+				<form id="formUser" onsubmit="return newRow()">
+					<!-- Month -->
+					<div class="formBox">
+						<label for="inputMonth">Mese :</label>
+						<input
+							type="month"
+							id="inputMonth"
+							required
+							onchange="setRangeDays(); downloadTable()"
+							required
+							oninvalid="this.setCustomValidity('Inserisci un mese')"
+							oninput="this.setCustomValidity('')"
+						/>
+					</div>
+
+					<!-- Type -->
+					<div class="formBox">
+						<label for="inputType">Tipo:</label>
+						<select
+							id="inputType"
+							tabindex="1"
+							autofocus
+							required
+							oninvalid="this.setCustomValidity('Inserisci un tipo')"
+							oninput="this.setCustomValidity('')"
+						>
+							<option value="" selected disabled hidden>Inserire il tipo</option>
+							<option value="Taxi">Taxi</option>
+							<option value="Vitto">Vitto</option>
+							<option value="Hotel">Hotel</option>
+							<option value="Treno">Treno</option>
+						</select>
+					</div>
+
+					<!-- Date -->
+					<div class="formBox">
+						<label for="inputDate">Data:</label>
+						<input
+							type="date"
+							id="inputDate"
+							tabindex="2"
+							disabled
+							required
+							oninvalid="this.setCustomValidity('Inserisci un giorno')"
+							oninput="this.setCustomValidity('')"
+						/>
+					</div>
+
+					<!-- Importo -->
+					<div class="formBox">
+						<label for="inputImporto">Importo richiesto:</label>
+						<input
+							id="inputImporto"
+							tabindex="3"
+							pattern="^[+]?\d+(\.\d{1,2})?$"
+							required
+							oninvalid="this.setCustomValidity('inserisci un importo positivo')"
+							oninput="this.setCustomValidity('')"
+						/>
+					</div>
+
+					<!-- Ricevuta  -->
+					<div class="formBox">
+						<label for="inputRicevuta">Ricevuta?</label>
+						<input type="checkbox" id="inputRicevuta" tabindex="4" unchecked />
+					</div>
+
+					<!-- Bottoni -->
+					<div class="formBox divButton">
+						<button id="buttonSubmit" class="command" type="button" onclick="SubmitMonthMock()">
+							Submit all
+						</button>
+						<button id="buttonSend" class="command" type="submit">Calcola</button>
+						<button id="buttonChange" class="command" type="button" onclick="changeRowButton()" disabled>
+							Cambia riga
+						</button>
+						<button id="buttonCancel" class="command" type="reset" onclick="return resetAll()">
+							Reset
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- Lato destro -->
+			<div id="rightSide">
+				<!-- Tabella dei rimborsi -->
+				<div class="table">
+					<table id="tableForm">
+						<thead id="thead">
+							<th id="date" onclick="changeSortByColumn(this)">
+								Data<span class="thArrow"> &#9651;</span>
+							</th>
+							<th id="type" onclick="changeSortByColumn(this)">Tipo<span class="thArrow"></span></th>
+							<th id="importo" onclick="changeSortByColumn(this)">
+								Importo<span class="thArrow"></span>
+							</th>
+							<th id="ricevuta" onclick="changeSortByColumn(this)">
+								Ricevuta<span class="thArrow"></span>
+							</th>
+							<th id="stato" onclick="changeSortByColumn(this)">Stato<span class="thArrow"></span></th>
+							<th id="dovuto" onclick="changeSortByColumn(this)">
+								Importo dovuto<span class="thArrow"></span>
+							</th>
+							<th id="thFilter">
+								<select id="inputTypeFilter" onchange="filterTable()">
+									<option value="" selected disabled hidden>Filtra per</option>
+									<option value="date">Data</option>
+									<option value="type">Tipo</option>
+									<option value="importo">Importo</option>
+									<option value="ricevuta">Ricevuta</option>
+									<option value="stato">Stato</option>
+									<option value="dovuto">Dovuto</option>
+								</select>
+								<br />
+								<input
+									type="text"
+									id="inputFilter"
+									onkeyup="filterTable()"
+									placeholder="Filtra per dato"
+									disabled
+								/>
+							</th>
+						</thead>
+						<tbody id="inputTable"></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="4"></td>
+								<td>IMPORTO TOTALE :</td>
+								<td id="inputTotale"></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="divTableChange">
+					<button id="buttonSizeTable" onclick="changeSizeTable()"><sup>⇱</sup><sub>⇲</sub></button>
+					<button id="buttonSubmitAll">Submit all</button>
+					<button id="buttonLoad" onclick="downloadTable()"><i class="fa-solid fa-download"></i></button>
+				</div>
+				<div id="divProgressBar">
+					<div id="progressBar">
+						<div id="progressBarInside">
+							<span id="progressActual"></span>
+						</div>
+					</div>
+					<span id="progressStart">0.00 €</span><span id="progressEnd"></span>
+				</div>
+			</div>
+		</div>
+
+		<script src="createTable.js"></script>
+		<script src="approvationRules.js"></script>
+		<script src="dateSetting.js"></script>
+		<script src="fetch.js"></script>
+		<script src="modifyTable.js"></script>
+	</body>
 </html>
