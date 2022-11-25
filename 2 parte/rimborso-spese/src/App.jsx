@@ -1,10 +1,14 @@
-import './index.css'
-import MonthRefund from './monthRefund/MonthRefund';
+import "./index.css";
+import FormRefund from "./formRefund/FormRefund";
+import TableRefund from "./Table/TableRefund";
 
 function App() {
-  return (
-    <MonthRefund></MonthRefund>
-  );
+	return (
+		<div>
+			<FormRefund></FormRefund>
+			<TableRefund></TableRefund>
+		</div>
+	);
 }
 
 export default App;

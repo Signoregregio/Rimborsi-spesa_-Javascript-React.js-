@@ -1,6 +1,6 @@
 import Form from "./Form"
 
-export default function MonthRefund () {
+export default function FormRefund () {
     return(
         <Form></Form>
     )
