@@ -1,18 +1,20 @@
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
-import {nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
+import { useState } from "react";
+
+const tableRefund = [];
 
 export default function Form() {
-    const tableRefund = [];
-	const { register, handleSubmit} = useForm(tableRefund);
+	const { register, handleSubmit } = useForm(tableRefund);
 
-    function handleAddFormSubmit(data){
-        data['id'] = nanoid();
-        
-        tableRefund.push(data)
-        console.log(tableRefund)
-    }
-    
+	function handleAddFormSubmit(data) {
+		data["id"] = nanoid();
+		data.ticket === true ? (data.ticket = "Sì") : (data.ticket = "No");
+		tableRefund.push(data);
+		console.log(tableRefund);
+	}
+
 	return (
 		<form onSubmit={handleSubmit((data) => handleAddFormSubmit(data))}>
 			<h1>Nuovo rimborso</h1>
@@ -41,7 +43,7 @@ export default function Form() {
 
 			<div className="formBox">
 				<label>Importo richiesto:</label>
-				<input name="Importo" {...register("amount", { pattern: /^[+]?\d+(\.\d{1,2})?$/})} />
+				<input name="Importo" {...register("amount", { pattern: /^[+]?\d+(\.\d{1,2})?$/ })} />
 			</div>
 
 			<div className="formBox">
@@ -53,4 +55,4 @@ export default function Form() {
 	);
 }
 
-export {tableRefund}
+export { tableRefund };
