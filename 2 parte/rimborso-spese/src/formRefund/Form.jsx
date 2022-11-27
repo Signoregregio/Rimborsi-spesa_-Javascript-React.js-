@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import { useState } from "react";
@@ -7,25 +6,40 @@ const tableRefund = [];
 
 export default function Form() {
 	const { register, handleSubmit } = useForm(tableRefund);
+	const [rows, setRows] = useState()
+	const [addFormData, setAddFormData] = useState({
+		month: "",
+		type: "",
+		dateRefund: "",
+		amount: "",
+		ticket: "",
+	})
+	
+	function handleAddFormSubmit(event) {
+		event.preventDefault();
 
-	function handleAddFormSubmit(data) {
-		data["id"] = nanoid();
-		data.ticket === true ? (data.ticket = "Sì") : (data.ticket = "No");
-		tableRefund.push(data);
-		console.log(tableRefund);
+		const newRow = {
+			id: nanoid(),
+			month: addFormData.month,
+			type: addFormData.type,
+			dateRefund: addFormData.dateRefund,
+			amount: addFormData.amount,
+			ticket: addFormData.ticket,
+		}
+		const newRows = [...]
 	}
 
 	return (
-		<form onSubmit={handleSubmit((data) => handleAddFormSubmit(data))}>
+		<form onSubmit={handleAddFormSubmit} >
 			<h1>Nuovo rimborso</h1>
 			<div className="formBox">
 				<label>Mese :</label>
-				<input name="mese" type="month" {...register("month")} max={dayjs().format("YYYY-MM")} />
+				<input name="month" type="month"  max={dayjs().format("YYYY-MM")} />
 			</div>
 
 			<div className="formBox">
 				<label>Tipo:</label>
-				<select name="Tipo" {...register("type")}>
+				<select name="type" >
 					<option value="" defaultValue={"Inserire il tipo"} disabled>
 						Inserire il tipo
 					</option>
@@ -38,17 +52,17 @@ export default function Form() {
 
 			<div className="formBox">
 				<label>Data:</label>
-				<input type="date" name="date" {...register("date")} max={dayjs().format("YYYY-MM-DD")} />
+				<input type="dateRefund" name="date"  max={dayjs().format("YYYY-MM-DD")} />
 			</div>
 
 			<div className="formBox">
 				<label>Importo richiesto:</label>
-				<input name="Importo" {...register("amount", { pattern: /^[+]?\d+(\.\d{1,2})?$/ })} />
+				<input name="amount" pattern = "/^[+]?\d+(\.\d{1,2})?$/"  />
 			</div>
 
 			<div className="formBox">
 				<label>Ricevuta?</label>
-				<input type="checkbox" name="Ricevuta" {...register("ticket")} />
+				<input type="checkbox" name="ticket"  />
 			</div>
 			<input type="submit" />
 		</form>
