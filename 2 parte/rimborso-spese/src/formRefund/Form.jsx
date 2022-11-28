@@ -2,25 +2,27 @@ import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import { tab } from "@testing-library/user-event/dist/tab";
 
 const tableRefund = [];
 
-export default function Form() {
-	const { register, handleSubmit } = useForm(tableRefund);
-
+export default function Form(prop) {
+	const { register, handleSubmit } = useForm([]);
+	const [ array, setArray ] = useState([]);
+	
 	function handleAddFormSubmit(data) {
+		console.log(register)
 		console.log(data)
 		data["id"] = nanoid();
 		data.ticket === true ? (data.ticket = "Sì") : (data.ticket = "No");
-		console.log(register);
 		tableRefund.push(data)
-		handleSubmit(tableRefund)
+		setArray(tableRefund)
+		console.log(array);
+		prop.func(array)
+		// table = array;
+;
 	}
 
-	useEffect(() => {
-		console.log("questo va")
-	}, [register])
+
 	
 	return (
 		<form onSubmit={handleSubmit((data) => handleAddFormSubmit(data))}>
@@ -62,4 +64,4 @@ export default function Form() {
 	);
 }
 
-export { tableRefund };
+export { tableRefund};

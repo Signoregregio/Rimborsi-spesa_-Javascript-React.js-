@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form, { tableRefund } from "../formRefund/Form";
 
-export default function TableRefund() {
-	// const [ table, handleTable ] = useState(tableRefund);
+export default function TableRefund(props) {
+	// const [ table, handleArray ] = useState(Form.table);
+	useEffect(() => {
+		console.log("ciao in tableRefund è cambiato props")
 
+	}, [props])
 
 	return (
 
@@ -20,11 +23,11 @@ export default function TableRefund() {
 				</tr>
 			</thead>
 			<tbody>
-			{/* {table.length < 1 ? 
+			{/* {props.length < 1 ? 
 			<tr>
-				<td colSpan={4}> Insert some data</td>
+				<td colSpan={8}> Insert some data</td>
 			</tr>:
-			table.map((tableRefund) => (
+			props.map((tableRefund) => (
             <tr key={tableRefund.id}>
                 <td>{tableRefund.date}</td>
                 <td>{tableRefund.type}</td>
