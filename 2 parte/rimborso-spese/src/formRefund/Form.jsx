@@ -1,45 +1,38 @@
+import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 const tableRefund = [];
 
 export default function Form() {
 	const { register, handleSubmit } = useForm(tableRefund);
-	const [rows, setRows] = useState()
-	const [addFormData, setAddFormData] = useState({
-		month: "",
-		type: "",
-		dateRefund: "",
-		amount: "",
-		ticket: "",
-	})
-	
-	function handleAddFormSubmit(event) {
-		event.preventDefault();
 
-		const newRow = {
-			id: nanoid(),
-			month: addFormData.month,
-			type: addFormData.type,
-			dateRefund: addFormData.dateRefund,
-			amount: addFormData.amount,
-			ticket: addFormData.ticket,
-		}
-		const newRows = [...]
+	function handleAddFormSubmit(data) {
+		console.log(data)
+		data["id"] = nanoid();
+		data.ticket === true ? (data.ticket = "Sì") : (data.ticket = "No");
+		console.log(register);
+		tableRefund.push(data)
+		handleSubmit(tableRefund)
 	}
 
+	useEffect(() => {
+		console.log("questo va")
+	}, [register])
+	
 	return (
-		<form onSubmit={handleAddFormSubmit} >
+		<form onSubmit={handleSubmit((data) => handleAddFormSubmit(data))}>
 			<h1>Nuovo rimborso</h1>
 			<div className="formBox">
 				<label>Mese :</label>
-				<input name="month" type="month"  max={dayjs().format("YYYY-MM")} />
+				<input name="mese" type="month" value={"2022-10"}{...register("month")} max={dayjs().format("YYYY-MM")} />
 			</div>
 
 			<div className="formBox">
 				<label>Tipo:</label>
-				<select name="type" >
+				<select name="Tipo" {...register("type")}>
 					<option value="" defaultValue={"Inserire il tipo"} disabled>
 						Inserire il tipo
 					</option>
@@ -52,17 +45,17 @@ export default function Form() {
 
 			<div className="formBox">
 				<label>Data:</label>
-				<input type="dateRefund" name="date"  max={dayjs().format("YYYY-MM-DD")} />
+				<input type="date" name="date" value={"2022-10-31"} {...register("date")} max={dayjs().format("YYYY-MM-DD")} />
 			</div>
 
 			<div className="formBox">
 				<label>Importo richiesto:</label>
-				<input name="amount" pattern = "/^[+]?\d+(\.\d{1,2})?$/"  />
+				<input name="Importo" value={42}{...register("amount", { pattern: /^[+]?\d+(\.\d{1,2})?$/ })} />
 			</div>
 
 			<div className="formBox">
 				<label>Ricevuta?</label>
-				<input type="checkbox" name="ticket"  />
+				<input type="checkbox" name="Ricevuta" {...register("ticket")} />
 			</div>
 			<input type="submit" />
 		</form>
