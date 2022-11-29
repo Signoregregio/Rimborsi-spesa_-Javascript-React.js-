@@ -1,15 +1,195 @@
+:root{
+  --color1: rgb(22, 22, 22);
+  --colorBackgroundForm: #26282c;
+  --colorTh:rgba(40, 40, 40, 1);
+  --colorTbody:#373636;
+  --colorHover:#4d3e3e;
+  --colorBorder:#59585b;
+  --colorText: #ddd;
+  --colorTfoot: #4d3e3e;
+  --colorbar: #8754de;
+  --colorTextBar: greenyellow;
+  --colorBackgroundBar: #222222;
+  --focusVisible: rgb(255, 252, 48);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(40, 40, 40);
-  color: rgb(240, 240, 240);
+  background-color:var(--color1);
+  font:normal 20px/1.5 sans-serif;
+  color: var(--colorText);
+  background-image: url("../public/1698004.jpg");
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+form {
+  margin: 2rem;
+  width: auto;
+}
+
+input:focus-visible {
+  outline: 2px solid var(--focusVisible);
+  border-radius: 3px;
+}
+
+select:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--focusVisible);
+}
+
+button {
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 0.8rem 1.4rem;
+  background-color: var(--colorText);
+  border: 1px solid var(--colorBorder);
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+button:active {
+  background-color: #F7F7F7;
+  border-color: var(--colorBorder);
+  transform: scale(.96);
+}
+
+button:focus-visible{
+  outline: 2px solid var(--focusVisible);
+}
+
+button:disabled {
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
+  cursor: not-allowed;
+}
+
+.flexbox{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.divHeader {
+  background-color: var(--colorbar);
+  width: 100%;
+  height: 5rem;
+}
+
+.goHome {
+  position: absolute;
+  right: 10rem;
+  top: 1.6rem; /*9.87px*/
+  background-color: var(--colorbar);
+}
+
+.title {
+  margin: 0.8rem 1.5rem;
+  color: var(--color1);
+}
+
+#leftSide {
+  width: 35%;
+  padding: 1rem;
+  height:fit-content;
+  background-color: var(--colorBackgroundForm);
+  border: 3px solid var(--colorBorder);
+  border-radius: 1.25rem;
+  margin-top: 1rem;
+}
+
+.formBox{
+  padding: 1.5rem;
+  margin: auto;
+}
+
+.formBox input {
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.3rem 1rem;
+  text-align: center;
+}
+
+input:disabled {
+  background-color: var(--colorBorder);
+  border-color: var(--colorBorder);
+  color: var(--colorText);
+}
+
+.formBox > .Select,
+.formBox option {
+  font-size: 1rem;
+  width: 300px;
+  padding: 0.3rem 1rem;
+  text-align: center;
+}
+
+.formBox label{
+  float: left;
+  width: 6.25rem;
+  margin-right: 1.25rem;
+}
+
+.formBox button{    
+  margin: 1rem 0.5rem;
+  padding: 0.75rem 1.5rem;
+}
+
+#submitButton {
+  margin: 1rem auto;
+}
+
+.divButton {
+  display: flex;
+  align-items: center;
+}
+
+#rightSide{
+  width: 55%;
+  padding: 1rem;
+  height: 100%;
+}
+
+#tableForm {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.table{
+  width: 100%;
+  float: right;
+}
+
+tr {
+  border-bottom: 1px solid var(--colorBorder)9;
+  height: 50px;
+}
+
+th{
+  background-color: var(--colorTh);
+}
+
+tbody > tr {
+  background-color: var(--colorTbody);
+} 
+
+tfoot > tr{
+  background-color: var(--colorTfoot);
+  width: fit-content;
+}
+
+tbody > tr:hover td {
+  background-color: var(--colorHover);
 }

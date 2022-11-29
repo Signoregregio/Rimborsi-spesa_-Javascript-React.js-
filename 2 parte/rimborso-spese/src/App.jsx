@@ -1,12 +1,11 @@
 import "./index.css";
-import TableRefund from "./RefundPage/Table/TableRefund";
-import { useState } from "react";
+import RefundPage from "./RefundPage";
 
 function App() {
 
 	return (
 		<div>
-			<TableRefund ></TableRefund>
+			<RefundPage/>
 		</div>
 	);
 }
