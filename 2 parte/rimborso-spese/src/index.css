@@ -127,7 +127,7 @@ input:disabled {
   color: var(--colorText);
 }
 
-.formBox > .Select,
+.formBox select,
 .formBox option {
   font-size: 1rem;
   width: 300px;
@@ -192,4 +192,8 @@ tfoot > tr{
 
 tbody > tr:hover td {
   background-color: var(--colorHover);
+}
+
+.editButton {
+  padding:5px;
 }

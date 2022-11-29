@@ -1,16 +1,8 @@
 import dayjs from "dayjs";
-import { useState } from "react";
-import Select from 'react-select'
 
 export default function Form({ handleAddFormChange, handleAddFormSubmit, formObject }) {
-	const refundTypes = [
-		{ value: "Taxi", label: "Taxi" },
-		{ value: "Vitto", label: "Vitto" },
-		{ value: "Hotel", label: "Hotel" },
-		{ value: "Treno", label: "Treno" },
-	];
 
-
+	
 	return (
 		<form onSubmit={handleAddFormSubmit}>
 			{/* <div className="formBox">
@@ -20,7 +12,15 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, formObj
 
 			<div className="formBox">
 				<label>Tipo:</label>
-				<Select className="Select" placeholder="Inserire il tipo" options={refundTypes} onChange={handleAddFormChange}/>
+				<select name="type" defaultValue={"Inserire il tipo"} onChange={handleAddFormChange}>
+					<option   disabled>
+						Inserire il tipo
+					</option>
+					<option value="Taxi">Taxi</option>
+					<option value="Vitto">Vitto</option>
+					<option value="Hotel">Hotel</option>
+					<option value="Treno">Treno</option>
+				</select>
 			</div>
 
 			<div className="formBox">
@@ -39,8 +39,9 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, formObj
 			</div>
 
 			<div className="formBox">
-				<label>Ricevuta?</label>
-				<input type="checkbox" name="ticket" onChange={handleAddFormChange} />
+			<input type="radio" value="Sì" name="ticket" onChange={handleAddFormChange}/> Sì
+        	<input type="radio" value="No" name="ticket" onChange={handleAddFormChange}/> No
+
 			</div>
 			<div className="divButton">
 				<button type="submit" id="submitButton">

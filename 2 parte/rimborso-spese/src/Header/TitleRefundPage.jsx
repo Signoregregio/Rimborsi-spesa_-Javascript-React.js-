@@ -9,6 +9,6 @@ export default function TitleRefundPage({dateMonth}){
     (dateMonth !== "" && translateMonth());
 
     return(
-        <h1 className="title">Pagina rimborso di {dateMonth}</h1>
+        <h1 className="title">Pagina Rimborso Spese di {dateMonth}</h1>
     )
 }

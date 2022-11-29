@@ -1,38 +1,49 @@
-export default function TableRefund({ rows }) {
+import { Fragment } from "react";
+import ReadOnlyRow from "./ReadOnlyRow";
+import EditableRow from "./EditableRow";
+
+export default function TableRefund({
+	rows,
+	editRowId,
+	handleEditClick,
+	handleEditFormChange,
+	editFormData,
+	handleEditFormSubmit,
+}) {
 	return (
-		<table id="tableForm">
-			<thead>
-				<tr>
-					<th>Data</th>
-					<th>Tipo</th>
-					<th>Importo</th>
-					<th>Ricevuta</th>
-					<th>Stato</th>
-					<th>Importo dovuto</th>
-					<th>Filters</th>
-				</tr>
-			</thead>
-			<tbody>
-				{rows.map((row) => (
-					<tr key={row.id}>
-						<td>{row.dateRefund}</td>
-						<td>{row.type}</td>
-						<td>{row.amount}</td>
-						<td>{row.ticket}</td>
-						<td></td>
-						<td></td>
+		<form onSubmit={handleEditFormSubmit}>
+			<table id="tableForm">
+				<thead>
+					<tr>
+						<th>Data</th>
+						<th>Tipo</th>
+						<th>Importo</th>
+						<th>Ricevuta</th>
+						<th>Stato</th>
+						<th>Importo dovuto</th>
+						<th>Filters</th>
+					</tr>
+				</thead>
+				<tbody>
+					{rows.map((row) => (
+						<Fragment>
+							{editRowId === row.id ? (
+								<EditableRow handleEditFormChange={handleEditFormChange} editFormData={editFormData} />
+							) : (
+								<ReadOnlyRow row={row} handleEditClick={handleEditClick} />
+							)}
+						</Fragment>
+					))}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colSpan="4"></td>
+						<td>IMPORTO TOTALE :</td>
+						<td>{rows.reduce((accumulator, currentValue) => accumulator + currentValue.refund, 0)}</td>
 						<td></td>
 					</tr>
-				))}
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colSpan="4"></td>
-					<td>IMPORTO TOTALE :</td>
-					<td id="inputTotale"></td>
-					<td></td>
-				</tr>
-			</tfoot>
-		</table>
+				</tfoot>
+			</table>
+		</form>
 	);
 }
