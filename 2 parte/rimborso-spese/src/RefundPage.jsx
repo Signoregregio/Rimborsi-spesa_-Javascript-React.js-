@@ -1,7 +1,6 @@
 import Form from "./RefundPage/Form";
 import TableRefund from "./RefundPage/TableRefund";
-import TitleRefundPage from "./Header/TitleRefundPage";
-import Nav from "./Header/Nav";
+import Header from "./Header/Header";
 import { translateStatus, approveStatus, setMaxRefundable } from "./RefundPage/approvationRules";
 import { useState } from "react";
 import { nanoid } from "nanoid";
@@ -28,7 +27,7 @@ export default function RefundPage() {
 	const [editRowId, setEditRowId] = useState();
 
 	function handleAddFormChange(event) {
-		event.preventDefault();
+		// event.preventDefault();
 
 		const fieldName = event.target.getAttribute("name");
 		const fieldValue = event.target.value;
@@ -67,7 +66,6 @@ export default function RefundPage() {
 		setRows(newRows);
 		console.log(newRow);
 		console.log(newRows);
-		console.log(rows);
 	}
 
 	function handleEditFormSubmit(event) {
@@ -75,13 +73,13 @@ export default function RefundPage() {
 
 		let state = translateStatus(approveStatus(editFormData.ticket, editFormData.amount));
 		const editedRow = {
-			id: editFormData.id,
+			id: editRowId,
 			type: editFormData.type,
 			dateRefund: editFormData.dateRefund,
 			amount: Number(editFormData.amount),
 			ticket: editFormData.ticket,
 			state: state,
-			refund: Number(setMaxRefundable(state, formObject.type, formObject.amount)),
+			refund: Number(setMaxRefundable(state, editFormData.type, editFormData.amount)),
 		};
 
 		const newRows = [...rows];
@@ -89,10 +87,15 @@ export default function RefundPage() {
 		const index = rows.findIndex((row) => row.id === editRowId);
 
 		newRows[index] = editedRow;
-		setRows(newRows)
-		setEditRowId(null)
+		setRows(newRows);
+		setEditRowId(null);
 	}
 
+	const handleCancelClick = () => {
+		setEditRowId(null);
+	  };
+	
+	
 	function handleEditClick(event, row) {
 		event.preventDefault();
 		setEditRowId(row.id);
@@ -106,14 +109,16 @@ export default function RefundPage() {
 		setEditFormData(formValues);
 	}
 
+	function handleDeleteClick(rowId) {
+		const newRows = [...rows];
+		const index = rows.findIndex((row) => row.id === rowId);
+		newRows.splice(index, 1);
+		setRows(newRows);
+	}
+
 	return (
 		<div className="flexbox">
-			<div className="divHeader">
-				<header>
-					<TitleRefundPage dateMonth={formObject.dateRefund} />
-					<Nav />
-				</header>
-			</div>
+			<Header dateMonth={formObject.dateRefund}/>
 			<div id="leftSide">
 				<Form
 					handleAddFormChange={handleAddFormChange}
@@ -130,6 +135,8 @@ export default function RefundPage() {
 						handleEditFormChange={handleEditFormChange}
 						editFormData={editFormData}
 						handleEditFormSubmit={handleEditFormSubmit}
+						handleDeleteClick={handleDeleteClick}
+						handleCancelClick={handleCancelClick}
 					/>
 				</div>
 			</div>

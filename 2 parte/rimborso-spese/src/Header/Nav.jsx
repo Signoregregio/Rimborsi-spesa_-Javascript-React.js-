@@ -1,8 +1,14 @@
-export default function Nav(){
+import GoHome from "./GoHome";
+import LogIn from "./LogIn";
+import LogOut from "./LogOut";
 
-    return(
-        <nav>
-            <button className="goHome">Home</button>
-        </nav>
-    )
+export default function Nav() {
+	return (
+		<div className="divNav">
+			<nav>
+				<GoHome />
+				<LogOut></LogOut>
+			</nav>
+		</div>
+	);
 }

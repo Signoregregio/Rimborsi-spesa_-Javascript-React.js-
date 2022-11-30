@@ -9,12 +9,14 @@ export default function TableRefund({
 	handleEditFormChange,
 	editFormData,
 	handleEditFormSubmit,
+	handleDeleteClick,
+	handleCancelClick,
 }) {
 	return (
 		<form onSubmit={handleEditFormSubmit}>
 			<table id="tableForm">
 				<thead>
-					<tr>
+					<tr key={1}>
 						<th>Data</th>
 						<th>Tipo</th>
 						<th>Importo</th>
@@ -28,15 +30,24 @@ export default function TableRefund({
 					{rows.map((row) => (
 						<Fragment>
 							{editRowId === row.id ? (
-								<EditableRow handleEditFormChange={handleEditFormChange} editFormData={editFormData} />
+								<EditableRow
+									handleEditFormChange={handleEditFormChange}
+									editFormData={editFormData}
+									handleCancelClick={handleCancelClick}
+									id={row.id}
+								/>
 							) : (
-								<ReadOnlyRow row={row} handleEditClick={handleEditClick} />
+								<ReadOnlyRow
+									row={row}
+									handleEditClick={handleEditClick}
+									handleDeleteClick={handleDeleteClick}
+								/>
 							)}
 						</Fragment>
 					))}
 				</tbody>
 				<tfoot>
-					<tr>
+					<tr key={2}>
 						<td colSpan="4"></td>
 						<td>IMPORTO TOTALE :</td>
 						<td>{rows.reduce((accumulator, currentValue) => accumulator + currentValue.refund, 0)}</td>

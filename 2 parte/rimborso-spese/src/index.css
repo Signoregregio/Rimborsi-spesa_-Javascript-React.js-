@@ -87,10 +87,7 @@ button:disabled {
   height: 5rem;
 }
 
-.goHome {
-  position: absolute;
-  right: 10rem;
-  top: 1.6rem; /*9.87px*/
+.navButton {
   background-color: var(--colorbar);
 }
 
