@@ -1,7 +1,7 @@
-import Form from "./RefundPage/Form";
-import TableRefund from "./RefundPage/TableRefund";
-import Header from "./Header/Header";
-import { translateStatus, approveStatus, setMaxRefundable } from "./RefundPage/approvationRules";
+import Form from "../RefundPage/Form";
+import TableRefund from "../RefundPage/TableRefund";
+import Header from "../Header/Header";
+import { translateStatus, approveStatus, setMaxRefundable } from "../RefundPage/approvationRules";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 
@@ -118,7 +118,7 @@ export default function RefundPage() {
 
 	return (
 		<div className="flexbox">
-			<Header dateMonth={formObject.dateRefund}/>
+
 			<div id="leftSide">
 				<Form
 					handleAddFormChange={handleAddFormChange}

@@ -1,6 +1,9 @@
-export default function Home(){
 
-    return(
-            <button className="navButton">Home</button>
-    )
+export default function Home() {
+	return (
+		<button className="navButton">
+			 Home
+		</button>
+
+	);
 }

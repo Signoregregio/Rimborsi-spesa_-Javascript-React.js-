@@ -1,13 +1,13 @@
 import TitleRefundPage from "./TitleRefundPage";
 import Nav from "./Nav";
+import './header.css'
 
-export default function Header({dateMonth}) {
+export default function Header() {
 	return (
-		<div className="divHeader">
-			<header>
-				<TitleRefundPage dateMonth={dateMonth} />
+			<header className="mainHeader">
+				<TitleRefundPage />
+              
 				<Nav />
 			</header>
-		</div>
 	);
 }

@@ -1,0 +1,45 @@
+:root {
+	--color1: rgb(22, 22, 22);
+	--colorBackgroundForm: #26282c;
+	--colorTh: rgba(40, 40, 40, 1);
+	--colorTbody: #373636;
+	--colorHover: #4d3e3e;
+	--colorBorder: #59585b;
+	--colorText: #ddd;
+	--colorTfoot: #4d3e3e;
+	--colorHeader: #8754de;
+	--colorButtonHover: #7c4dcc;
+	--colorTextBar: greenyellow;
+	--colorBackgroundBar: #222222;
+	--focusVisible: rgb(255, 252, 48);
+}
+
+.mainHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 5rem;
+	background-color: var(--colorHeader);
+}
+
+.navButton {
+	background-color: var(--colorHeader);
+	margin: 0rem 0.5rem;
+    padding: 1rem;
+    border: none;
+}
+
+.navButton:hover {
+    background-color: var(--colorButtonHover);
+}
+
+.title {
+	margin: 0.8rem 1.5rem;
+	color: var(--color1);
+}
+
+.divNav {
+    margin-right: 1rem;
+}

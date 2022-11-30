@@ -1,11 +1,12 @@
 import "./index.css";
-import RefundPage from "./RefundPage";
+import RefundPage from "./Pages/RefundPage";
+import Header from "./Header/Header";
 
 function App() {
-
 	return (
 		<div>
-			<RefundPage/>
+			<Header />
+			<RefundPage />
 		</div>
 	);
 }
