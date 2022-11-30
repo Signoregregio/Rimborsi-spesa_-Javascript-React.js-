@@ -1,4 +1,4 @@
-import { maxRefundable } from "../Json/maxRefundable";
+import { maxRefundable } from "../../Json/maxRefundable";
 
 let maxTaxi = maxRefundable[0].taxi;
 let maxVitto = maxRefundable[0].vitto;

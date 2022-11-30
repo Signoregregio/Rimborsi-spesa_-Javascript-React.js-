@@ -1,0 +1,49 @@
+:root {
+	--color1: rgb(22, 22, 22);
+	--colorBackgroundForm: #26282c;
+	--colorTh: rgba(40, 40, 40, 1);
+	--colorTbody: #373636;
+	--colorHover: #4d3e3e;
+	--colorBorder: #59585b;
+	--colorText: #ddd;
+	--colorTfoot: #4d3e3e;
+	--colorbar: #8754de;
+	--colorTextBar: greenyellow;
+	--colorBackgroundBar: #222222;
+	--focusVisible: rgb(255, 252, 48);
+}
+
+.divFormMonth {
+	width: 30%;
+	height: fit-content;
+	background-color: var(--colorBackgroundForm);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 1rem;
+	margin-top: 10%;
+	border-radius: 1rem;
+    border: 3px solid var(--colorBorder);
+}
+
+
+.divFormMonth > * {
+	flex-basis: 100%;
+	text-align: center;
+}
+
+.container {
+	width: 100%;
+	height: 85vh;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.divInputMonth {
+	margin-bottom: 4rem;
+}
+
+.inputMonth {
+	padding: 0.5rem;
+}

@@ -1,17 +1,17 @@
 import "./index.css";
 import RefundPage from "./Pages/RefundPage";
 import Header from "./Header/Header";
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 
 function App() {
 	return (
-		<div>
-				<Header />
+		<div >
+			<Header />
 			<Routes>
-				<Route path="/" element={<RefundPage/>} />
+				<Route path="/" element={<RefundPage />} />
 
-				<Route path="/miao" element={<HomePage/>} />
+				<Route path="/home" element={<HomePage />} />
 			</Routes>
 		</div>
 	);
