@@ -1,7 +1,6 @@
-import Form from "../RefundPage/Form";
-import TableRefund from "../RefundPage/TableRefund";
-import Header from "../Header/Header";
-import { translateStatus, approveStatus, setMaxRefundable } from "../RefundPage/approvationRules";
+import Form from "../RefundPageComponents/Form";
+import TableRefund from "../RefundPageComponents/TableRefund";
+import { translateStatus, approveStatus, setMaxRefundable } from "../RefundPageComponents/approvationRules";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 
