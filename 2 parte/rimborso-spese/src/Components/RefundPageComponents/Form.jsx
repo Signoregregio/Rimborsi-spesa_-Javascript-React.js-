@@ -38,9 +38,9 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, formObj
 				<input name="amount" onChange={handleAddFormChange} />
 			</div>
 
-			<div className="formBox">
-			<input type="radio" className="radioBtn" value="Sì" name="ticket" onChange={handleAddFormChange}/> Sì
-        	<input type="radio" className="radioBtn" value="No" name="ticket" onChange={handleAddFormChange}/> No
+			<div className="formBox">Scontrino? <br></br>
+			<label> Sì </label><input type="radio" className="radioBtn" value="Sì" name="ticket" onChange={handleAddFormChange}/><br />
+        	<label> No </label><input type="radio" className="radioBtn" value="No" name="ticket" onChange={handleAddFormChange}/>
 
 			</div>
 			<div className="divButton">
