@@ -1,8 +1,12 @@
 import Form from "../Components/RefundPageComponents/Form";
 import TableRefund from "../Components/RefundPageComponents/TableRefund";
-import { translateStatus, approveStatus, setMaxRefundable } from "../Components/RefundPageComponents/approvationRules";
+import { translateStatus, approveStatus, calculateMaxRefundable } from "../Components/RefundPageComponents/approvationRules";
+import { storageRimborsoMax } from "../API/fetchFunc";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
+import { useEffect } from "react";
 
 export default function RefundPage() {
 	const [rows, setRows] = useState([]);
@@ -25,7 +29,12 @@ export default function RefundPage() {
 
 	const [editRowId, setEditRowId] = useState();
 
-	
+    const {user} = useContext(UserContext);
+
+	useEffect(() => {
+		
+		storageRimborsoMax(user.role);
+	}, [])
 	
 	function handleAddFormChange(event) {
 		// event.preventDefault();
@@ -61,7 +70,7 @@ export default function RefundPage() {
 			amount: Number(formObject.amount),
 			ticket: formObject.ticket,
 			state: state,
-			refund: Number(setMaxRefundable(state, formObject.type, formObject.amount)),
+			refund: Number(calculateMaxRefundable(state, formObject.type, formObject.amount)),
 		};
 		const newRows = [...rows, newRow];
 		setRows(newRows);
@@ -80,7 +89,7 @@ export default function RefundPage() {
 			amount: Number(editFormData.amount),
 			ticket: editFormData.ticket,
 			state: state,
-			refund: Number(setMaxRefundable(state, editFormData.type, editFormData.amount)),
+			refund: Number(calculateMaxRefundable(state, editFormData.type, editFormData.amount)),
 		};
 
 		const newRows = [...rows];

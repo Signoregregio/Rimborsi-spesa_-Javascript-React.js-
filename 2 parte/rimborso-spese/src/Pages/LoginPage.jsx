@@ -1,7 +1,7 @@
 import LoginForm from "../Components/LoginPageComponents/LoginForm";
 
-export default function LoginPage(){
+export default function LoginPage({handleUsernameChange, login}){
     return (
-        <LoginForm/>
+        <LoginForm handleUsernameChange={handleUsernameChange} login={login}/>
     )
 }

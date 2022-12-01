@@ -25,7 +25,7 @@ export function approveStatus(ticket, amount) {
     }
 }
 
-export function setMaxRefundable(state, type, amount) {
+export function calculateMaxRefundable(state, type, amount) {
     if (state === "Non approvata" && amount >= 10) {
         return 10;
     }

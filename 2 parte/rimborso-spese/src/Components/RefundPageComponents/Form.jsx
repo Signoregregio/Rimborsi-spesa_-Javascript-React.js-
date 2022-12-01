@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
@@ -9,9 +8,8 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 	const inputDate = useRef();
 	let { id } = useParams();
 
-	console.log(id, month)
+	console.log(id, month);
 
-	
 	useEffect(() => {
 		let maxDate = "";
 
@@ -20,7 +18,7 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 			maxDate = dayjs().format("YYYY-MM-DD");
 		}
 		if (currentMonth !== month) {
-			let daysInMonth = dayjs(`${month}-01`).daysInMonth();
+			 let daysInMonth = dayjs(`${month}-01`).daysInMonth();
 			maxDate = month + "-" + daysInMonth;
 		}
 		inputDate.current.setAttribute("max", maxDate);
@@ -58,7 +56,7 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 
 			<div className="formBox">
 				<label>Importo richiesto:</label>
-				<input name="amount" onChange={handleAddFormChange} placeholder="Importo richiesto..."/>
+				<input name="amount" onChange={handleAddFormChange} placeholder="Importo richiesto..." />
 			</div>
 
 			<div className="formBox">

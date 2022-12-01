@@ -1,16 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./loginForm.css";
 
-export default function LoginForm() {
-    let navigate = useNavigate();
-    const [username, setUsername] = useState("")
-    function handleUsernameChange(event){
-        event.preventDefault();
-        const fieldValue = event.target.value
-        setUsername(fieldValue);
-    }
-    
+export default function LoginForm({handleUsernameChange, login}) {
+	
+
 	return (
 		<div className="container">
 			<div className="divFormMonth">
@@ -26,16 +18,16 @@ export default function LoginForm() {
 						<option value="5">5</option>
 						<option value="6">6</option>
 						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
+						<option value="24">24</option>
+						<option value="25">25</option>
+						<option value="26">26</option>
 					</select>
 				</div>
 				<div className="inputLogin">
 					<label>Password</label>
-					<input type="text" className="inputPassword" placeholder="Password..."/>
+					<input type="password" className="inputPassword" placeholder="Password..."/>
 				</div>
-                <button className="loginBtn" onClick={() => {navigate(`/home/${username}`)}}>Login</button>
+                <button className="loginBtn" onClick={() => {login()}}>Login</button>
 			</div>
 		</div>
 	);
