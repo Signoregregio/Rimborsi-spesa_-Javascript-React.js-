@@ -30,11 +30,12 @@ export default function TableRefund({
 					{rows.map((row) => (
 						<Fragment>
 							{editRowId === row.id ? (
+
 								<EditableRow
 									handleEditFormChange={handleEditFormChange}
 									editFormData={editFormData}
 									handleCancelClick={handleCancelClick}
-									id={row.id}
+									row = {row}
 								/>
 							) : (
 								<ReadOnlyRow
@@ -42,7 +43,7 @@ export default function TableRefund({
 									handleEditClick={handleEditClick}
 									handleDeleteClick={handleDeleteClick}
 								/>
-							)}
+								)}
 						</Fragment>
 					))}
 				</tbody>

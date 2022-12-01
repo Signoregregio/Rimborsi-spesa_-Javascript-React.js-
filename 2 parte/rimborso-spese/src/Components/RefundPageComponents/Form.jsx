@@ -1,8 +1,32 @@
 import dayjs from "dayjs";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-export default function Form({ handleAddFormChange, handleAddFormSubmit, formObject }) {
+export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
+	let { month } = useParams();
+	console.log(month);
+	const inputDate = useRef();
+	let { id } = useParams();
+
+	console.log(id, month)
 
 	
+	useEffect(() => {
+		let maxDate = "";
+
+		let currentMonth = dayjs().format("YYYY-MM");
+		if (currentMonth === month) {
+			maxDate = dayjs().format("YYYY-MM-DD");
+		}
+		if (currentMonth !== month) {
+			let daysInMonth = dayjs(`${month}-01`).daysInMonth();
+			maxDate = month + "-" + daysInMonth;
+		}
+		inputDate.current.setAttribute("max", maxDate);
+		console.log(maxDate);
+	}, [month]);
+
 	return (
 		<form onSubmit={handleAddFormSubmit}>
 			{/* <div className="formBox">
@@ -13,9 +37,7 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, formObj
 			<div className="formBox">
 				<label>Tipo:</label>
 				<select name="type" defaultValue={"Inserire il tipo"} onChange={handleAddFormChange}>
-					<option   disabled>
-						Inserire il tipo
-					</option>
+					<option disabled>Inserire il tipo</option>
 					<option value="Taxi">Taxi</option>
 					<option value="Vitto">Vitto</option>
 					<option value="Hotel">Hotel</option>
@@ -28,20 +50,24 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, formObj
 				<input
 					type="date"
 					name="dateRefund"
-					max={dayjs().format("YYYY-MM-DD")}
+					ref={inputDate}
+					min={`${month}-01`}
 					onChange={handleAddFormChange}
 				/>
 			</div>
 
 			<div className="formBox">
 				<label>Importo richiesto:</label>
-				<input name="amount" onChange={handleAddFormChange} />
+				<input name="amount" onChange={handleAddFormChange} placeholder="Importo richiesto..."/>
 			</div>
 
-			<div className="formBox">Scontrino? <br></br>
-			<label> Sì </label><input type="radio" className="radioBtn" value="Sì" name="ticket" onChange={handleAddFormChange}/><br />
-        	<label> No </label><input type="radio" className="radioBtn" value="No" name="ticket" onChange={handleAddFormChange}/>
-
+			<div className="formBox">
+				Scontrino? <br></br>
+				<label> Sì </label>
+				<input type="radio" className="radioBtn" value="Sì" name="ticket" onChange={handleAddFormChange} />
+				<br />
+				<label> No </label>
+				<input type="radio" className="radioBtn" value="No" name="ticket" onChange={handleAddFormChange} />
 			</div>
 			<div className="divButton">
 				<button type="submit" id="submitButton">

@@ -1,6 +1,6 @@
-export default function EditableRow({handleEditFormChange, editFormData, handleCancelClick, id}){
+export default function EditableRow({handleEditFormChange, editFormData, handleCancelClick, row}){
     return(
-        <tr key={id}>
+        <tr key={row.id}>
             <td>
                 <input type="text" required="required" placeholder="Enter a date..." name="date" value={editFormData.dateRefund} onChange={handleEditFormChange}/>               
             </td>
