@@ -31,9 +31,13 @@ export default function RefundPage() {
 
     const {user} = useContext(UserContext);
 
+	let userId;
+	let userRole;
+	let maxRefundable;
 	useEffect(() => {
-		
-		storageRimborsoMax(user.role);
+		userId = sessionStorage.getItem("userId");
+        userRole = sessionStorage.getItem("userRole");
+		maxRefundable = storageRimborsoMax(userRole);
 	}, [])
 	
 	function handleAddFormChange(event) {
@@ -70,7 +74,7 @@ export default function RefundPage() {
 			amount: Number(formObject.amount),
 			ticket: formObject.ticket,
 			state: state,
-			refund: Number(calculateMaxRefundable(state, formObject.type, formObject.amount)),
+			refund: Number(calculateMaxRefundable(state, formObject.type, formObject.amount, maxRefundable)),
 		};
 		const newRows = [...rows, newRow];
 		setRows(newRows);

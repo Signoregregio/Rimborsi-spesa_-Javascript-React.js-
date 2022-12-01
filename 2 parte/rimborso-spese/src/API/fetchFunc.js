@@ -41,7 +41,7 @@ export async function storageRimborsoMax(role) {
         }})
     .catch(error => console.log(error));
     console.log(maxRefundable)
-    // return maxRefundable;
+    return maxRefundable;
 }
 
 export async function downloadTable() {

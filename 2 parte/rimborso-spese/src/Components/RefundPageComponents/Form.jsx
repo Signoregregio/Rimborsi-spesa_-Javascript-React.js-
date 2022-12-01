@@ -4,11 +4,7 @@ import { useParams } from "react-router-dom";
 
 export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 	let { month } = useParams();
-	console.log(month);
 	const inputDate = useRef();
-	let { id } = useParams();
-
-	console.log(id, month);
 
 	useEffect(() => {
 		let maxDate = "";
@@ -22,7 +18,6 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 			maxDate = month + "-" + daysInMonth;
 		}
 		inputDate.current.setAttribute("max", maxDate);
-		console.log(maxDate);
 	}, [month]);
 
 	return (

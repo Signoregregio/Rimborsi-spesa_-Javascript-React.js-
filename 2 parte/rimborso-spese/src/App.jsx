@@ -26,7 +26,9 @@ function App() {
 
 	async function login() {
 		if (user.role) {
-			sessionStorage.setItem("user", user);
+			console.log(user)
+			sessionStorage.setItem("userRole", user.role);
+			sessionStorage.setItem("userId", user.id);
 			navigate(`/home/${user.id}`);
 		}
 		if (!user.role) {
