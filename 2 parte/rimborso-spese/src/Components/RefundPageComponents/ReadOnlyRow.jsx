@@ -1,6 +1,6 @@
 export default function ReadOnlyRow({ row, handleEditClick, handleDeleteClick }) {
 	return (
-		<tr key={row.id}>
+		<tr >
 			<td>{row.dateRefund}</td>
 			<td>{row.type}</td>
 			<td>{row.amount}</td>

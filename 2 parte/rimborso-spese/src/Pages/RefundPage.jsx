@@ -1,12 +1,19 @@
 import Form from "../Components/RefundPageComponents/Form";
 import TableRefund from "../Components/RefundPageComponents/TableRefund";
-import { translateStatus, approveStatus, calculateMaxRefundable } from "../Components/RefundPageComponents/approvationRules";
+import {
+	translateStatus,
+	approveStatus,
+	calculateMaxRefundable,
+} from "../Components/RefundPageComponents/approvationRules";
 import { storageRimborsoMax } from "../API/fetchFunc";
 import { useState } from "react";
 import { nanoid } from "nanoid";
-import { useContext } from "react";
-import { UserContext } from "../UserContext";
 import { useEffect } from "react";
+
+
+let userId;
+let userRole;
+let maxRefundable;
 
 export default function RefundPage() {
 	const [rows, setRows] = useState([]);
@@ -29,19 +36,17 @@ export default function RefundPage() {
 
 	const [editRowId, setEditRowId] = useState();
 
-    const {user} = useContext(UserContext);
 
-	let userId;
-	let userRole;
-	let maxRefundable;
+
 	useEffect(() => {
 		userId = sessionStorage.getItem("userId");
-        userRole = sessionStorage.getItem("userRole");
+		userRole = sessionStorage.getItem("userRole");
 		maxRefundable = storageRimborsoMax(userRole);
-	}, [])
-	
+	}, []);
+
 	function handleAddFormChange(event) {
 		// event.preventDefault();
+		console.log(userId)
 
 		const fieldName = event.target.getAttribute("name");
 		const fieldValue = event.target.value;
@@ -54,7 +59,6 @@ export default function RefundPage() {
 
 	function handleEditFormChange(event) {
 		event.preventDefault();
-
 		const fieldName = event.target.getAttribute("name");
 		const fieldValue = event.target.value;
 
@@ -74,11 +78,13 @@ export default function RefundPage() {
 			amount: Number(formObject.amount),
 			ticket: formObject.ticket,
 			state: state,
-			refund: Number(calculateMaxRefundable(state, formObject.type, formObject.amount, maxRefundable)),
+			refund: 0,
 		};
+		newRow.refund = calculateMaxRefundable(newRow, maxRefundable)
+		// console.log(maxRefundable)
+		// console.log(userId)
 		const newRows = [...rows, newRow];
 		setRows(newRows);
-		console.log(newRow);
 		console.log(newRows);
 	}
 
@@ -95,7 +101,6 @@ export default function RefundPage() {
 			state: state,
 			refund: Number(calculateMaxRefundable(state, editFormData.type, editFormData.amount)),
 		};
-
 		const newRows = [...rows];
 
 		const index = rows.findIndex((row) => row.id === editRowId);
@@ -107,9 +112,8 @@ export default function RefundPage() {
 
 	const handleCancelClick = () => {
 		setEditRowId(null);
-	  };
-	
-	
+	};
+
 	function handleEditClick(event, row) {
 		event.preventDefault();
 		setEditRowId(row.id);
@@ -132,7 +136,6 @@ export default function RefundPage() {
 
 	return (
 		<div className="flexbox">
-
 			<div id="leftSide">
 				<Form
 					handleAddFormChange={handleAddFormChange}

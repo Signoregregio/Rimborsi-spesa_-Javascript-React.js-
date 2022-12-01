@@ -25,24 +25,24 @@ export function approveStatus(ticket, amount) {
     }
 }
 
-export function calculateMaxRefundable(state, type, amount, maxRef) {
-    if (state === "Non approvata" && amount >= 10) {
+export function calculateMaxRefundable(row, maxRef) {
+    if (row.state === "Non approvata" && row.amount >= 10) {
         return 10;
     }
-    if(state === "Non approvata" && amount < 10){
-        return amount;
+    if(row.state === "Non approvata" && row.amount < 10){
+        return row.amount;
     }
-    if (type === "Taxi" && amount > maxRef.taxi) {
+    if (row.type === "Taxi" && row.amount > maxRef.taxi) {
         return maxRef.taxi;
     }
-    if (type === "Vitto" && amount > maxRef.vitto) {
+    if (row.type === "Vitto" && row.amount > maxRef.vitto) {
         return maxRef.vitto;
     }
-    if (type === "Hotel" && amount > maxRef.hotel) {
+    if (row.type === "Hotel" && row.amount > maxRef.hotel) {
         return maxRef.hotel;
     }
-    if (type === "Treno" && amount > maxRef.Treno) {
+    if (row.type === "Treno" && row.amount > maxRef.Treno) {
         return maxRef.Treno;
     }
-    return amount;    
+    return row.amount;    
 }

@@ -6,7 +6,6 @@ import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import { useState, useMemo } from "react";
 import { getRole, storageRimborsoMax } from "./API/fetchFunc";
-import { UserContext } from "./UserContext";
 
 function App() {
 	const [user, setUser] = useState({
@@ -43,14 +42,12 @@ function App() {
 	// id, ruolo usecontext
 	return (
 		<div>
-			<UserContext.Provider value={value}>
 				<Header />
 				<Routes>
 					<Route path="/" element={<LoginPage handleUsernameChange={handleUsernameChange} login={login} />} />
 					<Route path="/refundpage/:id/:month" element={<RefundPage />} />
 					<Route path="/home/:id" element={<HomePage />} />
 				</Routes>
-			</UserContext.Provider>
 		</div>
 	);
 }

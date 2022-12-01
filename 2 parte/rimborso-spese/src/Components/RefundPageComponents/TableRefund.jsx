@@ -28,10 +28,9 @@ export default function TableRefund({
 				</thead>
 				<tbody>
 					{rows.map((row) => (
-						<Fragment>
+						<Fragment key={row.id}>
 							{editRowId === row.id ? (
-
-								<EditableRow
+								<EditableRow 
 									handleEditFormChange={handleEditFormChange}
 									editFormData={editFormData}
 									handleCancelClick={handleCancelClick}
