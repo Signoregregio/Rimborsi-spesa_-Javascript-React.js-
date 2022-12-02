@@ -1,10 +1,3 @@
-import { maxRefundable } from "../../Json/maxRefundable";
-
-let maxTaxi = maxRefundable[0].taxi;
-let maxVitto = maxRefundable[0].vitto;
-let maxHotel = maxRefundable[0].hotel;
-let maxTreno = maxRefundable[0].treno;
-
 export function translateStatus(status) {
 	if (status === -1) {
 		return "Non approvata";

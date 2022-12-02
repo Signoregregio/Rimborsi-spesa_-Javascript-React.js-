@@ -34,7 +34,6 @@ export default function TableRefund({
 									handleEditFormChange={handleEditFormChange}
 									editFormData={editFormData}
 									handleCancelClick={handleCancelClick}
-									row = {row}
 								/>
 							) : (
 								<ReadOnlyRow

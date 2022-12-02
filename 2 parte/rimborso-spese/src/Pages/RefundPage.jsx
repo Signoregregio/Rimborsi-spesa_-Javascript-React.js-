@@ -5,11 +5,11 @@ import {
 	approveStatus,
 	calculateMaxRefundable,
 } from "../Components/RefundPageComponents/approvationRules";
-import { storageRimborsoMax } from "../API/fetchFunc";
+import { storageRimborsoMax, downloadTable } from "../API/fetchFunc";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
-
+import { useParams } from "react-router-dom";
 
 let userId;
 let userRole;
@@ -18,7 +18,7 @@ let maxRefundable;
 export default function RefundPage() {
 	const [rows, setRows] = useState([]);
 	const [formObject, setFormObject] = useState({
-		month: "",
+		id: "",
 		type: "",
 		dateRefund: "",
 		amount: 0,
@@ -36,17 +36,23 @@ export default function RefundPage() {
 
 	const [editRowId, setEditRowId] = useState();
 
-
+	let { month } = useParams();
 
 	useEffect(() => {
-		userId = sessionStorage.getItem("userId");
-		userRole = sessionStorage.getItem("userRole");
-		maxRefundable = storageRimborsoMax(userRole);
+		const fetchData = async () => {
+			userId = sessionStorage.getItem("userId");
+			userRole = sessionStorage.getItem("userRole");
+			maxRefundable = storageRimborsoMax(userRole);
+			let newRows = await downloadTable(userId, month);
+			setRows(newRows);
+			console.log(newRows);
+		};
+		fetchData();
 	}, []);
 
 	function handleAddFormChange(event) {
 		// event.preventDefault();
-		console.log(userId)
+		console.log(userId);
 
 		const fieldName = event.target.getAttribute("name");
 		const fieldValue = event.target.value;
@@ -80,7 +86,7 @@ export default function RefundPage() {
 			state: state,
 			refund: 0,
 		};
-		newRow.refund = calculateMaxRefundable(newRow, maxRefundable)
+		newRow.refund = calculateMaxRefundable(newRow, maxRefundable);
 		// console.log(maxRefundable)
 		// console.log(userId)
 		const newRows = [...rows, newRow];

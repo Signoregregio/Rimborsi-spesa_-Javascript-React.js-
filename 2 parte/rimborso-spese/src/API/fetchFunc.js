@@ -4,13 +4,13 @@ let userId;
 let tableListRimborso = [];
 
 export function mockLink() {
-    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/'
+    return 'https://638a2950c5356b25a2141671.mockapi.io/'
 }
 export function mockLinkUser(userId) {
-    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/user/' + userId;
+    return 'https://638a2950c5356b25a2141671.mockapi.io/users/' + userId;
 }
 export function mockLinkSpesa(userId) {
-    return 'https://63453f7439ca915a69f9a522.mockapi.io/api/user/' + userId + '/spesa';
+    return 'https://638a2950c5356b25a2141671.mockapi.io/users/' + userId + '/spesa';
 }
 
 
@@ -28,7 +28,7 @@ export async function getRole(username) {
 
 export async function storageRimborsoMax(role) {
     const maxRefundable = {};
-    await fetch(mockLink() + "rimborsoMax")
+    await fetch(mockLink() + "maxRefundable")
     .then(response => response.json())
     .then(data => {
         for (const key in data) {
@@ -44,33 +44,33 @@ export async function storageRimborsoMax(role) {
     return maxRefundable;
 }
 
-export async function downloadTable() {
+export async function downloadTable(userId, month) {
     console.log("%c DOWNLOADING ","background-color:DeepPink;color:white;font-size:16px;")
+    let refundList = [];
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())
-    .then(data => jsonToArray(data))
+    .then(data => jsonToArray(data, month, refundList))
     .catch(error => console.log(error));
 
-    console.log(tableListRimborso)
+    console.log(refundList)
+    return refundList;
     // sortByColumn(columnSort, tableListRimborso);
     // resetTable();
     // writeCreateTable(tableListRimborso);
     // undisableForm();
 }
 
-export function jsonToArray(obj) {
-    let yearMonth = document.getElementById("inputMonth").value
-    tableListRimborso = [];
+export function jsonToArray(obj, month, refundList) {
     obj.map(value => {
         Object.keys(value).map(item => {
             if (item != "id" && item != "userId") {
                 let tableDate = value[item].date.match('[0-9]{4}[-][0-9]{2}');
-                if (yearMonth == tableDate) {
+                if (month == tableDate) {
                     // value[item].primaryKey = primaryKey++;
-                    tableListRimborso.push(value[item]);
+                    refundList.push(value[item]);
                 }    
             }
         })
