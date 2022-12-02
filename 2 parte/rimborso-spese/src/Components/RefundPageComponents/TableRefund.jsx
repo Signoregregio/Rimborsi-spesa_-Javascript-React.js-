@@ -28,8 +28,8 @@ export default function TableRefund({
 				</thead>
 				<tbody>
 					{rows.map((row) => (
-						<Fragment key={row.id}>
-							{editRowId === row.id ? (
+						<Fragment key={row.primaryKey}>
+							{editRowId === row.primaryKey ? (
 								<EditableRow 
 									handleEditFormChange={handleEditFormChange}
 									editFormData={editFormData}

@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function FormMonth() {
 	let navigate = useNavigate()
 	const [month, setMonth] = useState("")
-	let { id } = useParams()
+	let { primaryKey } = useParams()
 	
 	function handleMonthChange(event) {
 		event.preventDefault();
@@ -21,7 +21,7 @@ export default function FormMonth() {
 					<div className="formbox divInputMonth">
 						<input type="month" className="inputMonth" onChange={handleMonthChange}></input>
 					</div>
-					<button type="submit" onClick={() => {navigate(`/refundpage/${id}/${month}`)}}> Confirm</button>
+					<button type="submit" onClick={() => {navigate(`/refundpage/${primaryKey}/${month}`)}}> Confirm</button>
 				</form>
 			</div>
 		</div>

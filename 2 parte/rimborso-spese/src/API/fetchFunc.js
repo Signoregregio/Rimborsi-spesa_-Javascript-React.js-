@@ -67,7 +67,7 @@ export function jsonToArray(obj, month, refundList) {
     obj.map(value => {
         Object.keys(value).map(item => {
             if (item != "id" && item != "userId") {
-                let tableDate = value[item].date.match('[0-9]{4}[-][0-9]{2}');
+                let tableDate = value[item].dateRefund.match('[0-9]{4}[-][0-9]{2}');
                 if (month == tableDate) {
                     // value[item].primaryKey = primaryKey++;
                     refundList.push(value[item]);
@@ -86,7 +86,7 @@ export async function SubmitMonthMock() {
 }
 
 export async function getIdByMonthMock() {
-    console.log("%c GETTING ID ","background-color:red;color:white;font-size:16px;")
+    console.log("%c GETTING primaryKey ","background-color:red;color:white;font-size:16px;")
 
     await fetch(mockLinkSpesa(userId),{
         method: "GET",
@@ -95,7 +95,7 @@ export async function getIdByMonthMock() {
     .then(response => response.json())
     .then(data => idMonthSelected(data))
     .catch(error => console.log(error));
-    console.log("ID TO DELETE : ")
+    console.log("primaryKey TO DELETE : ")
     console.log(idArray)
     return idArray;
 }
@@ -106,7 +106,7 @@ export async function idMonthSelected(obj) {
     obj.filter(value => {
         let tableDate = value[0].date.match('[0-9]{4}[-][0-9]{2}');
         if (tableDate == yearMonth) {
-            idArray.push(value.id)
+            idArray.push(value.primaryKey)
         }
     })
 }
@@ -133,7 +133,7 @@ export async function postTable() {
     //         headers: {"Content-type": "application/json; charset=UTF-8"}
     //     })
     //     .then(response => response.json())
-    //     .then(data => {console.log(data); console.log("NUOVO ID " + data.id)})
+    //     .then(data => {console.log(data); console.log("NUOVO primaryKey " + data.primaryKey)})
     //     .catch(error => console.log(error));
     // } else {
     //     console.log("%c tableIsEmpty","font-size:16px;")

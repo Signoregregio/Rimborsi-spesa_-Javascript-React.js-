@@ -9,7 +9,7 @@ import { getRole, storageRimborsoMax } from "./API/fetchFunc";
 
 function App() {
 	const [user, setUser] = useState({
-		id: "",
+		primaryKey: "",
 		role: "",
 	});
 	let navigate = useNavigate();
@@ -20,33 +20,33 @@ function App() {
 		const fieldValue = event.target.value;
 		let role = await getRole(fieldValue);
 		console.log(role);
-		setUser({ id: fieldValue, role: role });
+		setUser({ primaryKey: fieldValue, role: role });
 	}
 
 	async function login() {
 		if (user.role) {
 			console.log(user)
 			sessionStorage.setItem("userRole", user.role);
-			sessionStorage.setItem("userId", user.id);
-			navigate(`/home/${user.id}`);
+			sessionStorage.setItem("userId", user.primaryKey);
+			navigate(`/home/${user.primaryKey}`);
 		}
 		if (!user.role) {
 			setUser({
-				id: "",
+				primaryKey: "",
 				role: "",
 			});
 		}
 	}
-	// funziona che mi controlla se esiste l'id, e se c'è me lo salva in useContext e lo setta true
+	// funziona che mi controlla se esiste l'primaryKey, e se c'è me lo salva in useContext e lo setta true
 
-	// id, ruolo usecontext
+	// primaryKey, ruolo usecontext
 	return (
 		<div>
 				<Header />
 				<Routes>
 					<Route path="/" element={<LoginPage handleUsernameChange={handleUsernameChange} login={login} />} />
-					<Route path="/refundpage/:id/:month" element={<RefundPage />} />
-					<Route path="/home/:id" element={<HomePage />} />
+					<Route path="/refundpage/:primaryKey/:month" element={<RefundPage />} />
+					<Route path="/home/:primaryKey" element={<HomePage />} />
 				</Routes>
 		</div>
 	);

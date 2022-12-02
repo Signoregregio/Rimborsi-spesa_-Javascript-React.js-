@@ -36,70 +36,70 @@ let users = [
 		name: "Gabriele",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/15.jpg",
 		role: "Presidente",
-		id: "1",
+		"primaryKey": "1",
 	},
 	{
 		createdAt: 1665557138,
 		name: "Daniele",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1085.jpg",
 		role: "Dipendente",
-		id: "2",
+		"primaryKey": "2",
 	},
 	{
 		createdAt: 1665557078,
 		name: "Leonardo",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/234.jpg",
 		role: "Dipendente",
-		id: "3",
+		"primaryKey": "3",
 	},
 	{
 		createdAt: 1665557018,
 		name: "Luca",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1131.jpg",
 		role: "Dipendente",
-		id: "4",
+		"primaryKey": "4",
 	},
 	{
 		createdAt: 1665556898,
 		name: "Francesco",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1222.jpg",
 		role: "Manager",
-		id: "6",
+		"primaryKey": "6",
 	},
 	{
 		createdAt: 1665556838,
 		name: "Matteo",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/315.jpg",
 		role: "Dipendente",
-		id: "7",
+		"primaryKey": "7",
 	},
 	{
 		createdAt: 1665556778,
 		name: "Filippo",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1027.jpg",
 		role: "Segretaria",
-		id: "8",
+		"primaryKey": "8",
 	},
 	{
 		createdAt: 1665556718,
 		name: "Chiara",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/362.jpg",
 		role: "Segretaria",
-		id: "9",
+		"primaryKey": "9",
 	},
 	{
 		createdAt: 1665556658,
 		name: "Leonardo",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/659.jpg",
 		role: "Manager",
-		id: "10",
+		"primaryKey": "10",
 	},
 	{
 		createdAt: 1665568785,
 		name: "Fabio",
 		avatar: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/277.jpg",
 		role: "Manager",
-		id: "5",
+		"primaryKey": "5",
 	})
 ]
 
@@ -107,379 +107,759 @@ let users = [
 
 
 let spesa = [
-	({
-		0: {
-			date: "2022-10-08",
-			type: "Vitto",
-			importo: "500",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 300,
-			id: 0,
+	{
+		"0": {		
+			"dateRefund": "2022-10-08",
+			"type": "Vitto",
+			"amount": "500",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 300,
+			"primaryKey": 0
 		},
-		1: {
-			date: "2022-10-08",
-			type: "Vitto",
-			importo: "500",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 300,
-			id: 1,
+		"1": {
+			"dateRefund": "2022-10-08",
+			"type": "Vitto",
+			"amount": "500",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 300,
+			"primaryKey": 1
 		},
-		2: {
-			date: "2022-10-08",
-			type: "Hotel",
-			importo: "280",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 280,
-			id: 2,
+		"2": {
+			"dateRefund": "2022-10-08",
+			"type": "Hotel",
+			"amount": "280",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 280,
+			"primaryKey": 2
 		},
-		3: {
-			date: "2022-10-08",
-			type: "Taxi",
-			importo: "100",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 100,
-			id: 3,
+		"3": {
+			"dateRefund": "2022-10-08",
+			"type": "Taxi",
+			"amount": "100",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 100,
+			"primaryKey": 3
 		},
-		id: "7",
-		userId: "1",
+		"id": 7,
+		"userId": 1,
 	},
 	{
-		0: {
-			date: "2022-07-16",
-			type: "Vitto",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 32,
+		"0": {
+			"dateRefund": "2022-07-16",
+			"type": "Vitto",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 32
 		},
-		1: {
-			date: "2022-07-16",
-			type: "Vitto",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 33,
+		"1": {
+			"dateRefund": "2022-07-16",
+			"type": "Vitto",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 33
 		},
-		2: {
-			date: "2022-07-16",
-			type: "Vitto",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 34,
+		"2": {
+			"dateRefund": "2022-07-16",
+			"type": "Vitto",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 34
 		},
-		3: {
-			date: "2022-07-21",
-			type: "Treno",
-			importo: "2",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 2,
-			id: 35,
+		"3": {
+			"dateRefund": "2022-07-21",
+			"type": "Treno",
+			"amount": "2",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 2,
+			"primaryKey": 35
 		},
-		4: {
-			date: "2022-07-21",
-			type: "Treno",
-			importo: "2",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 2,
-			id: 36,
+		"4": {
+			"dateRefund": "2022-07-21",
+			"type": "Treno",
+			"amount": "2",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 2,
+			"primaryKey": 36
 		},
-		5: {
-			date: "2022-07-21",
-			type: "Treno",
-			importo: "2",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 2,
-			id: 37,
+		"5": {
+			"dateRefund": "2022-07-21",
+			"type": "Treno",
+			"amount": "2",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 2,
+			"primaryKey": 37
 		},
-		6: {
-			date: "2022-07-21",
-			type: "Vitto",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 38,
+		"6": {
+			"dateRefund": "2022-07-21",
+			"type": "Vitto",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 38
 		},
-		7: {
-			date: "2022-07-24",
-			type: "Vitto",
-			importo: "1",
-			ricevuta: "No",
-			stato: "Approvata",
-			dovuto: 1,
-			id: 24,
+		"7": {
+			"dateRefund": "2022-07-24",
+			"type": "Vitto",
+			"amount": "1",
+			"ticket": "No",
+			"state": "Approvata",
+			"refund": 1,
+			"primaryKey": 24
 		},
-		8: {
-			date: "2022-07-24",
-			type: "Vitto",
-			importo: "1",
-			ricevuta: "No",
-			stato: "Approvata",
-			dovuto: 1,
-			id: 25,
+		"8": {
+			"dateRefund": "2022-07-24",
+			"type": "Vitto",
+			"amount": "1",
+			"ticket": "No",
+			"state": "Approvata",
+			"refund": 1,
+			"primaryKey": 25
 		},
-		9: {
-			date: "2022-07-24",
-			type: "Vitto",
-			importo: "1",
-			ricevuta: "No",
-			stato: "Approvata",
-			dovuto: 1,
-			id: 26,
+		"9": {
+			"dateRefund": "2022-07-24",
+			"type": "Vitto",
+			"amount": "1",
+			"ticket": "No",
+			"state": "Approvata",
+			"refund": 1,
+			"primaryKey": 26
 		},
-		10: {
-			date: "2022-07-24",
-			type: "Vitto",
-			importo: "1",
-			ricevuta: "No",
-			stato: "Approvata",
-			dovuto: 1,
-			id: 27,
+		"10": {
+			"dateRefund": "2022-07-24",
+			"type": "Vitto",
+			"amount": "1",
+			"ticket": "No",
+			"state": "Approvata",
+			"refund": 1,
+			"primaryKey": 27
 		},
-		id: "9",
-		userId: "5",
+		"id": 9,
+		"userId": 5,
 	},
 	{
-		0: {
-			date: "2022-03-10",
-			type: "Hotel",
-			importo: "12",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 12,
-			id: 41,
+		"0": {
+			"dateRefund": "2022-03-10",
+			"type": "Hotel",
+			"amount": "12",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 12,
+			"primaryKey": 41
 		},
-		1: {
-			date: "2022-03-04",
-			type: "Treno",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 47,
+		"1": {
+			"dateRefund": "2022-03-04",
+			"type": "Treno",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 47
 		},
-		2: {
-			date: "2022-03-19",
-			type: "Treno",
-			importo: "25",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 25,
-			id: 46,
+		"2": {
+			"dateRefund": "2022-03-19",
+			"type": "Treno",
+			"amount": "25",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 25,
+			"primaryKey": 46
 		},
-		3: {
-			date: "2022-03-02",
-			type: "Vitto",
-			importo: "50",
-			ricevuta: "No",
-			stato: "Non approvata",
-			dovuto: 0,
-			id: 44,
+		"3": {
+			"dateRefund": "2022-03-02",
+			"type": "Vitto",
+			"amount": "50",
+			"ticket": "No",
+			"state": "Non approvata",
+			"refund": 0,
+			"primaryKey": 44
 		},
-		4: {
-			date: "2022-03-31",
-			type: "Hotel",
-			importo: "50",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 50,
-			id: 45,
+		"4": {
+			"dateRefund": "2022-03-31",
+			"type": "Hotel",
+			"amount": "50",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 50,
+			"primaryKey": 45
 		},
-		5: {
-			date: "2022-03-18",
-			type: "Hotel",
-			importo: "80",
-			ricevuta: "No",
-			stato: "Non approvata",
-			dovuto: 0,
-			id: 43,
+		"5": {
+			"dateRefund": "2022-03-18",
+			"type": "Hotel",
+			"amount": "80",
+			"ticket": "No",
+			"state": "Non approvata",
+			"refund": 0,
+			"primaryKey": 43
 		},
-		6: {
-			date: "2022-03-31",
-			type: "Vitto",
-			importo: "150",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 150,
-			id: 10000,
+		"6": {
+			"dateRefund": "2022-03-31",
+			"type": "Vitto",
+			"amount": "150",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 150,
+			"primaryKey": 10000
 		},
-		id: "13",
-		userId: "3",
+		"id": 13,
+		"userId": 3,
 	},
 	{
-		0: {
-			date: "2022-10-06",
-			type: "Taxi",
-			importo: "1500",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 100,
-			id: 0,
+		"0": {
+			"dateRefund": "2022-10-06",
+			"type": "Taxi",
+			"amount": "1500",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 100,
+			"primaryKey": 0
 		},
-		1: {
-			date: "2022-10-06",
-			type: "Treno",
-			importo: "500",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 85,
-			id: 1,
+		"1": {
+			"dateRefund": "2022-10-06",
+			"type": "Treno",
+			"amount": "500",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 85,
+			"primaryKey": 1
 		},
-		2: {
-			date: "2022-10-06",
-			type: "Vitto",
-			importo: "1000",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 150,
-			id: 2,
+		"2": {
+			"dateRefund": "2022-10-06",
+			"type": "Vitto",
+			"amount": "1000",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 150,
+			"primaryKey": 2
 		},
-		3: {
-			date: "2022-10-12",
-			type: "Hotel",
-			importo: "100",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 100,
-			id: 6,
+		"3": {
+			"dateRefund": "2022-10-12",
+			"type": "Hotel",
+			"amount": "100",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 100,
+			"primaryKey": 6
 		},
-		id: "16",
-		userId: "5",
+		"id": 16,
+		"userId": 5,
 	},
 	{
-		0: {
-			date: "2022-09-07",
-			type: "Hotel",
-			importo: "14",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 14,
-			id: 90,
+		"0": {
+			"dateRefund": "2022-09-07",
+			"type": "Hotel",
+			"amount": "14",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 14,
+			"primaryKey": 90
 		},
-		1: {
-			date: "2022-09-07",
-			type: "Hotel",
-			importo: "14",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 14,
-			id: 91,
+		"1": {
+			"dateRefund": "2022-09-07",
+			"type": "Hotel",
+			"amount": "14",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 14,
+			"primaryKey": 91
 		},
-		2: {
-			date: "2022-09-16",
-			type: "Hotel",
-			importo: "24",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 24,
-			id: 92,
+		"2": {
+			"dateRefund": "2022-09-16",
+			"type": "Hotel",
+			"amount": "24",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 24,
+			"primaryKey": 92
 		},
-		3: {
-			date: "2022-09-23",
-			type: "Treno",
-			importo: "100",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 85,
-			id: 92,
+		"3": {
+			"dateRefund": "2022-09-23",
+			"type": "Treno",
+			"amount": "100",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 85,
+			"primaryKey": 92
 		},
-		id: "19",
-		userId: "5",
+		"id": 19,
+		"userId": 5,
 	},
 	{
-		0: {
-			date: "2022-02-03",
-			type: "Vitto",
-			importo: "20",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 20,
-			id: 20,
+		"0": {
+			"dateRefund": "2022-02-03",
+			"type": "Vitto",
+			"amount": "20",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 20,
+			"primaryKey": 20
 		},
-		1: {
-			date: "2022-02-03",
-			type: "Vitto",
-			importo: "230",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 150,
-			id: 21,
+		"1": {
+			"dateRefund": "2022-02-03",
+			"type": "Vitto",
+			"amount": "230",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 150,
+			"primaryKey": 21
 		},
-		2: {
-			date: "2022-02-11",
-			type: "Vitto",
-			importo: "15",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 15,
-			id: 23,
+		"2": {
+			"dateRefund": "2022-02-11",
+			"type": "Vitto",
+			"amount": "15",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 15,
+			"primaryKey": 23
 		},
-		3: {
-			date: "2022-02-11",
-			type: "Vitto",
-			importo: "120",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 120,
-			id: 24,
+		"3": {
+			"dateRefund": "2022-02-11",
+			"type": "Vitto",
+			"amount": "120",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 120,
+			"primaryKey": 24
 		},
-		4: {
-			date: "2022-02-11",
-			type: "Vitto",
-			importo: "15",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 15,
-			id: 25,
+		"4": {
+			"dateRefund": "2022-02-11",
+			"type": "Vitto",
+			"amount": "15",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 15,
+			"primaryKey": 25
 		},
-		5: {
-			date: "2022-02-11",
-			type: "Vitto",
-			importo: "120",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 120,
-			id: 26,
+		"5": {
+			"dateRefund": "2022-02-11",
+			"type": "Vitto",
+			"amount": "120",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 120,
+			"primaryKey": 26
 		},
-		6: {
-			date: "2022-02-15",
-			type: "Hotel",
-			importo: "90",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 90,
-			id: 27,
+		"6": {
+			"dateRefund": "2022-02-15",
+			"type": "Hotel",
+			"amount": "90",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 90,
+			"primaryKey": 27
 		},
-		7: {
-			date: "2022-02-17",
-			type: "Vitto",
-			importo: "50",
-			ricevuta: "Sì",
-			stato: "Approvata",
-			dovuto: 50,
-			id: 28,
+		"7": {
+			"dateRefund": "2022-02-17",
+			"type": "Vitto",
+			"amount": "50",
+			"ticket": "Sì",
+			"state": "Approvata",
+			"refund": 50,
+			"primaryKey": 28
 		},
-		8: {
-			date: "2022-02-08",
-			type: "Taxi",
-			importo: "50",
-			ricevuta: "No",
-			stato: "Non approvata",
-			dovuto: 0,
-			id: 22,
+		"8": {
+			"dateRefund": "2022-02-08",
+			"type": "Taxi",
+			"amount": "50",
+			"ticket": "No",
+			"state": "Non approvata",
+			"refund": 0,
+			"primaryKey": 22
 		},
-		id: "20",
-		userId: "5",
-	})
+		"id": 20,
+		"userId": 5,
+	}
 ];
+
+
+
+let spesa1 = [
+	{
+	 "0": {
+	  "dateRefund": "2022-10-08",
+	  "type": "Vitto",
+	  "amount": "500",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 300,
+	  "primaryKey": 0
+	 },
+	 "1": {
+	  "dateRefund": "2022-10-08",
+	  "type": "Vitto",
+	  "amount": "500",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 300,
+	  "primaryKey": 1
+	 },
+	 "2": {
+	  "dateRefund": "2022-10-08",
+	  "type": "Hotel",
+	  "amount": "280",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 280,
+	  "primaryKey": 2
+	 },
+	 "3": {
+	  "dateRefund": "2022-10-08",
+	  "type": "Taxi",
+	  "amount": "100",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 100,
+	  "primaryKey": 3
+	 },
+	 "id": "7",
+	 "userId": "1"
+	},
+	{
+	 "0": {
+	  "dateRefund": "2022-07-16",
+	  "type": "Vitto",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 32
+	 },
+	 "1": {
+	  "dateRefund": "2022-07-16",
+	  "type": "Vitto",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 33
+	 },
+	 "2": {
+	  "dateRefund": "2022-07-16",
+	  "type": "Vitto",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 34
+	 },
+	 "3": {
+	  "dateRefund": "2022-07-21",
+	  "type": "Treno",
+	  "amount": "2",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 2,
+	  "primaryKey": 35
+	 },
+	 "4": {
+	  "dateRefund": "2022-07-21",
+	  "type": "Treno",
+	  "amount": "2",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 2,
+	  "primaryKey": 36
+	 },
+	 "5": {
+	  "dateRefund": "2022-07-21",
+	  "type": "Treno",
+	  "amount": "2",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 2,
+	  "primaryKey": 37
+	 },
+	 "6": {
+	  "dateRefund": "2022-07-21",
+	  "type": "Vitto",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 38
+	 },
+	 "7": {
+	  "dateRefund": "2022-07-24",
+	  "type": "Vitto",
+	  "amount": "1",
+	  "ticket": "No",
+	  "state": "Approvata",
+	  "refund": 1,
+	  "primaryKey": 24
+	 },
+	 "8": {
+	  "dateRefund": "2022-07-24",
+	  "type": "Vitto",
+	  "amount": "1",
+	  "ticket": "No",
+	  "state": "Approvata",
+	  "refund": 1,
+	  "primaryKey": 25
+	 },
+	 "9": {
+	  "dateRefund": "2022-07-24",
+	  "type": "Vitto",
+	  "amount": "1",
+	  "ticket": "No",
+	  "state": "Approvata",
+	  "refund": 1,
+	  "primaryKey": 26
+	 },
+	 "10": {
+	  "dateRefund": "2022-07-24",
+	  "type": "Vitto",
+	  "amount": "1",
+	  "ticket": "No",
+	  "state": "Approvata",
+	  "refund": 1,
+	  "primaryKey": 27
+	 },
+	 "id": "9",
+	 "userId": "5"
+	},
+	{
+	 "0": {
+	  "dateRefund": "2022-03-10",
+	  "type": "Hotel",
+	  "amount": "12",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 12,
+	  "primaryKey": 41
+	 },
+	 "1": {
+	  "dateRefund": "2022-03-04",
+	  "type": "Treno",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 47
+	 },
+	 "2": {
+	  "dateRefund": "2022-03-19",
+	  "type": "Treno",
+	  "amount": "25",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 25,
+	  "primaryKey": 46
+	 },
+	 "3": {
+	  "dateRefund": "2022-03-02",
+	  "type": "Vitto",
+	  "amount": "50",
+	  "ticket": "No",
+	  "state": "Non approvata",
+	  "refund": 0,
+	  "primaryKey": 44
+	 },
+	 "4": {
+	  "dateRefund": "2022-03-31",
+	  "type": "Hotel",
+	  "amount": "50",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 50,
+	  "primaryKey": 45
+	 },
+	 "5": {
+	  "dateRefund": "2022-03-18",
+	  "type": "Hotel",
+	  "amount": "80",
+	  "ticket": "No",
+	  "state": "Non approvata",
+	  "refund": 0,
+	  "primaryKey": 43
+	 },
+	 "6": {
+	  "dateRefund": "2022-03-31",
+	  "type": "Vitto",
+	  "amount": "150",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 150,
+	  "primaryKey": 43
+	 },
+	 "id": "13",
+	 "userId": "3"
+	},
+	{
+	 "0": {
+	  "dateRefund": "2022-10-06",
+	  "type": "Taxi",
+	  "amount": "1500",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 100,
+	  "primaryKey": 0
+	 },
+	 "1": {
+	  "dateRefund": "2022-10-06",
+	  "type": "Treno",
+	  "amount": "500",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 85,
+	  "primaryKey": 1
+	 },
+	 "2": {
+	  "dateRefund": "2022-10-06",
+	  "type": "Vitto",
+	  "amount": "1000",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 150,
+	  "primaryKey": 2
+	 },
+	 "3": {
+	  "dateRefund": "2022-10-12",
+	  "type": "Hotel",
+	  "amount": "100",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 100,
+	  "primaryKey": 6
+	 },
+	 "id": "16",
+	 "userId": "5"
+	},
+	{
+	 "0": {
+	  "dateRefund": "2022-09-07",
+	  "type": "Hotel",
+	  "amount": "14",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 14,
+	  "primaryKey": 90
+	 },
+	 "1": {
+	  "dateRefund": "2022-09-07",
+	  "type": "Hotel",
+	  "amount": "14",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 14,
+	  "primaryKey": 91
+	 },
+	 "2": {
+	  "dateRefund": "2022-09-16",
+	  "type": "Hotel",
+	  "amount": "24",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 24,
+	  "primaryKey": 92
+	 },
+	 "3": {
+	  "dateRefund": "2022-09-23",
+	  "type": "Treno",
+	  "amount": "100",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 85,
+	  "primaryKey": 92
+	 },
+	 "id": "19",
+	 "userId": "5"
+	},
+	{
+	 "0": {
+	  "dateRefund": "2022-02-03",
+	  "type": "Vitto",
+	  "amount": "20",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 20,
+	  "primaryKey": 20
+	 },
+	 "1": {
+	  "dateRefund": "2022-02-03",
+	  "type": "Vitto",
+	  "amount": "230",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 150,
+	  "primaryKey": 21
+	 },
+	 "2": {
+	  "dateRefund": "2022-02-11",
+	  "type": "Vitto",
+	  "amount": "15",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 15,
+	  "primaryKey": 23
+	 },
+	 "3": {
+	  "dateRefund": "2022-02-11",
+	  "type": "Vitto",
+	  "amount": "120",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 120,
+	  "primaryKey": 24
+	 },
+	 "4": {
+	  "dateRefund": "2022-02-11",
+	  "type": "Vitto",
+	  "amount": "15",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 15,
+	  "primaryKey": 25
+	 },
+	 "5": {
+	  "dateRefund": "2022-02-11",
+	  "type": "Vitto",
+	  "amount": "120",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 120,
+	  "primaryKey": 26
+	 },
+	 "6": {
+	  "dateRefund": "2022-02-15",
+	  "type": "Hotel",
+	  "amount": "90",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 90,
+	  "primaryKey": 27
+	 },
+	 "7": {
+	  "dateRefund": "2022-02-17",
+	  "type": "Vitto",
+	  "amount": "50",
+	  "ticket": "Sì",
+	  "state": "Approvata",
+	  "refund": 50,
+	  "primaryKey": 28
+	 },
+	 "8": {
+	  "dateRefund": "2022-02-08",
+	  "type": "Taxi",
+	  "amount": "50",
+	  "ticket": "No",
+	  "state": "Non approvata",
+	  "refund": 0,
+	  "primaryKey": 22
+	 },
+	 "id": "20",
+	 "userId": "5"
+	}
+   ]

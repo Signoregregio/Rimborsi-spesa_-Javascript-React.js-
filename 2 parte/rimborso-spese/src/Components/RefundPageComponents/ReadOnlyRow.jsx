@@ -11,7 +11,7 @@ export default function ReadOnlyRow({ row, handleEditClick, handleDeleteClick })
 				<button className="editButton" type="button" onClick={(event) => handleEditClick(event, row)}>
 					Edit
 				</button>
-                <button className="editButton" type="button" onClick={()=> handleDeleteClick(row.id)}>Delete</button>
+                <button className="editButton" type="button" onClick={()=> handleDeleteClick(row.primaryKey)}>Delete</button>
 			</td>
 		</tr>
 	);

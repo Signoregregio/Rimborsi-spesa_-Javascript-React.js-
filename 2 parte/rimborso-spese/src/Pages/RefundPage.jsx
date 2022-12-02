@@ -18,7 +18,7 @@ let maxRefundable;
 export default function RefundPage() {
 	const [rows, setRows] = useState([]);
 	const [formObject, setFormObject] = useState({
-		id: "",
+		primaryKey: "",
 		type: "",
 		dateRefund: "",
 		amount: 0,
@@ -78,7 +78,7 @@ export default function RefundPage() {
 		event.preventDefault();
 		let state = translateStatus(approveStatus(formObject.ticket, formObject.amount));
 		const newRow = {
-			id: nanoid(),
+			primaryKey: nanoid(),
 			type: formObject.type,
 			dateRefund: formObject.dateRefund,
 			amount: Number(formObject.amount),
@@ -99,7 +99,7 @@ export default function RefundPage() {
 
 		let state = translateStatus(approveStatus(editFormData.ticket, editFormData.amount));
 		const editedRow = {
-			id: editRowId,
+			primaryKey: editRowId,
 			type: editFormData.type,
 			dateRefund: editFormData.dateRefund,
 			amount: Number(editFormData.amount),
@@ -109,7 +109,7 @@ export default function RefundPage() {
 		};
 		const newRows = [...rows];
 
-		const index = rows.findIndex((row) => row.id === editRowId);
+		const index = rows.findIndex((row) => row.primaryKey === editRowId);
 
 		newRows[index] = editedRow;
 		setRows(newRows);
@@ -122,7 +122,7 @@ export default function RefundPage() {
 
 	function handleEditClick(event, row) {
 		event.preventDefault();
-		setEditRowId(row.id);
+		setEditRowId(row.primaryKey);
 		const formValues = {
 			type: row.type,
 			dateRefund: row.dateRefund,
@@ -135,7 +135,7 @@ export default function RefundPage() {
 
 	function handleDeleteClick(rowId) {
 		const newRows = [...rows];
-		const index = rows.findIndex((row) => row.id === rowId);
+		const index = rows.findIndex((row) => row.primaryKey === rowId);
 		newRows.splice(index, 1);
 		setRows(newRows);
 	}
