@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
+export default function Form({ handleAddFormChange, handleAddFormSubmit, disabled }) {
 	let { month } = useParams();
 	const inputDate = useRef();
 
@@ -63,7 +63,7 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit }) {
 				<input type="radio" className="radioBtn" value="No" name="ticket" onChange={handleAddFormChange} />
 			</div>
 			<div className="divButton">
-				<button type="submit" id="submitButton">
+				<button type="submit" id="submitButton" disabled={disabled}>
 					Submit
 				</button>
 			</div>

@@ -1,6 +1,5 @@
 let role;
 let idArray = [];
-let userId;
 let tableListRimborso = [];
 
 export function mockLink() {
@@ -77,15 +76,15 @@ export function jsonToArray(obj, month, refundList) {
     })
 }
 
-export async function SubmitMonthMock() {
+export async function submitMonthMock(rows, userId, yearMonth) {
     console.log("%c SUBMIT IS STARTING ","background-color:brown;color:white;font-size:16px;")
-    idArray = await getIdByMonthMock();
-    await deleteMockByUserId(idArray)
+    idArray = await getIdByMonthMock(userId, yearMonth);
+    await deleteMockByUserId(idArray, userId)
     idArray = [];
-    await postTable();
+    await postTable(rows, userId);
 }
 
-export async function getIdByMonthMock() {
+export async function getIdByMonthMock(userId, yearMonth) {
     console.log("%c GETTING primaryKey ","background-color:red;color:white;font-size:16px;")
 
     await fetch(mockLinkSpesa(userId),{
@@ -93,25 +92,24 @@ export async function getIdByMonthMock() {
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())
-    .then(data => idMonthSelected(data))
+    .then(data => idMonthSelected(data, yearMonth))
     .catch(error => console.log(error));
-    console.log("primaryKey TO DELETE : ")
+    console.log("id TO DELETE : ")
     console.log(idArray)
     return idArray;
 }
 
-export async function idMonthSelected(obj) {
-    let yearMonth = document.getElementById("inputMonth").value
+export async function idMonthSelected(obj, yearMonth) {
     console.log(yearMonth)
     obj.filter(value => {
-        let tableDate = value[0].date.match('[0-9]{4}[-][0-9]{2}');
+        let tableDate = value[0].dateRefund.match('[0-9]{4}[-][0-9]{2}');
         if (tableDate == yearMonth) {
-            idArray.push(value.primaryKey)
+            idArray.push(value.id)
         }
     })
 }
 
-export async function deleteMockByUserId(idArray) {
+export async function deleteMockByUserId(idArray, userId) {
     console.log("%c DELETING ","background-color:black;color:white;font-size:16px;")
     for (const element of idArray) {
         await fetch(mockLinkSpesa(userId) + '/' + element, {
@@ -123,20 +121,20 @@ export async function deleteMockByUserId(idArray) {
     }
 }
 
-export async function postTable() {
-    // let tableIsEmpty = sumImporto == 0;
-    // if(!tableIsEmpty) {
-    //     console.log("%c POSTING ","background-color:white;color:black;font-size:16px;")
-    //     await fetch(mockLinkSpesa(userId),{
-    //         method: "POST",
-    //         body: JSON.stringify(tableListRimborso),
-    //         headers: {"Content-type": "application/json; charset=UTF-8"}
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {console.log(data); console.log("NUOVO primaryKey " + data.primaryKey)})
-    //     .catch(error => console.log(error));
-    // } else {
-    //     console.log("%c tableIsEmpty","font-size:16px;")
-    // }
+export async function postTable(rows, userId) {
+    let tableIsEmpty = (rows.length == 0)
+    if(!tableIsEmpty) {
+        console.log("%c POSTING ","background-color:white;color:black;font-size:16px;")
+        await fetch(mockLinkSpesa(userId),{
+            method: "POST",
+            body: JSON.stringify(rows),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then(data => {console.log(data); console.log("NUOVO primaryKey " + data.id)})
+        .catch(error => console.log(error));
+    } else {
+        console.log("%c tableIsEmpty","font-size:16px;")
+    }
     console.log("%c SUBMITTING ENDED ","background-color:brown;color:white;font-size:16px;") 
 }

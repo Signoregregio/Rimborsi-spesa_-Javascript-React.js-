@@ -5,11 +5,12 @@ import {
 	approveStatus,
 	calculateMaxRefundable,
 } from "../Components/RefundPageComponents/approvationRules";
-import { storageRimborsoMax, downloadTable } from "../API/fetchFunc";
+import { storageRimborsoMax, downloadTable, submitMonthMock } from "../API/fetchFunc";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useRef } from "react";
 
 let userId;
 let userRole;
@@ -35,14 +36,16 @@ export default function RefundPage() {
 	});
 
 	const [editRowId, setEditRowId] = useState();
+	const [disabled, setDisabled] = useState(false)
 
 	let { month } = useParams();
+	const submitBtn = useRef();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			userId = sessionStorage.getItem("userId");
 			userRole = sessionStorage.getItem("userRole");
-			maxRefundable = storageRimborsoMax(userRole);
+			maxRefundable = await storageRimborsoMax(userRole);
 			let newRows = await downloadTable(userId, month);
 			setRows(newRows);
 			console.log(newRows);
@@ -52,7 +55,6 @@ export default function RefundPage() {
 
 	function handleAddFormChange(event) {
 		// event.preventDefault();
-		console.log(userId);
 
 		const fieldName = event.target.getAttribute("name");
 		const fieldValue = event.target.value;
@@ -74,7 +76,7 @@ export default function RefundPage() {
 		setEditFormData(newFormData);
 	}
 
-	function handleAddFormSubmit(event) {
+	async function handleAddFormSubmit(event) {
 		event.preventDefault();
 		let state = translateStatus(approveStatus(formObject.ticket, formObject.amount));
 		const newRow = {
@@ -84,17 +86,17 @@ export default function RefundPage() {
 			amount: Number(formObject.amount),
 			ticket: formObject.ticket,
 			state: state,
-			refund: 0,
+			refund: Number(calculateMaxRefundable(formObject, state, maxRefundable)),
 		};
-		newRow.refund = calculateMaxRefundable(newRow, maxRefundable);
-		// console.log(maxRefundable)
-		// console.log(userId)
 		const newRows = [...rows, newRow];
+		setDisabled(true)
+		await submitMonthMock(newRows, userId, month);
+		setDisabled(false)
 		setRows(newRows);
 		console.log(newRows);
 	}
 
-	function handleEditFormSubmit(event) {
+	async function handleEditFormSubmit(event) {
 		event.preventDefault();
 
 		let state = translateStatus(approveStatus(editFormData.ticket, editFormData.amount));
@@ -105,13 +107,17 @@ export default function RefundPage() {
 			amount: Number(editFormData.amount),
 			ticket: editFormData.ticket,
 			state: state,
-			refund: Number(calculateMaxRefundable(state, editFormData.type, editFormData.amount)),
+			refund: Number(calculateMaxRefundable(editFormData, state, maxRefundable)),
 		};
+
 		const newRows = [...rows];
 
 		const index = rows.findIndex((row) => row.primaryKey === editRowId);
 
 		newRows[index] = editedRow;
+		setDisabled(true)
+		await submitMonthMock(newRows, userId, month);
+		setDisabled(false)
 		setRows(newRows);
 		setEditRowId(null);
 	}
@@ -133,10 +139,13 @@ export default function RefundPage() {
 		setEditFormData(formValues);
 	}
 
-	function handleDeleteClick(rowId) {
+	async function handleDeleteClick(rowId) {
 		const newRows = [...rows];
 		const index = rows.findIndex((row) => row.primaryKey === rowId);
 		newRows.splice(index, 1);
+		setDisabled(true)
+		await submitMonthMock(newRows, userId, month);
+		setDisabled(false)
 		setRows(newRows);
 	}
 
@@ -147,6 +156,7 @@ export default function RefundPage() {
 					handleAddFormChange={handleAddFormChange}
 					handleAddFormSubmit={handleAddFormSubmit}
 					formObject={formObject}
+					disabled = {disabled}
 				/>
 			</div>
 			<div id="rightSide">

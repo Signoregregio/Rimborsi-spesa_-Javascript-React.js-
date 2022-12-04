@@ -18,11 +18,11 @@ export function approveStatus(ticket, amount) {
     }
 }
 
-export function calculateMaxRefundable(row, maxRef) {
-    if (row.state === "Non approvata" && row.amount >= 10) {
+export function calculateMaxRefundable(row, state, maxRef) {
+    if (state === "Non approvata" && row.amount >= 10) {
         return 10;
     }
-    if(row.state === "Non approvata" && row.amount < 10){
+    if(state === "Non approvata" && row.amount < 10){
         return row.amount;
     }
     if (row.type === "Taxi" && row.amount > maxRef.taxi) {

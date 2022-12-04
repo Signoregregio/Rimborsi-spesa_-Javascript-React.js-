@@ -4,8 +4,8 @@ import Header from "./Header/Header";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
-import { useState, useMemo } from "react";
-import { getRole, storageRimborsoMax } from "./API/fetchFunc";
+import { useState } from "react";
+import { getRole } from "./API/fetchFunc";
 
 function App() {
 	const [user, setUser] = useState({
@@ -13,7 +13,6 @@ function App() {
 		role: "",
 	});
 	let navigate = useNavigate();
-	const value = useMemo(() => ({ user }), [user]);
 
 	async function handleUsernameChange(event) {
 		event.preventDefault();
