@@ -5,6 +5,7 @@ import {
 	approveStatus,
 	calculateMaxRefundable,
 } from "../Components/RefundPageComponents/approvationRules";
+import { sortByColumn } from "../Components/RefundPageComponents/modifyRows"
 import { storageRimborsoMax, downloadTable, submitMonthMock } from "../API/fetchFunc";
 import { useState } from "react";
 import { nanoid } from "nanoid";
@@ -37,6 +38,10 @@ export default function RefundPage() {
 
 	const [editRowId, setEditRowId] = useState();
 	const [disabled, setDisabled] = useState(false)
+	const [sortBy, setSortBy] = useState({
+		type: 0,
+		asc: true,
+	})
 
 	let { month } = useParams();
 	const submitBtn = useRef();
@@ -47,6 +52,7 @@ export default function RefundPage() {
 			userRole = sessionStorage.getItem("userRole");
 			maxRefundable = await storageRimborsoMax(userRole);
 			let newRows = await downloadTable(userId, month);
+			newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
 			setRows(newRows);
 			console.log(newRows);
 		};
@@ -76,10 +82,22 @@ export default function RefundPage() {
 		setEditFormData(newFormData);
 	}
 
+	function sortingBy(event){
+		let cellIndex = event.target.cellIndex
+		if(cellIndex === sortBy.type){
+			setSortBy({type: cellIndex, asc:!sortBy.asc})
+			sortByColumn(cellIndex , !sortBy.asc, rows)		
+		}
+		if(cellIndex !== sortBy.type){
+			setSortBy({type: cellIndex, asc:true})
+			sortByColumn(cellIndex , true , rows)		
+		}
+	}
+	
 	async function handleAddFormSubmit(event) {
 		event.preventDefault();
 		let state = translateStatus(approveStatus(formObject.ticket, formObject.amount));
-		const newRow = {
+		let newRow = {
 			primaryKey: nanoid(),
 			type: formObject.type,
 			dateRefund: formObject.dateRefund,
@@ -88,10 +106,15 @@ export default function RefundPage() {
 			state: state,
 			refund: Number(calculateMaxRefundable(formObject, state, maxRefundable)),
 		};
-		const newRows = [...rows, newRow];
+		let newRows = [...rows, newRow];
 		setDisabled(true)
 		await submitMonthMock(newRows, userId, month);
 		setDisabled(false)
+
+		console.log(newRows)
+		newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
+		console.log(newRows)
+		
 		setRows(newRows);
 		console.log(newRows);
 	}
@@ -110,13 +133,14 @@ export default function RefundPage() {
 			refund: Number(calculateMaxRefundable(editFormData, state, maxRefundable)),
 		};
 
-		const newRows = [...rows];
+		let newRows = [...rows];
 
 		const index = rows.findIndex((row) => row.primaryKey === editRowId);
 
 		newRows[index] = editedRow;
 		setDisabled(true)
 		await submitMonthMock(newRows, userId, month);
+		newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
 		setDisabled(false)
 		setRows(newRows);
 		setEditRowId(null);
@@ -149,6 +173,8 @@ export default function RefundPage() {
 		setRows(newRows);
 	}
 
+	
+
 	return (
 		<div className="flexbox">
 			<div id="leftSide">
@@ -170,6 +196,8 @@ export default function RefundPage() {
 						handleEditFormSubmit={handleEditFormSubmit}
 						handleDeleteClick={handleDeleteClick}
 						handleCancelClick={handleCancelClick}
+						disabled={disabled}
+						sortingBy={sortingBy}
 					/>
 				</div>
 			</div>

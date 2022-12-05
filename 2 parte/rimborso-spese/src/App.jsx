@@ -6,6 +6,7 @@ import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import { useState } from "react";
 import { getRole } from "./API/fetchFunc";
+import RegisterPage from "./Pages/RegisterPage";
 
 function App() {
 	const [user, setUser] = useState({
@@ -36,9 +37,8 @@ function App() {
 			});
 		}
 	}
-	// funziona che mi controlla se esiste l'primaryKey, e se c'è me lo salva in useContext e lo setta true
+	// funziona che mi controlla se esiste l'id, e se c'è me lo salva in useContext e lo setta true
 
-	// primaryKey, ruolo usecontext
 	return (
 		<div>
 				<Header />
@@ -46,6 +46,7 @@ function App() {
 					<Route path="/" element={<LoginPage handleUsernameChange={handleUsernameChange} login={login} />} />
 					<Route path="/refundpage/:primaryKey/:month" element={<RefundPage />} />
 					<Route path="/home/:primaryKey" element={<HomePage />} />
+					<Route path="/register" element={<RegisterPage />} />
 				</Routes>
 		</div>
 	);

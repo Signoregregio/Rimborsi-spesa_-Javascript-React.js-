@@ -1,4 +1,4 @@
-export default function ReadOnlyRow({ row, handleEditClick, handleDeleteClick }) {
+export default function ReadOnlyRow({ row, handleEditClick, handleDeleteClick, disabled }) {
 	return (
 		<tr >
 			<td>{row.dateRefund}</td>
@@ -8,10 +8,10 @@ export default function ReadOnlyRow({ row, handleEditClick, handleDeleteClick })
 			<td>{row.state}</td>
 			<td>{row.refund}</td>
 			<td>
-				<button className="editButton" type="button" onClick={(event) => handleEditClick(event, row)}>
+				<button className="editButton" disabled={disabled} type="button" onClick={(event) => handleEditClick(event, row)}>
 					Edit
 				</button>
-                <button className="editButton" type="button" onClick={()=> handleDeleteClick(row.primaryKey)}>Delete</button>
+                <button className="editButton" disabled={disabled} type="button" onClick={()=> handleDeleteClick(row.primaryKey)}>Delete</button>
 			</td>
 		</tr>
 	);

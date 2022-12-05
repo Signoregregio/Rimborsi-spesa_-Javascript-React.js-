@@ -2,7 +2,7 @@ export default function EditableRow({handleEditFormChange, editFormData, handleC
     return(
         <tr >
             <td>
-                <input type="text" required="required" placeholder="Enter a date..." name="date" value={editFormData.dateRefund} onChange={handleEditFormChange}/>               
+                <input type="date" required="required" placeholder="Enter a date..." name="date" value={editFormData.dateRefund} onChange={handleEditFormChange}/>               
             </td>
             <td>
                 <input type="text" required="required" placeholder="Enter a type..." name="type" value={editFormData.type} onChange={handleEditFormChange}/>               

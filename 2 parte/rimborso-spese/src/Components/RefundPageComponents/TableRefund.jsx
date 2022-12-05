@@ -11,18 +11,20 @@ export default function TableRefund({
 	handleEditFormSubmit,
 	handleDeleteClick,
 	handleCancelClick,
+	disabled,
+	sortingBy
 }) {
 	return (
 		<form onSubmit={handleEditFormSubmit}>
 			<table id="tableForm">
 				<thead>
 					<tr key={1}>
-						<th>Data</th>
-						<th>Tipo</th>
-						<th>Importo</th>
-						<th>Ricevuta</th>
-						<th>Stato</th>
-						<th>Importo dovuto</th>
+						<th onClick={sortingBy}>Data</th>
+						<th onClick={sortingBy}>Tipo</th>
+						<th onClick={sortingBy}>Importo</th>
+						<th onClick={sortingBy}>Ricevuta</th>
+						<th onClick={sortingBy}>Stato</th>
+						<th onClick={sortingBy}>Importo dovuto</th>
 						<th>Filters</th>
 					</tr>
 				</thead>
@@ -40,6 +42,7 @@ export default function TableRefund({
 									row={row}
 									handleEditClick={handleEditClick}
 									handleDeleteClick={handleDeleteClick}
+									disabled={disabled}
 								/>
 								)}
 						</Fragment>
