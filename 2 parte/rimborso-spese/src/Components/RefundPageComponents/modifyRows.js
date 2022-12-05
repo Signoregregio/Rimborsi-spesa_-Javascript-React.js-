@@ -61,6 +61,59 @@ export function sortByColumn (sortType, sortAsc, tableListRimborso) {
             }
     });
     }
-    console.log(sortedArray)
     return sortedArray
+}
+
+export function filterArray(rows, filterInput) {
+    let filteredRows = rows;
+    console.log(filterInput)
+        if (filterInput.date  !== "") {
+            console.log(filterInput.date)
+            filteredRows = filteredRows.filter(row => row.dateRefund == filterInput.date);
+        }
+        if (filterInput.type  !== "") {
+            filteredRows = filteredRows.filter(row => row.type.toLowerCase().indexOf((filterInput.type).toLowerCase()) > -1);
+        }
+        // if (filterInput.amountMin  !== "") {
+        //     filteredRows = filteredRows.filter(row => row.amount >= Number(filterInput.amountMin));
+        // }
+        // if (filterInput.amountMax  !== "") {
+        //     filteredRows = filteredRows.filter(row => row.amount <= Number(filterInput.amountMax));
+        // }
+
+        if (filterInput.amountMin  !== "" || filterInput.amountMax  !== "") {
+            console.log("enter")
+            console.log(filterInput.amountMin)
+            console.log(filterInput.amountMax)
+            if(filterInput.amountMin === ""){
+                console.log("1")
+                filteredRows = filteredRows.filter(row => row.amount <= Number(filterInput.amountMax));
+            }
+            if(filterInput.amountMax === ""){
+                console.log("2")
+                filteredRows = filteredRows.filter(row => row.amount >= Number(filterInput.amountMin));
+            }
+            if(filterInput.amountMin <= filterInput.amountMax){
+                console.log("3")
+                filteredRows = filteredRows.filter(row =>  Number(filterInput.amountMin) <= row.amount <= Number(filterInput.amountMax)) ;
+            }
+            if(filterInput.amountMin >= filterInput.amountMax){
+                console.log("4")
+                filteredRows = filteredRows.filter(row =>  Number(filterInput.amountMax) <= row.amount <= Number(filterInput.amountMin)) ;
+            }
+        }
+
+        
+        if (filterInput.ticket  !== "") {
+            filteredRows = filteredRows.filter(row => row.ticket.toLowerCase().indexOf(filterInput.ticket.toLowerCase()) > -1);
+        }
+        if (filterInput.state  !== "") {
+            filteredRows = filteredRows.filter(row => row.state.toLowerCase().indexOf((filterInput.state).toLowerCase()) > -1);
+        }
+        if (filterInput.refundMax  !== "") {
+            console.log(filterInput.refund)
+            filteredRows = filteredRows.filter( row => row.refund >= Number(filterInput.refundMax));
+        }
+        console.log(filteredRows)
+        return filteredRows;
 }

@@ -5,9 +5,9 @@ import {
 	approveStatus,
 	calculateMaxRefundable,
 } from "../Components/RefundPageComponents/approvationRules";
-import { sortByColumn } from "../Components/RefundPageComponents/modifyRows"
+import { filterArray, sortByColumn } from "../Components/RefundPageComponents/modifyRows";
 import { storageRimborsoMax, downloadTable, submitMonthMock } from "../API/fetchFunc";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -37,11 +37,11 @@ export default function RefundPage() {
 	});
 
 	const [editRowId, setEditRowId] = useState();
-	const [disabled, setDisabled] = useState(false)
+	const [disabled, setDisabled] = useState(false);
 	const [sortBy, setSortBy] = useState({
 		type: 0,
 		asc: true,
-	})
+	});
 
 	let { month } = useParams();
 	const submitBtn = useRef();
@@ -52,9 +52,9 @@ export default function RefundPage() {
 			userRole = sessionStorage.getItem("userRole");
 			maxRefundable = await storageRimborsoMax(userRole);
 			let newRows = await downloadTable(userId, month);
-			newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
-			setRows(newRows);
+			newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 			console.log(newRows);
+			setRows(newRows);
 		};
 		fetchData();
 	}, []);
@@ -82,18 +82,18 @@ export default function RefundPage() {
 		setEditFormData(newFormData);
 	}
 
-	function sortingBy(event){
-		let cellIndex = event.target.cellIndex
-		if(cellIndex === sortBy.type){
-			setSortBy({type: cellIndex, asc:!sortBy.asc})
-			sortByColumn(cellIndex , !sortBy.asc, rows)		
+	function sortingBy(event) {
+		let cellIndex = event.target.cellIndex;
+		if (cellIndex === sortBy.type) {
+			setSortBy({ type: cellIndex, asc: !sortBy.asc });
+			sortByColumn(cellIndex, !sortBy.asc, rows);
 		}
-		if(cellIndex !== sortBy.type){
-			setSortBy({type: cellIndex, asc:true})
-			sortByColumn(cellIndex , true , rows)		
+		if (cellIndex !== sortBy.type) {
+			setSortBy({ type: cellIndex, asc: true });
+			sortByColumn(cellIndex, true, rows);
 		}
 	}
-	
+
 	async function handleAddFormSubmit(event) {
 		event.preventDefault();
 		let state = translateStatus(approveStatus(formObject.ticket, formObject.amount));
@@ -107,14 +107,14 @@ export default function RefundPage() {
 			refund: Number(calculateMaxRefundable(formObject, state, maxRefundable)),
 		};
 		let newRows = [...rows, newRow];
-		setDisabled(true)
+		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
-		setDisabled(false)
+		setDisabled(false);
 
-		console.log(newRows)
-		newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
-		console.log(newRows)
-		
+		console.log(newRows);
+		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
+		console.log(newRows);
+
 		setRows(newRows);
 		console.log(newRows);
 	}
@@ -138,10 +138,10 @@ export default function RefundPage() {
 		const index = rows.findIndex((row) => row.primaryKey === editRowId);
 
 		newRows[index] = editedRow;
-		setDisabled(true)
+		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
-		newRows = sortByColumn( sortBy.type, sortBy.asc, newRows)
-		setDisabled(false)
+		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
+		setDisabled(false);
 		setRows(newRows);
 		setEditRowId(null);
 	}
@@ -167,13 +167,39 @@ export default function RefundPage() {
 		const newRows = [...rows];
 		const index = rows.findIndex((row) => row.primaryKey === rowId);
 		newRows.splice(index, 1);
-		setDisabled(true)
+		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
-		setDisabled(false)
+		setDisabled(false);
 		setRows(newRows);
 	}
 
-	
+	const [filterInput, setFilterInput] = useState({
+		date: "",
+		type: "",
+		amountMin: "",
+		amountMax: "",
+		ticket: "",
+		state: "",
+		refundMin: "",
+		refundMax: "",
+	});
+
+	const [filteredRows, setFilteredRows] = useState([]);
+
+	function handleFilterChange(event) {
+		console.log(event.target.name);
+		const fieldName = event.target.name;
+		const fieldValue = event.target.value;
+
+		const newFilterRow = { ...filterInput };
+		newFilterRow[fieldName] = fieldValue;
+		setFilterInput(newFilterRow);
+	}
+
+	useMemo(() => {
+		let newFilteredRows = filterArray(rows, filterInput);
+		setFilteredRows(newFilteredRows);
+	}, [rows, filterInput]);
 
 	return (
 		<div className="flexbox">
@@ -182,7 +208,7 @@ export default function RefundPage() {
 					handleAddFormChange={handleAddFormChange}
 					handleAddFormSubmit={handleAddFormSubmit}
 					formObject={formObject}
-					disabled = {disabled}
+					disabled={disabled}
 				/>
 			</div>
 			<div id="rightSide">
@@ -199,6 +225,8 @@ export default function RefundPage() {
 						disabled={disabled}
 						sortingBy={sortingBy}
 						sortBy={sortBy}
+						handleFilterChange={handleFilterChange}
+						filteredRows={filteredRows}
 					/>
 				</div>
 			</div>

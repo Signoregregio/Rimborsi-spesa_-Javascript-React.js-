@@ -19,6 +19,9 @@ export function approveStatus(ticket, amount) {
 }
 
 export function calculateMaxRefundable(row, state, maxRef) {
+    console.log(row.type)
+    console.log(maxRef)
+    console.log(row)
     if (state === "Non approvata" && row.amount >= 10) {
         return 10;
     }

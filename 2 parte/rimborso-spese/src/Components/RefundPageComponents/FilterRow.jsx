@@ -1,21 +1,28 @@
 import { useEffect, useRef } from "react";
 import { rangeDate } from "./Form";
 
-export default function FilterRow() {
-    const inputDateFilter = useRef();
-	useEffect (() => {
+export default function FilterRow({ handleFilterChange }) {
+	const inputDateFilter = useRef();
+	useEffect(() => {
 		// let rangeDate = getMinMaxDate(month);
 		inputDateFilter.current.setAttribute("max", rangeDate.max);
 		inputDateFilter.current.setAttribute("min", rangeDate.min);
 	}, [rangeDate]);
-    
+
 	return (
 		<tr>
 			<th>
-				<input type="date" className="inputFilter" placeholder="filtra per giorno..." ref={inputDateFilter} />
+				<input
+                name="date"
+					type="date"
+					className="inputFilter"
+					placeholder="filtra per giorno..."
+					ref={inputDateFilter}
+					onChange={handleFilterChange}
+				/>
 			</th>
 			<th>
-				<select defaultValue={"per tipo..."}>
+				<select name="type" defaultValue={"per tipo..."} onChange={handleFilterChange} >
 					<option disabled>per tipo...</option>
 					<option value=""></option>
 					<option value="Taxi">Taxi</option>
@@ -25,11 +32,11 @@ export default function FilterRow() {
 				</select>
 			</th>
 			<th>
-				<input type="number" className="inputFilter" placeholder="Min" />
-				<input type="number" className="inputFilter" placeholder="Max" />
+				<input name="amountMin" type="number" className="inputFilter" placeholder="Min" onChange={handleFilterChange} />
+				<input name="amountMax" type="number" className="inputFilter" placeholder="Max" onChange={handleFilterChange} />
 			</th>
 			<th>
-				<select defaultValue={"Sì o No"}>
+				<select name="ticket" defaultValue={"Sì o No"} onChange={handleFilterChange}>
 					<option disabled>Sì o No...</option>
 					<option value=""></option>
 					<option value="Sì">Sì</option>
@@ -37,16 +44,16 @@ export default function FilterRow() {
 				</select>
 			</th>
 			<th>
-				<select defaultValue={"Approvata?"}>
+				<select name="state" defaultValue={"Approvazione..."} onChange={handleFilterChange}>
 					<option disabled>Approvazione...</option>
 					<option value=""></option>
-					<option value="Approvvata">Approvvata</option>
+					<option value="Approvata">Approvata</option>
 					<option value="Non approvata">Non approvata</option>
 				</select>
 			</th>
 			<th>
-				<input type="number" className="inputFilter" placeholder="Min" />
-				<input type="number" className="inputFilter" placeholder="Max" />
+				<input name="refundMin" type="number" className="inputFilter" placeholder="Min" onChange={handleFilterChange} />
+				<input name="refundMax" type="number" className="inputFilter" placeholder="Max" onChange={handleFilterChange} />
 			</th>
 			<th></th>
 		</tr>

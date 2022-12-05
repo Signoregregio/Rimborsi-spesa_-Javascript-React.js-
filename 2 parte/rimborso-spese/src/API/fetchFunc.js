@@ -84,7 +84,7 @@ export async function submitMonthMock(rows, userId, yearMonth) {
 }
 
 export async function getIdByMonthMock(userId, yearMonth) {
-    console.log("%c GETTING primaryKey ","background-color:red;color:white;font-size:16px;")
+    console.log("%c GETTING ID ","background-color:red;color:white;font-size:16px;")
 
     await fetch(mockLinkSpesa(userId),{
         method: "GET",

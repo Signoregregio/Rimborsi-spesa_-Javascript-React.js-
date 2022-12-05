@@ -14,9 +14,11 @@ export default function TableRefund({
 	disabled,
 	sortingBy,
 	sortBy,
+	handleFilterChange,
+	filteredRows,
 }) {
-
-
+	let filterEvent = 0;
+	let rowsToPrint = filterEvent === 0 ? filteredRows : rows;
 	return (
 		<form onSubmit={handleEditFormSubmit}>
 			<table id="tableForm">
@@ -46,10 +48,10 @@ export default function TableRefund({
 						</th>
 						<th>Filters</th>
 					</tr>
-					<FilterRow key={2}/>
+					<FilterRow key={2} handleFilterChange={handleFilterChange} />
 				</thead>
 				<tbody>
-					{rows.map((row) => (
+					{rowsToPrint.map((row) => (
 						<Fragment key={row.primaryKey}>
 							{editRowId === row.primaryKey ? (
 								<EditableRow
