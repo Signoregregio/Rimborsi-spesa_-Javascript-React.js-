@@ -54,7 +54,6 @@ export async function downloadTable(userId, month) {
     .then(data => jsonToArray(data, month, refundList))
     .catch(error => console.log(error));
 
-    console.log(refundList)
     return refundList;
     // sortByColumn(columnSort, tableListRimborso);
     // resetTable();

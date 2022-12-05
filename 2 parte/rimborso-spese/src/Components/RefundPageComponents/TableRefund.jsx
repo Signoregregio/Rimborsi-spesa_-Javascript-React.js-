@@ -1,7 +1,7 @@
-import { Fragment, useRef, useEffect } from "react";
+import { Fragment } from "react";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
-import {rangeDate} from "./Form";
+import FilterRow from "./FilterRow";
 export default function TableRefund({
 	rows,
 	editRowId,
@@ -15,12 +15,7 @@ export default function TableRefund({
 	sortingBy,
 	sortBy,
 }) {
-	const inputDateFilter = useRef()
-	useEffect(() => {
-		// let rangeDate = getMinMaxDate(month);
-		inputDateFilter.current.setAttribute("max", rangeDate.max);
-		inputDateFilter.current.setAttribute("min", rangeDate.min);
-	}, [rangeDate]);
+
 
 	return (
 		<form onSubmit={handleEditFormSubmit}>
@@ -51,30 +46,7 @@ export default function TableRefund({
 						</th>
 						<th>Filters</th>
 					</tr>
-					<tr>
-						<th>
-							
-							<input type="date" className="inputFilter" placeholder="filtra per giorno..." ref={inputDateFilter} />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-						<th>
-							<input type="text" className="inputFilter" placeholder="filtra per giorno..." />
-						</th>
-					</tr>
+					<FilterRow key={2}/>
 				</thead>
 				<tbody>
 					{rows.map((row) => (
@@ -97,7 +69,7 @@ export default function TableRefund({
 					))}
 				</tbody>
 				<tfoot>
-					<tr key={2}>
+					<tr key={3}>
 						<td colSpan="4"></td>
 						<td>IMPORTO TOTALE :</td>
 						<td>{rows.reduce((accumulator, currentValue) => accumulator + currentValue.refund, 0)}</td>

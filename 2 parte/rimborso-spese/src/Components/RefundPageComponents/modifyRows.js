@@ -3,7 +3,7 @@ const columnType = ["dateRefund", "type", "amount", "ticket", "state", "refund"]
 
 export function sortByColumn (sortType, sortAsc, tableListRimborso) {
     console.log("%c SORTING BY ","background-color:yellow;color:blue;font-size:16px;")
-    console.log(sortType)
+    console.log(columnType[sortType])
     let sortedArray;
     if (columnType[sortType]  == "dateRefund") {
         sortedArray = tableListRimborso.sort(function(a, b) {
