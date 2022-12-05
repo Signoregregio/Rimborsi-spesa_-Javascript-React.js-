@@ -198,6 +198,7 @@ export default function RefundPage() {
 						handleCancelClick={handleCancelClick}
 						disabled={disabled}
 						sortingBy={sortingBy}
+						sortBy={sortBy}
 					/>
 				</div>
 			</div>

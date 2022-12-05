@@ -2,22 +2,35 @@ import dayjs from "dayjs";
 import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+
+export let rangeDate = {}
+
+function getMinMaxDate(month) {
+	let maxDate;
+	let currentMonth = dayjs().format("YYYY-MM");
+	if (currentMonth === month) {
+		maxDate = dayjs().format("YYYY-MM-DD");
+	}
+	if (currentMonth !== month) {
+		let daysInMonth = dayjs(`${month}-01`).daysInMonth();
+		maxDate = month + "-" + daysInMonth;
+	}
+	let rangeDate = {
+		min: `${month}-01`,
+		max: maxDate,
+	};
+
+	return rangeDate;
+}
+
 export default function Form({ handleAddFormChange, handleAddFormSubmit, disabled }) {
-	let { month } = useParams();
 	const inputDate = useRef();
-
+	let { month } = useParams();
+	
 	useEffect(() => {
-		let maxDate = "";
-
-		let currentMonth = dayjs().format("YYYY-MM");
-		if (currentMonth === month) {
-			maxDate = dayjs().format("YYYY-MM-DD");
-		}
-		if (currentMonth !== month) {
-			 let daysInMonth = dayjs(`${month}-01`).daysInMonth();
-			maxDate = month + "-" + daysInMonth;
-		}
-		inputDate.current.setAttribute("max", maxDate);
+		rangeDate = getMinMaxDate(month);
+		inputDate.current.setAttribute("max", rangeDate.max);
+		inputDate.current.setAttribute("min", rangeDate.min);
 	}, [month]);
 
 	return (
@@ -44,7 +57,6 @@ export default function Form({ handleAddFormChange, handleAddFormSubmit, disable
 					type="date"
 					name="dateRefund"
 					ref={inputDate}
-					min={`${month}-01`}
 					onChange={handleAddFormChange}
 				/>
 			</div>
