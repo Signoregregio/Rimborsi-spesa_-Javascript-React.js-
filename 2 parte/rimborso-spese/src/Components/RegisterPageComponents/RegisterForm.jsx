@@ -1,8 +1,11 @@
 import { useState } from "react";
 import "./registerForm.css";
+import { hasRegistered, registerNewUser } from "../../API/fetchFunc";
 
-export default function RegisterForm() {
+export default function RegisterForm({setDisabled}) {
 	const [formElements, getFormElements] = useState({
+		createdAt: "",
+		name: "",
 		username: "",
 		role: "",
 		password: "",
@@ -21,10 +24,26 @@ export default function RegisterForm() {
 		getFormElements(newElement);
 	}
 
-	function handleFormSubmit(event){
+	async function handleFormSubmit(event){
 		event.preventDefault();
-
-		console.log(formElements.role)
+		// //user already taken?
+		setDisabled(true)
+		if(formElements.password !== formElements.passwordRepeat){
+			//errore le password non coincidono
+			setDisabled(false)
+			return console.log("Password non coincidono")
+		}
+		if(await hasRegistered(formElements.username)){
+			//set div error
+			setDisabled(false)
+			return console.log("User already taken")
+		}	
+		let date = new Date;
+		console.log("Registrazione utente " + formElements.username + " con password " + formElements.password + " in data: " + date)
+		const userData = {...formElements}
+		userData['createdAt'] = date; 
+		await registerNewUser(userData);
+		setDisabled(false)
 	}
 	
 	return (
@@ -32,8 +51,12 @@ export default function RegisterForm() {
 			<div className="divFormMonth">
 				<h2> Inserisci i dati: </h2>
 				<div className="inputLogin">
-					<label>Nome utente:</label>
+					<label>Username:</label>
 					<input name="username" type="text" className="inputUsername" onChange={handleFormChange} />
+				</div>
+				<div className="inputLogin">
+					<label>Name:</label>
+					<input name="name" type="text" className="inputUsername" onChange={handleFormChange} />
 				</div>
 				<div className="inputLogin">
 					<label>Ruolo :</label>
@@ -65,7 +88,7 @@ export default function RegisterForm() {
 						onChange={handleFormChange}
 					/>
 				</div>
-				<button className="loginBtn" onSubmit={handleFormSubmit}>Register</button>
+				<button className="loginBtn" onClick={handleFormSubmit}>Register</button>
 			</div>
 		</div>
 	);

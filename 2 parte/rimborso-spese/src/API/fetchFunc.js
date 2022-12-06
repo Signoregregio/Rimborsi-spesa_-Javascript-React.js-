@@ -130,7 +130,7 @@ export async function postTable(rows, userId) {
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
         .then(response => response.json())
-        .then(data => {console.log(data); console.log("NUOVO primaryKey " + data.id)})
+        .then(data => {console.log(data); console.log("NUOVO id " + data.id)})
         .catch(error => console.log(error));
     } else {
         console.log("%c tableIsEmpty","font-size:16px;")
@@ -157,4 +157,17 @@ function checkId(data, username){
             foundedId = true;
         }
     })
+}
+
+export async function registerNewUser(userData){
+    console.log("%c REGISTERING ","background-color:grey;color:white;font-size:16px;")
+
+    await fetch((mockLink() + "users"),{
+        method: "POST",
+        body: JSON.stringify(userData),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => {console.log(data); console.log("NUOVO id " + data.id)})
+    .catch(error => console.log(error));
 }
