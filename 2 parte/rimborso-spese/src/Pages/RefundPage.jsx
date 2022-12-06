@@ -1,5 +1,6 @@
 import Form from "../Components/RefundPageComponents/Form";
 import TableRefund from "../Components/RefundPageComponents/TableRefund";
+import LoadingSpinner from "../Components/LoadingSpinner/LoadingSpinner";
 import {
 	translateStatus,
 	approveStatus,
@@ -50,11 +51,13 @@ export default function RefundPage() {
 		const fetchData = async () => {
 			userId = sessionStorage.getItem("userId");
 			userRole = sessionStorage.getItem("userRole");
+			setDisabled(true);
 			maxRefundable = await storageRimborsoMax(userRole);
 			let newRows = await downloadTable(userId, month);
 			newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 			console.log(newRows);
 			setRows(newRows);
+			setDisabled(false);
 		};
 		fetchData();
 	}, []);
@@ -141,9 +144,9 @@ export default function RefundPage() {
 		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
 		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
-		setDisabled(false);
 		setRows(newRows);
 		setEditRowId(null);
+		setDisabled(false);
 	}
 
 	const handleCancelClick = () => {
@@ -169,8 +172,8 @@ export default function RefundPage() {
 		newRows.splice(index, 1);
 		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
-		setDisabled(false);
 		setRows(newRows);
+		setDisabled(false);
 	}
 
 	const [filterInput, setFilterInput] = useState({
@@ -203,6 +206,8 @@ export default function RefundPage() {
 
 	return (
 		<div className="flexbox">
+			{disabled ? <LoadingSpinner /> : <></>}
+
 			<div id="leftSide">
 				<Form
 					handleAddFormChange={handleAddFormChange}

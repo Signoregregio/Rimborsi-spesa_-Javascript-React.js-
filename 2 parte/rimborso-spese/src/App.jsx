@@ -11,31 +11,38 @@ import { useState } from "react";
 import { getRole } from "./API/fetchFunc";
 import RegisterPage from "./Pages/RegisterPage";
 
+
+let id;
+
 function App() {
 	const [user, setUser] = useState({
-		primaryKey: "",
-		role: "",
+		id: "",
+		password: "",
 	});
 	let navigate = useNavigate();
 
-	async function handleUsernameChange(event) {
+	function handleUsernameChange(event) {
 		event.preventDefault();
 		const fieldValue = event.target.value;
-		let role = await getRole(fieldValue);
-		console.log(role);
-		setUser({ primaryKey: fieldValue, role: role });
+		const fieldName = event.target.name;
+		const newData = { ...user };
+		newData[fieldName] = fieldValue; 
+
+		setUser(newData);
+
 	}
 
 	async function login() {
-		if (user.role) {
-			console.log(user)
-			sessionStorage.setItem("userRole", user.role);
-			sessionStorage.setItem("userId", user.primaryKey);
-			navigate(`/home/${user.primaryKey}`);
+		let role = await getRole(user.id);
+		if (role) {
+			console.log(user.id + " - " + role)
+			sessionStorage.setItem("userRole", role);
+			sessionStorage.setItem("userId", user.id);
+			navigate(`/home/${user.id}`);
 		}
 		if (!user.role) {
 			setUser({
-				primaryKey: "",
+				id: "",
 				role: "",
 			});
 		}
@@ -47,8 +54,8 @@ function App() {
 				<Header />
 				<Routes>
 					<Route path="/" element={<LoginPage handleUsernameChange={handleUsernameChange} login={login} />} />
-					<Route path="/refundpage/:primaryKey/:month" element={<RefundPage />} />
-					<Route path="/home/:primaryKey" element={<HomePage />} />
+					<Route path="/refundpage/:id/:month" element={<RefundPage />} />
+					<Route path="/home/:id" element={<HomePage />} />
 					<Route path="/register" element={<RegisterPage />} />
 				</Routes>
 		</div>

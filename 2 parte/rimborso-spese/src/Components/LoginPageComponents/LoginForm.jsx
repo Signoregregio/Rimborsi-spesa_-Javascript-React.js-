@@ -9,7 +9,7 @@ export default function LoginForm({handleUsernameChange, login}) {
 				<h2> Inserisci le credenziali: </h2>
 				<div className="inputLogin">
 					<label>Username:</label>
-					<select className="inputUsername" required autoFocus defaultValue={"Username"} onChange={handleUsernameChange}>
+					<select name="id" className="inputUsername" required autoFocus defaultValue={"Username"} onChange={handleUsernameChange}>
 						<option disabled>Username</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -25,7 +25,7 @@ export default function LoginForm({handleUsernameChange, login}) {
 				</div>
 				<div className="inputLogin">
 					<label>Password</label>
-					<input type="password" className="inputPassword" placeholder="Password..."/>
+					<input name="password" type="password" className="inputPassword" placeholder="Password..." onChange={handleUsernameChange}/>
 				</div>
                 <button className="loginBtn" onClick={() => {login()}}>Login</button>
 			</div>
