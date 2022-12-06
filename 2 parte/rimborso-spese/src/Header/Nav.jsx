@@ -17,6 +17,11 @@ export default function Nav() {
 	function goHome() {
 		navigate(`/home/${userId}`);
 	}
+	
+	function logOut(){
+		sessionStorage.removeItem("userId");
+		sessionStorage.removeItem("userRole");
+	}
 
 	return (
 		<div className="divNav">
@@ -28,7 +33,7 @@ export default function Nav() {
 						</Link>
 					) : (
 						<Link to="/">
-							<LogOut />
+							<LogOut logOut={logOut}/>
 						</Link>
 					)}
 			</nav>

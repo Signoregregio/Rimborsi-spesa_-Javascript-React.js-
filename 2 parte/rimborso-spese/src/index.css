@@ -11,6 +11,7 @@
 	--colorTextBar: greenyellow;
 	--colorBackgroundBar: #222222;
 	--focusVisible: rgb(255, 252, 48);
+	--error: rgb(204, 0, 0);
 }
 
 * {
@@ -138,7 +139,7 @@ input:disabled {
 .radioBtn {
 	width: 24px !important;
 	height: 24px;
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 #rightSide {
@@ -185,4 +186,15 @@ tbody > tr:hover td {
 	/* width: 50%;
 	height: 100%;
 	font-size: 10px; */
+}
+
+.notFound {
+	text-align: center;
+	margin-top: 15rem;
+	color: var(--error);
+}
+
+.notLogged {
+	text-align: center;
+	margin-top: 15rem;
 }

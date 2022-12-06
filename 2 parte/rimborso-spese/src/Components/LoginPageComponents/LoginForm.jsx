@@ -1,33 +1,43 @@
+import { useEffect } from "react";
 import "./loginForm.css";
 
-export default function LoginForm({handleUsernameChange, login}) {
-	
-
+export default function LoginForm({ handleUsernameChange, login, wrongData, disabled }) {
 	return (
 		<div className="container">
 			<div className="divFormMonth">
 				<h2> Inserisci le credenziali: </h2>
+				<small>(Se non si è creato un account, refreshare e premere "Login")</small>
+				{wrongData ? <small className="wrongInputs">Credenziali di accesso sbagliate.</small> : <></>}
 				<div className="inputLogin">
 					<label>Username:</label>
-					<select name="id" className="inputUsername" required autoFocus defaultValue={"Username"} onChange={handleUsernameChange}>
-						<option disabled>Username</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="24">24</option>
-						<option value="25">25</option>
-						<option value="26">26</option>
-					</select>
+					<input
+						name="id"
+						className="inputUsername"
+						required
+						autoFocus
+						placeholder="Username"
+						onChange={handleUsernameChange}
+					/>
 				</div>
 				<div className="inputLogin">
 					<label>Password</label>
-					<input name="password" type="password" className="inputPassword" placeholder="Password..." onChange={handleUsernameChange}/>
+					<input
+						name="password"
+						type="password"
+						className="inputPassword"
+						placeholder="Password..."
+						onChange={handleUsernameChange}
+					/>
 				</div>
-                <button className="loginBtn" onClick={() => {login()}}>Login</button>
+				<button
+					disabled={disabled}
+					className="loginBtn"
+					onClick={() => {
+						login();
+					}}
+				>
+					Login
+				</button>
 			</div>
 		</div>
 	);

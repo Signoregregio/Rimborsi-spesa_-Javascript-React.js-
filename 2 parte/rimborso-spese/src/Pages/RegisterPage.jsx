@@ -1,6 +1,6 @@
 import RegisterForm from "../Components/RegisterPageComponents/RegisterForm"
 
-export default function RegisterPage(){
+export default function RegisterPage({setDisabled}){
     return(
         <RegisterForm/>
     )

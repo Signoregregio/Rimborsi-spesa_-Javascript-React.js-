@@ -18,7 +18,7 @@ let userId;
 let userRole;
 let maxRefundable;
 
-export default function RefundPage() {
+export default function RefundPage({disabled, setDisabled}) {
 	const [rows, setRows] = useState([]);
 	const [formObject, setFormObject] = useState({
 		primaryKey: "",
@@ -38,7 +38,6 @@ export default function RefundPage() {
 	});
 
 	const [editRowId, setEditRowId] = useState();
-	const [disabled, setDisabled] = useState(false);
 	const [sortBy, setSortBy] = useState({
 		type: 0,
 		asc: true,
@@ -51,15 +50,15 @@ export default function RefundPage() {
 		const fetchData = async () => {
 			userId = sessionStorage.getItem("userId");
 			userRole = sessionStorage.getItem("userRole");
-			setDisabled(true);
 			maxRefundable = await storageRimborsoMax(userRole);
 			let newRows = await downloadTable(userId, month);
 			newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 			console.log(newRows);
 			setRows(newRows);
-			setDisabled(false);
 		};
+		setDisabled(true);
 		fetchData();
+		setDisabled(false);
 	}, []);
 
 	function handleAddFormChange(event) {
@@ -99,6 +98,7 @@ export default function RefundPage() {
 
 	async function handleAddFormSubmit(event) {
 		event.preventDefault();
+		setDisabled(true);
 		let state = translateStatus(approveStatus(formObject.ticket, formObject.amount));
 		let newRow = {
 			primaryKey: nanoid(),
@@ -110,21 +110,21 @@ export default function RefundPage() {
 			refund: Number(calculateMaxRefundable(formObject, state, maxRefundable)),
 		};
 		let newRows = [...rows, newRow];
-		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
-		setDisabled(false);
-
+		
 		console.log(newRows);
 		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 		console.log(newRows);
-
 		setRows(newRows);
+		setDisabled(false);
+
 		console.log(newRows);
 	}
 
 	async function handleEditFormSubmit(event) {
 		event.preventDefault();
 
+		setDisabled(true);
 		let state = translateStatus(approveStatus(editFormData.ticket, editFormData.amount));
 		const editedRow = {
 			primaryKey: editRowId,
@@ -141,7 +141,6 @@ export default function RefundPage() {
 		const index = rows.findIndex((row) => row.primaryKey === editRowId);
 
 		newRows[index] = editedRow;
-		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
 		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 		setRows(newRows);
@@ -167,15 +166,15 @@ export default function RefundPage() {
 	}
 
 	async function handleDeleteClick(rowId) {
+		setDisabled(true);
 		const newRows = [...rows];
 		const index = rows.findIndex((row) => row.primaryKey === rowId);
 		newRows.splice(index, 1);
-		setDisabled(true);
 		await submitMonthMock(newRows, userId, month);
 		setRows(newRows);
 		setDisabled(false);
 	}
-
+	
 	const [filterInput, setFilterInput] = useState({
 		date: "",
 		type: "",
@@ -206,8 +205,6 @@ export default function RefundPage() {
 
 	return (
 		<div className="flexbox">
-			{disabled ? <LoadingSpinner /> : <></>}
-
 			<div id="leftSide">
 				<Form
 					handleAddFormChange={handleAddFormChange}

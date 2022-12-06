@@ -1,6 +1,6 @@
 let role;
 let idArray = [];
-let tableListRimborso = [];
+let foundedId;
 
 export function mockLink() {
     return 'https://638a2950c5356b25a2141671.mockapi.io/'
@@ -20,7 +20,7 @@ export async function getRole(username) {
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())
-    .then(data => {role = data.role; console.log(role)})
+    .then(data => {role = data.role})
     .catch(error => console.log(error));
     return role;
 }
@@ -98,7 +98,7 @@ export async function getIdByMonthMock(userId, yearMonth) {
     return idArray;
 }
 
-export async function idMonthSelected(obj, yearMonth) {
+function idMonthSelected(obj, yearMonth) {
     console.log(yearMonth)
     obj.filter(value => {
         let tableDate = value[0].dateRefund.match('[0-9]{4}[-][0-9]{2}');
@@ -136,4 +136,25 @@ export async function postTable(rows, userId) {
         console.log("%c tableIsEmpty","font-size:16px;")
     }
     console.log("%c SUBMITTING ENDED ","background-color:brown;color:white;font-size:16px;") 
+}
+
+export async function hasRegistered(username){
+    foundedId = false;
+    await fetch((mockLink() + "users"),{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => checkId(data, username))
+    .catch(error => console.log(error));
+    
+    return foundedId;
+}
+
+function checkId(data, username){
+    data.map(user => { 
+        if(user.id === username){
+            foundedId = true;
+        }
+    })
 }

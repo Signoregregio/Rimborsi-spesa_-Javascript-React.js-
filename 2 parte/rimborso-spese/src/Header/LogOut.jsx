@@ -1,5 +1,5 @@
-export default function Logout(){
+export default function Logout({logOut}){
     return(
-        <button className="navButton">Logout</button>
+        <button className="navButton" onClick={logOut}>Logout</button>
     )
 }
