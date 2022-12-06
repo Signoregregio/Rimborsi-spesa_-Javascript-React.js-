@@ -1,25 +1,72 @@
+import { useState } from "react";
 import "./registerForm.css";
 
+export default function RegisterForm() {
+	const [formElements, getFormElements] = useState({
+		username: "",
+		role: "",
+		password: "",
+		passwordRepeat: "",
+	});
 
-export default function RegisterForm(){
-    return(
-        <div className="container">
+
+	function handleFormChange(event) {
+
+		const fieldName = event.target.name;
+		const fieldValue = event.target.value;
+		console.log()
+		const newElement = {...formElements}
+		newElement[fieldName] = fieldValue;
+
+		getFormElements(newElement);
+	}
+
+	function handleFormSubmit(event){
+		event.preventDefault();
+
+		console.log(formElements.role)
+	}
+	
+	return (
+		<div className="container">
 			<div className="divFormMonth">
-				<h2> Non funziona, to do: </h2>
+				<h2> Inserisci i dati: </h2>
 				<div className="inputLogin">
-					<label>Choose an username:</label>
-					<input type="text" className="inputUsername" />
+					<label>Nome utente:</label>
+					<input name="username" type="text" className="inputUsername" onChange={handleFormChange} />
+				</div>
+				<div className="inputLogin">
+					<label>Ruolo :</label>
+					<select name="role" onChange={handleFormChange} defaultValue={"Inserire il rsuolo"}>
+						<option disabled>Inserire il ruolo</option>
+						<option value="Segretaria">Segretario/a</option>
+						<option value="Dipendente">Dipendente</option>
+						<option value="Manager">Manager</option>
+						<option value="Presidente">Presidente</option>
+					</select>
 				</div>
 				<div className="inputLogin">
 					<label>Password</label>
-					<input type="password" className="inputPassword" placeholder="Password..."/>
+					<input
+						name="password"
+						type="password"
+						className="inputPassword"
+						placeholder="Password..."
+						onChange={handleFormChange}
+					/>
 				</div>
 				<div className="inputLogin">
 					<label>Repeat password</label>
-					<input type="password" className="inputPassword" placeholder="Password..."/>
+					<input
+						name="passwordRepeat"
+						type="password"
+						className="inputPassword"
+						placeholder="Password..."
+						onChange={handleFormChange}
+					/>
 				</div>
-                <button className="loginBtn" >Register</button>
+				<button className="loginBtn" onSubmit={handleFormSubmit}>Register</button>
 			</div>
 		</div>
-    )
+	);
 }

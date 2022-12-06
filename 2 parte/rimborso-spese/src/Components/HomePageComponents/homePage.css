@@ -21,7 +21,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	padding: 1rem;
-	margin-top: 10%;
+	margin-top: 9%;
 	border-radius: 1rem;
     border: 3px solid var(--colorBorder);
 }
