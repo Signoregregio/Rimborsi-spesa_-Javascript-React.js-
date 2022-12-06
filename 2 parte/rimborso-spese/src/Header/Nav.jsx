@@ -12,6 +12,7 @@ export default function Nav() {
 	let location = useLocation();
 	useEffect(() => {
 		userId = sessionStorage.getItem("userId");
+		console.log(userId);
 	}, []);
 
 	function goHome() {

@@ -26,7 +26,6 @@ export default function RegisterForm({setDisabled}) {
 
 	async function handleFormSubmit(event){
 		event.preventDefault();
-		// //user already taken?
 		setDisabled(true)
 		if(formElements.password !== formElements.passwordRepeat){
 			//errore le password non coincidono
@@ -60,7 +59,7 @@ export default function RegisterForm({setDisabled}) {
 				</div>
 				<div className="inputLogin">
 					<label>Ruolo :</label>
-					<select name="role" onChange={handleFormChange} defaultValue={"Inserire il rsuolo"}>
+					<select name="role" onChange={handleFormChange} defaultValue={"Inserire il ruolo"}>
 						<option disabled>Inserire il ruolo</option>
 						<option value="Segretaria">Segretario/a</option>
 						<option value="Dipendente">Dipendente</option>
