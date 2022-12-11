@@ -10,12 +10,10 @@ let userRole = "";
 export default function Nav() {
 	let navigate = useNavigate();
 	let location = useLocation();
-	useEffect(() => {
-		userId = sessionStorage.getItem("userId");
-		console.log(userId);
-	}, []);
 
 	function goHome() {
+		userId = sessionStorage.getItem("userId");
+		console.log(userId)
 		navigate(`/home/${userId}`);
 	}
 	

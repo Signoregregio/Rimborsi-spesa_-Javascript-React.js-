@@ -88,11 +88,11 @@ export default function RefundPage({disabled, setDisabled}) {
 		let cellIndex = event.target.cellIndex;
 		if (cellIndex === sortBy.type) {
 			setSortBy({ type: cellIndex, asc: !sortBy.asc });
-			sortByColumn(cellIndex, !sortBy.asc, rows);
+			sortByColumn(cellIndex, !sortBy.asc, filteredRows);
 		}
 		if (cellIndex !== sortBy.type) {
 			setSortBy({ type: cellIndex, asc: true });
-			sortByColumn(cellIndex, true, rows);
+			sortByColumn(cellIndex, true, filteredRows);
 		}
 	}
 

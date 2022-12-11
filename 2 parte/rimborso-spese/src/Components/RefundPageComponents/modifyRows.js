@@ -66,11 +66,10 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 
 export function filterArray(rows, filterInput) {
 	let filteredRows = rows;
-	console.log(filterInput);
-    filterInput.amountMax = Number(filterInput.amountMax)
-    filterInput.amountMin = Number(filterInput.amountMin)
-    filterInput.refundMax = Number(filterInput.refundMax)
-    filterInput.refundMin = Number(filterInput.refundMin)
+	filterInput.amountMax = Number(filterInput.amountMax);
+	filterInput.amountMin = Number(filterInput.amountMin);
+	filterInput.refundMax = Number(filterInput.refundMax);
+	filterInput.refundMin = Number(filterInput.refundMin);
 
 	if (filterInput.date !== "") {
 		console.log(filterInput.date);
@@ -90,23 +89,19 @@ export function filterArray(rows, filterInput) {
 
 	if (filterInput.amountMin !== 0 || filterInput.amountMax !== 0) {
 		if (filterInput.amountMin === 0) {
-			console.log("1");
 			filteredRows = filteredRows.filter((row) => row.amount <= Number(filterInput.amountMax));
 		}
 		if (filterInput.amountMax === 0) {
-			console.log("2");
 			filteredRows = filteredRows.filter((row) => row.amount >= Number(filterInput.amountMin));
 		}
 		if (filterInput.amountMin <= filterInput.amountMax) {
-			console.log("3");
 			filteredRows = filteredRows.filter(
-				(row) => (Number(filterInput.amountMin) <= row.amount && row.amount <= Number(filterInput.amountMax))
+				(row) => Number(filterInput.amountMin) <= row.amount && row.amount <= Number(filterInput.amountMax)
 			);
 		}
 		if (filterInput.amountMin >= filterInput.amountMax && filterInput.amountMax !== 0) {
-			console.log("4");
 			filteredRows = filteredRows.filter(
-				(row) => (Number(filterInput.amountMax) <= row.amount && row.amount <= Number(filterInput.amountMin))
+				(row) => Number(filterInput.amountMax) <= row.amount && row.amount <= Number(filterInput.amountMin)
 			);
 		}
 	}
@@ -117,33 +112,27 @@ export function filterArray(rows, filterInput) {
 		);
 	}
 	if (filterInput.state !== "") {
-		filteredRows = filteredRows.filter(
-			(row) => row.state.toLowerCase().indexOf(filterInput.state.toLowerCase()) > -1
-		);
+		let pattern = new RegExp("^" + filterInput.state.toLowerCase() + "$");
+		filteredRows = filteredRows.filter((row) => row.state.toLowerCase().match(pattern) !== null);
 	}
 
-    if (filterInput.refundMin !== 0 || filterInput.refundMax !== 0) {
+	if (filterInput.refundMin !== 0 || filterInput.refundMax !== 0) {
 		if (filterInput.refundMin === 0) {
-			console.log("1");
 			filteredRows = filteredRows.filter((row) => row.refund <= Number(filterInput.refundMax));
 		}
 		if (filterInput.refundMax === 0) {
-			console.log("2");
 			filteredRows = filteredRows.filter((row) => row.refund >= Number(filterInput.refundMin));
 		}
 		if (filterInput.refundMin <= filterInput.refundMax) {
-			console.log("3");
 			filteredRows = filteredRows.filter(
-				(row) => (Number(filterInput.refundMin) <= row.refund && row.refund <= Number(filterInput.refundMax))
+				(row) => Number(filterInput.refundMin) <= row.refund && row.refund <= Number(filterInput.refundMax)
 			);
 		}
 		if (filterInput.refundMin >= filterInput.refundMax && filterInput.refundMax !== 0) {
-			console.log("4");
 			filteredRows = filteredRows.filter(
-				(row) => (Number(filterInput.refundMax) <= row.refund && row.refund <= Number(filterInput.refundMin))
+				(row) => Number(filterInput.refundMax) <= row.refund && row.refund <= Number(filterInput.refundMin)
 			);
 		}
 	}
-	console.log(filteredRows);
 	return filteredRows;
 }

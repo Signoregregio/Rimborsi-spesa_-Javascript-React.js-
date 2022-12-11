@@ -870,6 +870,7 @@ let user2 = [
 	 "name": "Daniele",
 	 "role": "Presidente",
 	 "password": "1",
+	 "username": "Daniele",
 	 "id": "1"
 	},
 	{
@@ -877,6 +878,7 @@ let user2 = [
 	 "name": "Gabriele",
 	 "role": "Dipendente",
 	 "password": "2",
+	 "username": "Gabriele",
 	 "id": "2"
 	},
 	{
@@ -884,6 +886,7 @@ let user2 = [
 	 "name": "Lorenzo",
 	 "role": "Dipendente",
 	 "password": "3",
+	 "username": "Lorenzo",
 	 "id": "3"
 	},
 	{
@@ -891,20 +894,23 @@ let user2 = [
 	 "name": "Luca",
 	 "role": "Dipendente",
 	 "password": "4",
+	 "username": "Luca",
 	 "id": "4"
 	},
 	{
-		"createdAt": "2022-12-06T17:21:39.909Z",
-		"name": "Fabio",
-		"role": "Manager",
-		"password": "5",
-		"id": "5"
-	   },
+	 "createdAt": "2022-12-06T17:21:39.909Z",
+	 "name": "Fabio",
+	 "role": "Manager",
+	 "password": "5",
+	 "username": "Fabio",
+	 "id": "5"
+	},
 	{
 	 "createdAt": "2022-12-06T17:21:39.909Z",
 	 "name": "Francesco",
 	 "role": "Manager",
 	 "password": "6",
+	 "username": "Francesco",
 	 "id": "6"
 	},
 	{
@@ -912,6 +918,7 @@ let user2 = [
 	 "name": "Matteo",
 	 "role": "Dipendente",
 	 "password": "7",
+	 "username": "Matteo",
 	 "id": "7"
 	},
 	{
@@ -919,6 +926,7 @@ let user2 = [
 	 "name": "Filippo",
 	 "role": "Segretaria",
 	 "password": "8",
+	 "username": "Filippo",
 	 "id": "8"
 	},
 	{
@@ -933,6 +941,23 @@ let user2 = [
 	 "name": "Leonardo",
 	 "role": "Manager",
 	 "password": "10",
+	 "username": "Leonardo",
 	 "id": "10"
+	},
+	{
+	 "createdAt": "2022-12-06T19:19:17.264Z",
+	 "name": "UserQualsiasi",
+	 "role": "Dipendente",
+	 "password": "userProfile",
+	 "username": "userProfile",
+	 "id": "11"
+	},
+	{
+	 "createdAt": "2022-12-06T19:35:28.891Z",
+	 "name": "Ra",
+	 "role": "Presidente",
+	 "password": "Sen",
+	 "username": "Ko",
+	 "id": "12"
 	}
    ]

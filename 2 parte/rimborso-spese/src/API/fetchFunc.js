@@ -1,6 +1,7 @@
 let role;
 let idArray = [];
-let foundedId;
+let foundedAccount;
+let id;
 
 export function mockLink() {
     return 'https://638a2950c5356b25a2141671.mockapi.io/'
@@ -55,10 +56,6 @@ export async function downloadTable(userId, month) {
     .catch(error => console.log(error));
 
     return refundList;
-    // sortByColumn(columnSort, tableListRimborso);
-    // resetTable();
-    // writeCreateTable(tableListRimborso);
-    // undisableForm();
 }
 
 export function jsonToArray(obj, month, refundList) {
@@ -138,23 +135,23 @@ export async function postTable(rows, userId) {
     console.log("%c SUBMITTING ENDED ","background-color:brown;color:white;font-size:16px;") 
 }
 
-export async function hasRegistered(username){
-    foundedId = false;
+export async function hasRegistered(user){
+    foundedAccount = false;
     await fetch((mockLink() + "users"),{
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     .then(response => response.json())
-    .then(data => checkId(data, username))
+    .then(data => checkLoginForm(data, user))
     .catch(error => console.log(error));
     
-    return foundedId;
+    return foundedAccount;
 }
 
-function checkId(data, username){
-    data.map(user => { 
-        if(user.id === username){
-            foundedId = true;
+function checkLoginForm(data, user){
+    data.map(mock => { 
+        if(mock.username === user.username && mock.password === user.password){
+            foundedAccount = true;
         }
     })
 }
@@ -170,4 +167,26 @@ export async function registerNewUser(userData){
     .then(response => response.json())
     .then(data => {console.log(data); console.log("NUOVO id " + data.id)})
     .catch(error => console.log(error));
+}
+
+export async function getId(user){
+	id = null;
+    await fetch((mockLink() + "users"),{
+        method: "GET",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json())
+    .then(data => checkId(data, user))
+    .catch(error => console.log(error));
+    
+	console.log(id)
+    return id;
+}
+
+function checkId(data, user){
+    data.map(mock => { 
+        if(mock.username === user.username){
+           	id = mock.id
+        }
+    })
 }

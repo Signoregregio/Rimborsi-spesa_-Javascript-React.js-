@@ -1,12 +1,12 @@
 import LoginForm from "../Components/LoginPageComponents/LoginForm";
 import { useState } from "react";
-import { getRole, hasRegistered } from "../API/fetchFunc";
+import { getRole, hasRegistered, getId } from "../API/fetchFunc";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage({disabled, setDisabled}){
     
     const [user, setUser] = useState({
-		id: "5",
+		username: "Fabio",
 		password: "5",
 	});
 	const [wrongData, setWrongData] = useState(false);
@@ -24,20 +24,22 @@ export default function LoginPage({disabled, setDisabled}){
 
 	async function login() {
         setDisabled(true)
-		let idHasRegistered = await hasRegistered(user.id);
-		if (idHasRegistered) {
-			let role = await getRole(user.id);
-			console.log(user.id + " - " + role);
+		let userHasRegistered = await hasRegistered(user);
+		if (userHasRegistered) {
+			let id = await getId(user)
+			console.log(id)
+			let role = await getRole(id);
+			console.log(user.username + " - " + role + " - " + id);
 			sessionStorage.setItem("userRole", role);
-			sessionStorage.setItem("userId", user.id);
-			navigate(`/home/${user.id}`);
+			sessionStorage.setItem("userId", id);
+			navigate(`/home/${id}`);
             setDisabled(false)
 		}
 
 		console.log("entro");
 		setWrongData(true);
 		setUser({
-			id: "",
+			username: "",
 			password: "",
 		});
         setDisabled(false)

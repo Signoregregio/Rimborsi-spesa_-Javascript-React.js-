@@ -11,7 +11,7 @@ export default function LoginForm({ handleUsernameChange, login, wrongData, disa
 				<div className="inputLogin">
 					<label>Username:</label>
 					<input
-						name="id"
+						name="username"
 						className="inputUsername"
 						required
 						autoFocus
