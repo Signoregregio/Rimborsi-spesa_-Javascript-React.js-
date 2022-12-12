@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./refund-page.component.css']
 })
 export class RefundPageComponent {
-
+  show: boolean = true;
 }
+

@@ -1,1 +1,42 @@
-<p>form works!</p>
+<form onSubmit={handleAddFormSubmit}>
+
+    <div className="formBox">
+        <label>Tipo:</label>
+        <select name="type">
+            <option disabled>Inserire il tipo</option>
+            <option value="Taxi">Taxi</option>
+            <option value="Vitto">Vitto</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Treno">Treno</option>
+        </select>
+    </div>
+
+    <div className="formBox">
+        <label>Data:</label>
+        <input
+            type="date"
+            name="dateRefund"
+            ref={inputDate}
+           
+        />
+    </div>
+
+    <div className="formBox">
+        <label>Importo richiesto:</label>
+        <input name="amount" placeholder="Importo richiesto..." />
+    </div>
+
+    <div className="formBox">
+        Scontrino? <br>
+        <label> Sì </label>
+        <input type="radio" className="radioBtn" value="Sì" name="ticket" />
+        <br />
+        <label> No </label>
+        <input type="radio" className="radioBtn" value="No" name="ticket" />
+    </div>
+    <div className="divButton">
+        <button type="submit" id="submitButton" disabled={disabled}>
+            Submit
+        </button>
+    </div>
+</form>

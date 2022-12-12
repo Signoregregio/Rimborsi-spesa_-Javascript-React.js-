@@ -1,1 +1,5 @@
-<p>refund-page works!</p>
+<button (click)="show = !show">{{show ? 'hide' : 'show'}}</button>
+show = {{show}}
+<br>
+<div *ngIf="show; else elseBlock">Show</div>
+<ng-template #elseBlock>hide</ng-template>
