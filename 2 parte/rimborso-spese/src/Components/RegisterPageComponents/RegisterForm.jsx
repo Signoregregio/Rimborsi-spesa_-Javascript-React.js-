@@ -37,7 +37,7 @@ export default function RegisterForm({setDisabled}) {
 			setDisabled(false)
 			return console.log("User already taken")
 		}	
-		let date = new Date;
+		let date = new Date();
 		console.log("Registrazione utente " + formElements.username + " con password " + formElements.password + " in data: " + date)
 		const userData = {...formElements}
 		userData['createdAt'] = date; 

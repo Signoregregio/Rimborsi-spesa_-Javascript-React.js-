@@ -3,7 +3,7 @@
 import "./index.css";
 import RefundPage from "./Pages/RefundPage";
 import Header from "./Header/Header";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import LoadingSpinner from "./Components/LoadingSpinner/LoadingSpinner";

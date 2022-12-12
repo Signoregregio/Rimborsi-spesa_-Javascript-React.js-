@@ -2,10 +2,8 @@ import GoHome from "./GoHome";
 import LogOut from "./LogOut";
 import Register from "./Register";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 let userId = "";
-let userRole = "";
 
 export default function Nav() {
 	let navigate = useNavigate();

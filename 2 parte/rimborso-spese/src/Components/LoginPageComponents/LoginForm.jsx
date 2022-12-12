@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./loginForm.css";
 
 export default function LoginForm({ handleUsernameChange, login, wrongData, disabled }) {

@@ -1,6 +1,5 @@
 import Form from "../Components/RefundPageComponents/Form";
 import TableRefund from "../Components/RefundPageComponents/TableRefund";
-import LoadingSpinner from "../Components/LoadingSpinner/LoadingSpinner";
 import {
 	translateStatus,
 	approveStatus,
@@ -12,13 +11,12 @@ import { useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useRef } from "react";
 
 let userId;
 let userRole;
 let maxRefundable;
 
-export default function RefundPage({disabled, setDisabled}) {
+export default function RefundPage({ disabled, setDisabled }) {
 	const [rows, setRows] = useState([]);
 	const [formObject, setFormObject] = useState({
 		primaryKey: "",
@@ -44,10 +42,10 @@ export default function RefundPage({disabled, setDisabled}) {
 	});
 
 	let { month } = useParams();
-	const submitBtn = useRef();
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setDisabled(true);
 			userId = sessionStorage.getItem("userId");
 			userRole = sessionStorage.getItem("userRole");
 			maxRefundable = await storageRimborsoMax(userRole);
@@ -55,10 +53,11 @@ export default function RefundPage({disabled, setDisabled}) {
 			newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 			console.log(newRows);
 			setRows(newRows);
+			setDisabled(false);
 		};
-		setDisabled(true);
 		fetchData();
-		setDisabled(false);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	function handleAddFormChange(event) {
@@ -111,7 +110,7 @@ export default function RefundPage({disabled, setDisabled}) {
 		};
 		let newRows = [...rows, newRow];
 		await submitMonthMock(newRows, userId, month);
-		
+
 		console.log(newRows);
 		newRows = sortByColumn(sortBy.type, sortBy.asc, newRows);
 		console.log(newRows);
@@ -174,7 +173,7 @@ export default function RefundPage({disabled, setDisabled}) {
 		setRows(newRows);
 		setDisabled(false);
 	}
-	
+
 	const [filterInput, setFilterInput] = useState({
 		date: "",
 		type: "",

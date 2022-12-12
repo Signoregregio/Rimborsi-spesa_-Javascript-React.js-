@@ -1,11 +1,10 @@
-let asc = true;
 const columnType = ["dateRefund", "type", "amount", "ticket", "state", "refund"];
 
 export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 	console.log("%c SORTING BY ", "background-color:yellow;color:blue;font-size:16px;");
 	console.log(columnType[sortType]);
 	let sortedArray;
-	if (columnType[sortType] == "dateRefund") {
+	if (columnType[sortType] === "dateRefund") {
 		sortedArray = tableListRimborso.sort(function (a, b) {
 			let aa = a.dateRefund.split("-").join();
 			let bb = b.dateRefund.split("-").join();
@@ -16,7 +15,7 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 			}
 		});
 	}
-	if (columnType[sortType] == "type") {
+	if (columnType[sortType] === "type") {
 		sortedArray = tableListRimborso.sort((a, b) => {
 			if (sortAsc) {
 				return a.type.localeCompare(b.type);
@@ -25,7 +24,7 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 			}
 		});
 	}
-	if (columnType[sortType] == "amount") {
+	if (columnType[sortType] === "amount") {
 		sortedArray = tableListRimborso.sort((a, b) => {
 			if (sortAsc) {
 				return Number(a.amount) - Number(b.amount);
@@ -34,7 +33,7 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 			}
 		});
 	}
-	if (columnType[sortType] == "ticket") {
+	if (columnType[sortType] === "ticket") {
 		sortedArray = tableListRimborso.sort((a, b) => {
 			if (sortAsc) {
 				return a.ticket.localeCompare(b.ticket);
@@ -43,7 +42,7 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 			}
 		});
 	}
-	if (columnType[sortType] == "state") {
+	if (columnType[sortType] === "state") {
 		sortedArray = tableListRimborso.sort((a, b) => {
 			if (sortAsc) {
 				return a.state.localeCompare(b.state);
@@ -52,7 +51,7 @@ export function sortByColumn(sortType, sortAsc, tableListRimborso) {
 			}
 		});
 	}
-	if (columnType[sortType] == "refund") {
+	if (columnType[sortType] === "refund") {
 		sortedArray = tableListRimborso.sort((a, b) => {
 			if (sortAsc) {
 				return Number(a.refund) - Number(b.refund);
@@ -73,7 +72,7 @@ export function filterArray(rows, filterInput) {
 
 	if (filterInput.date !== "") {
 		console.log(filterInput.date);
-		filteredRows = filteredRows.filter((row) => row.dateRefund == filterInput.date);
+		filteredRows = filteredRows.filter((row) => row.dateRefund === filterInput.date);
 	}
 	if (filterInput.type !== "") {
 		filteredRows = filteredRows.filter(
