@@ -63,7 +63,7 @@ function jsonToArray(obj, month, refundList) {
         Object.keys(value).forEach(item => {
             if (item !== "id" && item !== "userId") {
                 let tableDate = value[item].dateRefund.match('[0-9]{4}[-][0-9]{2}');
-                if (month === tableDate) {
+                if (month.toString() === tableDate.toString()) {
                     refundList.push(value[item]);
                 }    
             }
@@ -98,7 +98,7 @@ function idMonthSelected(obj, yearMonth) {
     console.log(yearMonth)
     obj.forEach(value => {
         let tableDate = value[0].dateRefund.match('[0-9]{4}[-][0-9]{2}');
-        if (tableDate === yearMonth) {
+        if (tableDate.toString() === yearMonth.toString()) {
             idArray.push(value.id)
         }
     })
